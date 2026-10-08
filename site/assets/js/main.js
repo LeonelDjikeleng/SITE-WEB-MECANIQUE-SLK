@@ -4,10 +4,8 @@
   'use strict';
 
   // Vidéo Higgsfield de l'accueil : null tant qu'elle n'existe pas.
-  // Une fois générée et approuvée : 'assets/video/hero-scrub.mp4' + son poids exact en octets.
+  // Une fois générée et approuvée : 'assets/video/hero-scrub.mp4'.
   const HERO_VIDEO = null;
-  const HERO_VIDEO_BYTES = 0;
-  const HERO_POSTER = 'assets/img/hero-poster.jpg';
 
   const TZ = 'America/Toronto'; // heure de Québec
   const HOURS = { 1: [8, 17], 2: [8, 17], 3: [8, 17], 4: [8, 17], 5: [8, 12] }; // À CONFIRMER avec le garage (source unique : Otobox)
@@ -16,8 +14,6 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
-  const smoothstep = (p, e0, e1) => { const t = clamp((p - e0) / (e1 - e0), 0, 1); return t * t * (3 - 2 * t); };
-  const easeInOut = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const rng = seed => { let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; };
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
   const fmtH = h => `${h} h`;
@@ -30,36 +26,50 @@
     return { y: +g('year'), m: +g('month'), d: +g('day'), h: +g('hour') % 24, min: +g('minute'), wd };
   }
 
-  /* ---------------- découpage des titres ---------------- */
-  function split(el, seed) {
-    const r = rng(seed);
-    const text = el.textContent.replace(/\s+/g, ' ').trim();
-    const emText = el.querySelector('em') ? el.querySelector('em').textContent.trim() : '';
-    const words = text.split(' ');
-    const emWords = emText ? emText.split(' ') : [];
-    const firstEm = emText ? words.length - emWords.length : Infinity;
-    el.setAttribute('aria-label', text);
-    el.textContent = '';
-    const vis = document.createElement('span');
-    vis.className = 'split';
-    vis.setAttribute('aria-hidden', 'true');
-    const spread = parseFloat(el.dataset.spread || '0.5');
-    words.forEach((w, i) => {
-      const ws = document.createElement('span');
-      ws.className = 'w' + (i >= firstEm ? ' em' : '');
-      ws.style.setProperty('--th', ((i / Math.max(1, words.length - 1)) * spread + r() * 0.05).toFixed(3));
-      ws.textContent = w;
-      vis.appendChild(ws);
-      if (i < words.length - 1) vis.appendChild(document.createTextNode(' '));
-    });
-    el.appendChild(vis);
+  /* ---------------- décor fixe : la roue tourne au fil du défilement ----------------
+     Le défilement reste 100 % natif. On ne fait que suivre scrollY avec un léger lissage
+     (≈ 0,15 s) pour que la roue tourne en douceur, même avec une molette à crans. */
+  const backdrop = $('.backdrop');
+  const rig = $('.wheel-rig');
+  let bdTarget = 0, bdShown = null, bdRaf = null, bdLast = 0, bdVars = {};
+  const setBd = (n, v) => { if (bdVars[n] !== v) { bdVars[n] = v; backdrop.style.setProperty(n, v); } };
+  function paintBackdrop(y) {
+    const vh = innerHeight, p = clamp(y / vh, 0, 1);
+    setBd('--rot', (y * 0.11).toFixed(1) + 'deg');            // environ un tour tous les 3 300 px
+    setBd('--zoom', (1 + 0.08 * p).toFixed(4));
+    setBd('--wz', (1 + 0.1 * p).toFixed(4));
+    setBd('--haze', (0.5 - 0.35 * p).toFixed(3));
+    setBd('--shade', clamp((y / vh - 0.6) * 0.42, 0, 0.6).toFixed(3)); // la roue s'efface doucement sous le contenu
+    if (video.duration) requestSeek(p * video.duration);
   }
-  $$('[data-split]').forEach((el, i) => split(el, 7 + i * 31));
+  function bdTick(now) {
+    const dt = Math.min(64, now - (bdLast || now)); bdLast = now;
+    bdShown += (bdTarget - bdShown) * (1 - Math.pow(1 - 0.24, dt / 16.667));
+    if (Math.abs(bdTarget - bdShown) < 0.5) { bdShown = bdTarget; bdRaf = null; bdLast = 0; }
+    else bdRaf = requestAnimationFrame(bdTick);
+    paintBackdrop(bdShown);
+  }
+  // Le décor se met en veille quand la section Services atteint le haut de l'écran
+  // (tout ce qui suit est opaque) et se réveille en remontant.
+  const servicesSec = $('#services');
+  let bdOff = false, servicesTop = 0;
+  const measureServices = () => { servicesTop = servicesSec.getBoundingClientRect().top + scrollY; };
+  measureServices();
+  function onBackdropScroll() {
+    const off = scrollY > servicesTop - 2;
+    if (off !== bdOff) { bdOff = off; backdrop.classList.toggle('is-off', off); }
+    if (reduceMQ.matches || off) return;
+    bdTarget = scrollY;
+    if (bdShown === null) { bdShown = bdTarget; paintBackdrop(bdShown); return; }
+    if (bdRaf === null) bdRaf = requestAnimationFrame(bdTick);
+  }
+  function resetBackdrop() {
+    if (bdRaf) cancelAnimationFrame(bdRaf);
+    bdRaf = null; bdShown = null; bdVars = {};
+    ['--rot', '--zoom', '--wz', '--haze', '--shade'].forEach(v => backdrop.style.removeProperty(v));
+  }
 
-  /* ---------------- accueil : animé partout, sauf si l'appareil demande moins d'animations ---------------- */
-  // Le décor codé (sol, roue, poussière) s'anime aussi sur téléphone.
-  // La vidéo, lourde, ne se charge que sur les grands écrans (les cinq portes de 10K Websites).
-  const STATIC_GATES = ['(prefers-reduced-motion: reduce)'];
+  /* ---------------- vidéo d'accueil (grands écrans seulement, quand elle existera) ---------------- */
   const VIDEO_GATES = [
     '(max-width: 720px)',
     '(orientation: portrait) and (max-width: 1024px)',
@@ -67,79 +77,8 @@
     '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
     '(prefers-reduced-motion: reduce)'
   ];
-  const hero = $('.hero');
-  const stage = $('.stage');
   const video = $('.floor__video');
-  const ring = $('.ring');
-  const hudVal = $('.hud__val');
-  const bands = $$('.band').map((el, i, all) => ({
-    el, a: +el.dataset.a, b: +el.dataset.b, first: i === 0, last: i === all.length - 1,
-    ramp: el.dataset.ramp ? +el.dataset.ramp : null, op: -1, k: -1, on: null, live: null
-  }));
-
-  let gliding = false;
-  let scrubOn = false, heroOnScreen = true, target = 0, shown = 0, rafId = null, lastTick = 0;
-  let loadK = 0, loadStart = 0, lastVars = {}, lastHud = '', lastHudAt = 0;
-
-  function heroProgress() {
-    const r = hero.getBoundingClientRect();
-    const range = hero.offsetHeight - innerHeight;
-    return range > 0 ? clamp(-r.top / range, 0, 1) : 0;
-  }
-  function setVar(name, val) {
-    if (lastVars[name] === val) return;
-    lastVars[name] = val;
-    stage.style.setProperty(name, val);
-  }
-  function rangeVh() { return Math.max(1, (hero.offsetHeight - innerHeight) / innerHeight * 100); }
-
-  function updateCaptions(p, now) {
-    const vh = rangeVh();
-    const f = Math.min(18 / vh, 0.06);        // rampes d'environ 18vh
-    bands.forEach(b => {
-      let op = (b.first ? 1 : smoothstep(p, b.a, b.a + f)) * (b.last ? 1 : 1 - smoothstep(p, b.b - f, b.b));
-      if (b.first && p < b.a) op = 1;
-      const ramp = b.ramp || Math.min(24 / vh, (b.b - b.a) * 0.35);
-      let k = clamp((p - b.a) / ramp, 0, 1);
-      if (b.first) k = Math.max(k, loadK);
-      op = Math.round(op * 1000) / 1000;
-      if (Math.abs(op - b.op) > 0.002) { b.op = op; b.el.style.opacity = op; }
-      if (Math.abs(k - b.k) > 0.008 || (k === 1 && b.k !== 1) || (k === 0 && b.k !== 0)) { b.k = k; b.el.style.setProperty('--k', k.toFixed(3)); }
-      const on = op > 0.01, live = op > 0.6;
-      if (on !== b.on) { b.on = on; b.el.classList.toggle('is-on', on); }
-      if (live !== b.live) { b.live = live; b.el.classList.toggle('is-live', live); }
-    });
-    // la caméra descend vers la roue
-    const e = easeInOut(p);
-    const wz = 0.42 + 0.5 * e;
-    setVar('--wz', wz.toFixed(4));
-    setVar('--zoom', (wz / 0.42).toFixed(4));
-    setVar('--rot', (p * 360).toFixed(2) + 'deg');   // un tour complet
-    setVar('--haze', (0.55 - 0.42 * e).toFixed(3));
-    stage.classList.toggle('is-moving', p > 0.02);
-    const label = Math.round(p * 100) + ' %';
-    if (label !== lastHud && (now - lastHudAt > 100 || p === 0 || p === 1)) { lastHud = label; lastHudAt = now; hudVal.textContent = label; }
-  }
-
-  function tick(now) {
-    const dt = Math.min(100, now - (lastTick || now));
-    lastTick = now;
-    const k = gliding ? 0.7 : 0.34;
-    shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
-    if (loadStart && loadK < 1) loadK = clamp((now - loadStart) / 600, 0, 1);
-    const settled = Math.abs(target - shown) < 0.0005 && loadK >= 1;
-    if (settled) { shown = target; rafId = null; lastTick = 0; }
-    else rafId = requestAnimationFrame(tick);
-    if (video.duration) requestSeek(shown * video.duration);
-    updateCaptions(shown, now);
-  }
-  function onScroll() {
-    target = heroProgress();
-    if (rafId === null && heroOnScreen && scrubOn) rafId = requestAnimationFrame(tick);
-  }
-
-  // recherche vidéo protégée (une seule à la fois, la plus récente gagne)
-  let seekBusy = false, pendingTime = null;
+  let seekBusy = false, pendingTime = null, videoStarted = false;
   function requestSeek(t) {
     if (!video.duration) return;
     if (seekBusy) { pendingTime = t; return; }
@@ -148,161 +87,32 @@
     video.currentTime = t;
   }
   video.addEventListener('seeked', () => { seekBusy = false; if (pendingTime !== null) { const t = pendingTime; pendingTime = null; requestSeek(t); } });
-  video.addEventListener('error', () => { seekBusy = false; pendingTime = null; failVideo(); });
-
-  let heroInit = false;
-  function initHeroOnce() {
-    if (heroInit) return;
-    heroInit = true;
-    maybeLoadVideo();
-  }
-  let videoStarted = false;
-  function maybeLoadVideo() {
-    if (!HERO_VIDEO) { ring.style.setProperty('--ld', 0); return; }
-    if (videoStarted || !scrubOn || VIDEO_GATES.some(q => matchMedia(q).matches)) return;
+  video.addEventListener('error', () => { seekBusy = false; pendingTime = null; });
+  async function maybeLoadVideo() {
+    if (!HERO_VIDEO || videoStarted || VIDEO_GATES.some(q => matchMedia(q).matches)) return;
     videoStarted = true;
-    const img = new Image();
-    let started = false;
-    const start = () => { if (started) return; started = true; loadHeroBlob().catch(failVideo); };
-    img.onload = start; img.onerror = start; img.src = HERO_POSTER;
-    $('.floor').style.backgroundImage = `url('${HERO_POSTER}')`;
-    setTimeout(start, 4000);
+    try {
+      const res = await fetch(HERO_VIDEO, { priority: 'low' });
+      if (!res.ok) return;
+      video.src = URL.createObjectURL(await res.blob());   // Blob : fonctionne même sans requêtes partielles
+      video.addEventListener('canplay', () => { backdrop.classList.add('video-ready'); requestSeek(clamp(scrollY / innerHeight, 0, 1) * video.duration); }, { once: true });
+    } catch (e) { /* le sol codé reste en place */ }
   }
-  async function loadHeroBlob() {
-    const ctrl = new AbortController();
-    let watchdog = setTimeout(() => ctrl.abort(), 20000);
-    const res = await fetch(HERO_VIDEO, { priority: 'low', signal: ctrl.signal });
-    if (!res.ok) throw new Error('video ' + res.status);
-    const total = Number(res.headers.get('Content-Length')) || HERO_VIDEO_BYTES || 1;
-    const reader = res.body.getReader();
-    const chunks = []; let got = 0, lastRing = 0;
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      clearTimeout(watchdog); watchdog = setTimeout(() => ctrl.abort(), 20000);
-      chunks.push(value); got += value.length;
-      const frac = Math.min(1, got / total), now = performance.now();
-      if (now - lastRing > 100 || frac === 1) { lastRing = now; ring.style.setProperty('--ld', Math.round(126 * (1 - frac))); }
-    }
-    clearTimeout(watchdog);
-    ring.style.setProperty('--ld', 0);
-    video.src = URL.createObjectURL(new Blob(chunks, { type: 'video/mp4' }));
-    video.load();
-    video.addEventListener('canplay', () => { requestSeek(heroProgress() * video.duration); stage.classList.add('video-ready'); }, { once: true });
-  }
-  function failVideo() { stage.classList.add('video-failed'); ring.style.setProperty('--ld', 0); }
+  VIDEO_GATES.forEach(q => matchMedia(q).addEventListener('change', maybeLoadVideo));
 
-  function enableScrub() {
-    if (scrubOn) return;
-    scrubOn = true;
-    initHeroOnce();
-    addEventListener('scroll', onScroll, { passive: true });
-    bands.forEach(b => { b.op = -1; b.k = -1; b.on = null; b.live = null; b.el.style.removeProperty('opacity'); });
-    lastVars = {};
-    if (!loadStart) loadStart = performance.now();
-    shown = target = heroProgress();
-    updateCaptions(shown, performance.now());
-    rafId = null; onScroll();
-    if (rafId === null) rafId = requestAnimationFrame(tick);
-    startDust();
-  }
-  function disableScrub() {
-    if (!scrubOn) return;
-    scrubOn = false;
-    removeEventListener('scroll', onScroll);
-    if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; }
-    bands.forEach(b => { b.el.style.removeProperty('opacity'); b.el.style.setProperty('--k', 1); b.el.classList.add('is-on', 'is-live'); });
-    ['--wz', '--zoom', '--rot', '--haze'].forEach(v => stage.style.removeProperty(v));
-    lastVars = {};
-    stopDust();
-  }
-  function applyHeroMode() { if (STATIC_GATES.some(q => matchMedia(q).matches)) disableScrub(); else { enableScrub(); maybeLoadVideo(); } }
-  const MQLS = [...STATIC_GATES, ...VIDEO_GATES].map(q => matchMedia(q));
-  MQLS.forEach(m => m.addEventListener('change', applyHeroMode));
-
-  /* ---------------- un seul balayage : la roue tourne et on arrive sur le site ----------------
-     Au premier geste vers le bas dans l'accueil (molette, pavé tactile, doigt, flèche du clavier),
-     la page glisse d'elle-même jusqu'au contenu ; vers le haut depuis le début du contenu,
-     elle revient à l'accueil. Désactivé si l'appareil demande moins d'animations. */
-  const bannerH = () => ($('.demo-banner') ? $('.demo-banner').offsetHeight : 0);
-  const heroEnd = () => Math.round(hero.offsetTop + hero.offsetHeight - bannerH());
-  const easeGlide = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-  let glideRaf = null, swallowUntil = 0, touchY = null, touchLocked = false;
-  // Deux temps : d'abord la roue tourne et se rapproche (accueil épinglé), puis l'accueil s'efface.
-  function glideTo(to) {
-    if (gliding) return;
-    const from = scrollY;
-    if (Math.abs(to - from) < 4) return;
-    const pin = Math.max(0, hero.offsetTop + hero.offsetHeight - innerHeight);   // fin de l'animation de la roue
-    const down = to > from, mobile = innerWidth < 720;
-    const tSpin = mobile ? 600 : 680, tLeave = mobile ? 380 : 420;
-    const segs = down
-      ? [{ a: from, b: Math.max(from, Math.min(pin, to)), d: from < pin ? tSpin * (pin - from) / pin : 0, e: easeGlide },
-         { a: Math.max(from, pin), b: to, d: tLeave, e: t => 1 - Math.pow(1 - t, 3) }]
-      : [{ a: from, b: Math.min(from, pin), d: from > pin ? tLeave : 0, e: t => t * t * t },
-         { a: Math.min(from, pin), b: to, d: tSpin, e: easeGlide }];
-    const plan = segs.filter(sg => sg.d > 0 && Math.abs(sg.b - sg.a) > 1);
-    if (!plan.length) return;
-    gliding = true;
-    let i = 0, t0 = performance.now();
-    const step = now => {
-      const sg = plan[i], t = clamp((now - t0) / sg.d, 0, 1);
-      scrollTo(0, Math.round(sg.a + (sg.b - sg.a) * sg.e(t)));
-      if (t >= 1) { i++; t0 = now; }
-      if (i < plan.length) glideRaf = requestAnimationFrame(step);
-      else { gliding = false; glideRaf = null; swallowUntil = performance.now() + 250; onScroll(); }
-    };
-    glideRaf = requestAnimationFrame(step);
-  }
-  function glideActive() { return scrubOn && !reduceMQ.matches && !document.documentElement.style.overflow; }
-  // zone de l'accueil : vers le bas, on va au contenu ; vers le haut (depuis le haut du contenu), on revient
-  function intent(dir) {
-    const y = scrollY, end = heroEnd();
-    if (dir > 0 && y < end - 4) { glideTo(end); return true; }
-    if (dir < 0 && y > 4 && y <= end + 4) { glideTo(0); return true; }
-    return false;
-  }
-  addEventListener('wheel', e => {
-    if (!glideActive() || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-    const now = performance.now();
-    if (gliding || now < swallowUntil) { e.preventDefault(); swallowUntil = Math.max(swallowUntil, now + 120); return; }
-    if (intent(Math.sign(e.deltaY))) e.preventDefault();
-  }, { passive: false });
-  addEventListener('touchstart', e => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null; touchLocked = false; }, { passive: true });
-  addEventListener('touchmove', e => {
-    if (!glideActive() || touchY === null) return;
-    if (gliding || touchLocked) { e.preventDefault(); return; }
-    const dy = touchY - e.touches[0].clientY;
-    if (Math.abs(dy) < 8) return;
-    if (intent(Math.sign(dy))) { touchLocked = true; e.preventDefault(); }
-  }, { passive: false });
-  addEventListener('touchend', () => { touchY = null; touchLocked = false; }, { passive: true });
-  addEventListener('keydown', e => {
-    if (!glideActive() || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
-    const t = e.target;
-    if (t && t !== document.body && t !== document.documentElement && t.id !== 'main') return;
-    const dir = ['ArrowDown', 'PageDown', ' '].includes(e.key) && !e.shiftKey ? 1 : (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) ? -1 : 0;
-    if (dir && (gliding || intent(dir))) e.preventDefault();
-  });
-
-  new IntersectionObserver(([e]) => {
-    heroOnScreen = e.isIntersecting;
-    if (heroOnScreen) { onScroll(); if (scrubOn) startDust(); } else stopDust();
-  }).observe(hero);
-
-  /* ---------------- poussière dans la lumière ---------------- */
+  /* ---------------- poussière dans la lumière (haut de page seulement) ---------------- */
   const dust = $('.dust');
   const dctx = dust.getContext('2d');
   let dustRaf = null, motes = [], dustLast = 0, dustW = 0, litX = 0.66, litY = 0.5;
   function sizeDust() {
     dustW = innerWidth;
-    const rig = $('.wheel-rig').getBoundingClientRect(), st = stage.getBoundingClientRect();
-    litX = (rig.left + rig.width / 2 - st.left) / st.width; litY = (rig.top + rig.height / 2 - st.top) / st.height;
     const dpr = Math.min(2, devicePixelRatio || 1);
     dust.width = dust.clientWidth * dpr; dust.height = dust.clientHeight * dpr;
     dctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const r = rng(42);
-    motes = Array.from({ length: innerWidth < 720 ? 22 : 34 }, () => ({ x: r() * dust.clientWidth, y: r() * dust.clientHeight, s: 0.6 + r() * 1.6, vx: (r() - 0.5) * 0.12, vy: -0.05 - r() * 0.12, a: 0.15 + r() * 0.45, ph: r() * 6.28 }));
+    const r = rig.getBoundingClientRect();
+    litX = (r.left + r.width / 2) / dust.clientWidth; litY = (r.top + r.height / 2) / dust.clientHeight;
+    const g = rng(42);
+    motes = Array.from({ length: innerWidth < 720 ? 22 : 34 }, () => ({ x: g() * dust.clientWidth, y: g() * dust.clientHeight, s: 0.6 + g() * 1.6, vx: (g() - 0.5) * 0.12, vy: -0.05 - g() * 0.12, a: 0.15 + g() * 0.45, ph: g() * 6.28 }));
   }
   function drawDust(now) {
     dustRaf = requestAnimationFrame(drawDust);
@@ -319,9 +129,11 @@
       dctx.beginPath(); dctx.arc(m.x, m.y, m.s, 0, 6.283); dctx.fill();
     });
   }
-  function startDust() { if (dustRaf || !scrubOn || !heroOnScreen || document.hidden) return; if (!motes.length) sizeDust(); dustRaf = requestAnimationFrame(drawDust); }
+  function startDust() { if (dustRaf || reduceMQ.matches || document.hidden || scrollY > innerHeight * 1.3) return; if (!motes.length) sizeDust(); dustRaf = requestAnimationFrame(drawDust); }
   function stopDust() { if (dustRaf) cancelAnimationFrame(dustRaf); dustRaf = null; }
-  addEventListener('resize', () => { if (!scrubOn) return; if (innerWidth !== dustW) sizeDust(); onScroll(); }, { passive: true });
+  function dustByScroll() { if (scrollY > innerHeight * 1.3) stopDust(); else startDust(); }
+  addEventListener('resize', () => { measureServices(); if (innerWidth !== dustW) { motes = []; if (dustRaf) sizeDust(); } onBackdropScroll(); }, { passive: true });
+  addEventListener('load', measureServices);
 
   /* ---------------- en-tête, menu, barre d'actions ---------------- */
   const top = $('.top'), nav = $('.nav'), toggle = $('.nav__toggle'), dock = $('.dock');
@@ -562,14 +374,16 @@
   function unpinFinalStates() {
     tapeOn = winter.getBoundingClientRect().top < innerHeight && winter.getBoundingClientRect().bottom > 0;
   }
-  reduceMQ.addEventListener('change', e => { if (e.matches) pinToFinalStates(); else unpinFinalStates(); applyHeroMode(); });
+  reduceMQ.addEventListener('change', e => { if (e.matches) { pinToFinalStates(); resetBackdrop(); stopDust(); } else { unpinFinalStates(); onBackdropScroll(); startDust(); } });
   if (reduceMQ.matches) pinToFinalStates();
 
   // Un seul passage par image pour tous les effets liés au défilement :
   // on lit les positions une fois, on écrit ensuite, jamais en boucle.
   let fxQueued = false;
-  function runFx() { fxQueued = false; onScrollEffects(); moveTape(); onPageScroll(); }
+  function runFx() { fxQueued = false; onBackdropScroll(); dustByScroll(); onScrollEffects(); moveTape(); onPageScroll(); }
   addEventListener('scroll', () => { if (!fxQueued) { fxQueued = true; requestAnimationFrame(runFx); } }, { passive: true });
 
-  applyHeroMode();
+  onBackdropScroll();
+  startDust();
+  maybeLoadVideo();
 })();

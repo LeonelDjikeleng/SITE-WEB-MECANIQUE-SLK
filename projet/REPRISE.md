@@ -9,13 +9,13 @@ Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle 
 - Statut : **maquette de démarchage** (mode 11), à contenu en partie fictif, assumé et signalé. Bandeau « Maquette · pas le site officiel · contenu en partie fictif » sur toutes les pages, `noindex`, `robots.txt` bloquant, mention complète dans le pied de page. À retirer seulement avec l'accord écrit du garage.
 - Éléments fictifs, tous étiquetés sur la page : logo (dessiné pour la maquette, fichiers dans `site/assets/img/`), trois avis en « bons de travail », exemples récréatifs (VTT, motoneige, côte-à-côte). Le formulaire n'envoie rien (message de démonstration).
 - Les deux numéros trouvés en ligne (418 663-1195 et 581 982-1195) sont affichés côte à côte avec une note « à confirmer ».
-- Animations sur téléphone : l'accueil épinglé (descente vers la roue, textes, poussière) tourne aussi sur mobile et tablette. Seule la réduction des animations demandée par l'appareil donne l'accueil fixe. La future vidéo, elle, ne se chargera que sur grand écran.
+- Animations sur téléphone : la roue en fond tourne au défilement sur mobile, tablette et ordinateur. Seule la réduction des animations demandée par l'appareil l'immobilise. La future vidéo, elle, ne se chargera que sur grand écran.
 - Le fichier REPRISE.md d'origine n'a jamais été reçu : ce dossier a été reconstruit à partir de la recherche publique et de l'exemple Mécanique SKL documenté dans MOI 2.0.
 
 ## Ce qui est fait
 
 - `site/` : site statique complet, sans dépendance ni étape de compilation.
-  - `index.html` : accueil épinglé (la caméra descend vers la roue), statut ouvert/fermé en direct (heure de Québec), services, inspection à maintenir (moment interactif), pneus d'hiver avec compte à rebours réel, vos droits (LPC), avis fictifs en bons de travail, rendez-vous (formulaire de démonstration), adresse, heures, FAQ.
+  - `index.html` : roue en fond qui tourne au défilement, accueil et manifeste qui défilent par-dessus, statut ouvert/fermé en direct (heure de Québec), services, inspection à maintenir (moment interactif), pneus d'hiver avec compte à rebours réel, vos droits (LPC), avis fictifs en bons de travail, rendez-vous (formulaire de démonstration), adresse, heures, FAQ.
   - `confidentialite.html` (Loi 25) et `accessibilite.html`.
   - Polices hébergées sur le site (Archivo, Instrument Sans, IBM Plex Mono ; licence OFL).
 - `projet/direction-artistique.md` : triage, registre des faits, brief DA, tokens, plan média, storyboard, band map.
@@ -47,8 +47,8 @@ La fluidité passe avant les animations. Mesures avant → après (navigateur sa
 Ce qui a changé : accueil épinglé ramené à 230vh (deux temps au lieu de trois), lissage plus vif (k = 0,34), ombres de texte allégées, plus aucun mélange de calques ni de flou d'arrière-plan, filtre de la roue d'inspection remplacé par un voile, apparitions plus courtes et déclenchées avant l'entrée à l'écran, effets de défilement regroupés en une seule passe par image.
 Règle pour la suite : ne jamais rallonger l'accueil au-delà d'environ 2,5 écrans, sur aucun appareil.
 
-**Un seul balayage (8 octobre 2026, à la demande de Pavel)** : l'accueil n'est plus « scrubé » à la main. Au premier geste vers le bas (doigt, molette, pavé tactile, flèche bas, barre d'espace, Page suivante), la page glisse seule jusqu'au contenu en environ 1 s : 0,6 s où la roue fait un tour complet et se rapproche, puis 0,4 s où l'accueil s'efface. Vers le haut depuis le début du contenu, retour à l'accueil. Les gestes d'inertie qui suivent sont absorbés, puis le défilement redevient normal. Désactivé si le menu est ouvert ou si l'appareil demande moins d'animations (accueil fixe). Accueil épinglé : 160vh. Code : bloc « un seul balayage » dans `site/assets/js/main.js`.
-Résultat mesuré : 0 image saccadée sur téléphone ralenti ×4, 1 sur ordinateur.
+**Roue en fond (8 octobre 2026, à la demande de Pavel, remplace l'accueil épinglé et le « balayage unique »)** : plus d'écran réservé à la roue, plus de glissement automatique. Le sol, la ligne jaune et la roue forment un décor fixe derrière la page (`.backdrop`). La roue tourne au fil du défilement (environ 0,11° par pixel, léger lissage de 0,15 s), le sol se rapproche un peu sur le premier écran, puis un voile assombrit doucement le décor sous le contenu. Le texte défile par-dessus : l'accueil (titre et boutons, entrée en fondu au chargement), puis le manifeste « On regarde. / On vous explique. / Ensuite, on répare. » et la promesse du prix par écrit. Les bandes Heures et Repères sont translucides ; le décor se met en veille dès que la section Services atteint le haut de l'écran (tout ce qui suit est opaque). Le défilement reste 100 % natif. Réduction des animations : décor immobile.
+Mesures (navigateur sans carte graphique) : téléphone ralenti ×4, 59 img/s et 0 image saccadée ; ordinateur, 53 img/s.
 
 ## Éléments à obtenir du garage (par impact)
 

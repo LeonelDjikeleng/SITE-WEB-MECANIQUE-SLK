@@ -50,6 +50,21 @@
 
 <div class="env" aria-hidden="true"><div class="env__haze"></div></div>
 
+<!-- DÉCOR FIXE : le sol, la ligne jaune et la roue restent derrière la page ; la roue tourne au fil du défilement.
+     VIDÉO : quand la vidéo Higgsfield existe, mettre son chemin dans HERO_VIDEO (assets/js/main.js) ; elle remplace le sol codé sur grand écran. -->
+<div class="backdrop" aria-hidden="true">
+  <div class="floor">
+    <video class="floor__video" preload="none" muted playsinline tabindex="-1"></video>
+    <div class="floor__concrete"></div>
+    <div class="floor__line"></div>
+    <div class="floor__pool"></div>
+  </div>
+  <div class="wheel-rig"><div class="wheel-spin"><svg class="wheel" viewBox="-300 -300 600 600"><use href="#wheel-art"/></svg></div></div>
+  <div class="haze"></div>
+  <canvas class="dust"></canvas>
+  <div class="backdrop__shade"></div>
+</div>
+
 <header class="top" id="top">
   <a class="brand" href="#main"><img class="brand__logo" src="assets/img/logo-skl-sombre.svg" width="436" height="160" alt="Mécanique SKL, retour en haut"></a>
   <nav class="nav" aria-label="Navigation principale">
@@ -68,49 +83,28 @@
 
 <main id="main" tabindex="-1">
 
-<!-- ============ ACCUEIL ÉPINGLÉ ============ -->
+<!-- ============ ACCUEIL ============ -->
 <section class="hero" id="accueil" aria-labelledby="hero-title">
-  <div class="stage">
-    <div class="scene" aria-hidden="true">
-      <!-- VIDÉO HERO : quand la vidéo Higgsfield existe, mettre son chemin dans HERO_VIDEO (assets/js/main.js). Elle se place dans .floor et remplace le sol codé. -->
-      <div class="floor">
-        <video class="floor__video" preload="none" muted playsinline aria-hidden="true" tabindex="-1"></video>
-        <div class="floor__concrete"></div>
-        <div class="floor__line"></div>
-        <div class="floor__pool"></div>
-      </div>
-      <div class="wheel-rig">
-        <div class="wheel-spin">
-          <svg class="wheel" viewBox="-300 -300 600 600"><use href="#wheel-art"/></svg>
-        </div>
-      </div>
-      <div class="haze"></div>
-      <canvas class="dust"></canvas>
-      <div class="scrim"></div>
+  <div class="wrap hero__inner">
+    <p class="kicker hero__in" style="--i:0"><span class="kicker__dot" aria-hidden="true"></span>Garage à Beauport · 1100, boul. des Chutes</p>
+    <h1 class="hero__title hero__in" style="--i:1" id="hero-title">Mécanique SKL</h1>
+    <p class="hero__sub hero__in" style="--i:2">Mécanique générale, mécanique récréative et pneus, au 1100, boul. des Chutes à Beauport.</p>
+    <div class="hero__ctas hero__in" style="--i:3">
+      <a class="btn btn--accent btn--shine" href="tel:+14186631195">Appeler le 418&nbsp;663-1195</a>
+      <a class="btn btn--ghost" href="#rendez-vous">Demander un rendez-vous</a>
     </div>
+  </div>
+  <div class="cue" aria-hidden="true"><span class="cue__line"></span><span>Défilez</span></div>
+</section>
 
-    <div class="bands">
-      <div class="band band--1" data-a="0" data-b="0.62">
-        <p class="kicker"><span class="kicker__dot" aria-hidden="true"></span>Garage à Beauport · 1100, boul. des Chutes</p>
-        <h1 class="hero__title" id="hero-title" data-split="depth">Mécanique SKL</h1>
-        <p class="hero__sub">Mécanique générale, mécanique récréative et pneus<span class="static-only">, au 1100, boul. des Chutes à Beauport</span>.</p>
-      </div>
-      <div class="band band--3" data-a="2" data-b="3">
-        <p class="hero__triplet">On regarde. On vous explique. Ensuite, <em>on répare.</em></p>
-        <p class="hero__settle" data-split="rise">Le prix par écrit, avant de réparer.</p>
-        <p class="hero__settle-sub">Pour toute réparation de plus de 100&nbsp;$, c'est votre droit au Québec.</p>
-        <div class="hero__ctas">
-          <a class="btn btn--accent btn--shine" href="tel:+14186631195">Appeler le 418&nbsp;663-1195</a>
-          <a class="btn btn--ghost" href="#rendez-vous">Demander un rendez-vous</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="cue" aria-hidden="true">
-      <svg class="ring" viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2" opacity=".25"/><circle class="ring__fill" cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="126" style="stroke-dashoffset:var(--ld,126)"/></svg>
-      <span>Défilez</span>
-    </div>
-    <div class="hud chip" aria-hidden="true"><span class="hud__label">Inspection</span> <span class="hud__val">0&nbsp;%</span></div>
+<!-- ============ MANIFESTE : les phrases défilent sur la roue ============ -->
+<section class="manifest" aria-labelledby="manifest-title">
+  <div class="wrap">
+    <h2 class="sr" id="manifest-title">Notre façon de travailler</h2>
+    <p class="manifest__line reveal">On regarde.</p>
+    <p class="manifest__line reveal">On vous explique.</p>
+    <p class="manifest__line reveal">Ensuite, <em>on répare.</em></p>
+    <p class="manifest__promise reveal"><strong>Le prix par écrit, avant de réparer.</strong>Pour toute réparation de plus de 100&nbsp;$, c'est votre droit au Québec.</p>
   </div>
 </section>
 
