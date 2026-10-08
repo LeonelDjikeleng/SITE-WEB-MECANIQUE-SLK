@@ -77,6 +77,7 @@
     ramp: el.dataset.ramp ? +el.dataset.ramp : null, op: -1, k: -1, on: null, live: null
   }));
 
+  let gliding = false;
   let scrubOn = false, heroOnScreen = true, target = 0, shown = 0, rafId = null, lastTick = 0;
   let loadK = 0, loadStart = 0, lastVars = {}, lastHud = '', lastHudAt = 0;
 
@@ -113,7 +114,7 @@
     const wz = 0.42 + 0.5 * e;
     setVar('--wz', wz.toFixed(4));
     setVar('--zoom', (wz / 0.42).toFixed(4));
-    setVar('--rot', (p * 150).toFixed(2) + 'deg');
+    setVar('--rot', (p * 360).toFixed(2) + 'deg');   // un tour complet
     setVar('--haze', (0.55 - 0.42 * e).toFixed(3));
     stage.classList.toggle('is-moving', p > 0.02);
     const label = Math.round(p * 100) + ' %';
@@ -123,7 +124,7 @@
   function tick(now) {
     const dt = Math.min(100, now - (lastTick || now));
     lastTick = now;
-    const k = 0.34;
+    const k = gliding ? 0.7 : 0.34;
     shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
     if (loadStart && loadK < 1) loadK = clamp((now - loadStart) / 600, 0, 1);
     const settled = Math.abs(target - shown) < 0.0005 && loadK >= 1;
@@ -218,6 +219,71 @@
   function applyHeroMode() { if (STATIC_GATES.some(q => matchMedia(q).matches)) disableScrub(); else { enableScrub(); maybeLoadVideo(); } }
   const MQLS = [...STATIC_GATES, ...VIDEO_GATES].map(q => matchMedia(q));
   MQLS.forEach(m => m.addEventListener('change', applyHeroMode));
+
+  /* ---------------- un seul balayage : la roue tourne et on arrive sur le site ----------------
+     Au premier geste vers le bas dans l'accueil (molette, pavé tactile, doigt, flèche du clavier),
+     la page glisse d'elle-même jusqu'au contenu ; vers le haut depuis le début du contenu,
+     elle revient à l'accueil. Désactivé si l'appareil demande moins d'animations. */
+  const bannerH = () => ($('.demo-banner') ? $('.demo-banner').offsetHeight : 0);
+  const heroEnd = () => Math.round(hero.offsetTop + hero.offsetHeight - bannerH());
+  const easeGlide = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  let glideRaf = null, swallowUntil = 0, touchY = null, touchLocked = false;
+  // Deux temps : d'abord la roue tourne et se rapproche (accueil épinglé), puis l'accueil s'efface.
+  function glideTo(to) {
+    if (gliding) return;
+    const from = scrollY;
+    if (Math.abs(to - from) < 4) return;
+    const pin = Math.max(0, hero.offsetTop + hero.offsetHeight - innerHeight);   // fin de l'animation de la roue
+    const down = to > from, mobile = innerWidth < 720;
+    const tSpin = mobile ? 600 : 680, tLeave = mobile ? 380 : 420;
+    const segs = down
+      ? [{ a: from, b: Math.max(from, Math.min(pin, to)), d: from < pin ? tSpin * (pin - from) / pin : 0, e: easeGlide },
+         { a: Math.max(from, pin), b: to, d: tLeave, e: t => 1 - Math.pow(1 - t, 3) }]
+      : [{ a: from, b: Math.min(from, pin), d: from > pin ? tLeave : 0, e: t => t * t * t },
+         { a: Math.min(from, pin), b: to, d: tSpin, e: easeGlide }];
+    const plan = segs.filter(sg => sg.d > 0 && Math.abs(sg.b - sg.a) > 1);
+    if (!plan.length) return;
+    gliding = true;
+    let i = 0, t0 = performance.now();
+    const step = now => {
+      const sg = plan[i], t = clamp((now - t0) / sg.d, 0, 1);
+      scrollTo(0, Math.round(sg.a + (sg.b - sg.a) * sg.e(t)));
+      if (t >= 1) { i++; t0 = now; }
+      if (i < plan.length) glideRaf = requestAnimationFrame(step);
+      else { gliding = false; glideRaf = null; swallowUntil = performance.now() + 250; onScroll(); }
+    };
+    glideRaf = requestAnimationFrame(step);
+  }
+  function glideActive() { return scrubOn && !reduceMQ.matches && !document.documentElement.style.overflow; }
+  // zone de l'accueil : vers le bas, on va au contenu ; vers le haut (depuis le haut du contenu), on revient
+  function intent(dir) {
+    const y = scrollY, end = heroEnd();
+    if (dir > 0 && y < end - 4) { glideTo(end); return true; }
+    if (dir < 0 && y > 4 && y <= end + 4) { glideTo(0); return true; }
+    return false;
+  }
+  addEventListener('wheel', e => {
+    if (!glideActive() || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+    const now = performance.now();
+    if (gliding || now < swallowUntil) { e.preventDefault(); swallowUntil = Math.max(swallowUntil, now + 120); return; }
+    if (intent(Math.sign(e.deltaY))) e.preventDefault();
+  }, { passive: false });
+  addEventListener('touchstart', e => { touchY = e.touches.length === 1 ? e.touches[0].clientY : null; touchLocked = false; }, { passive: true });
+  addEventListener('touchmove', e => {
+    if (!glideActive() || touchY === null) return;
+    if (gliding || touchLocked) { e.preventDefault(); return; }
+    const dy = touchY - e.touches[0].clientY;
+    if (Math.abs(dy) < 8) return;
+    if (intent(Math.sign(dy))) { touchLocked = true; e.preventDefault(); }
+  }, { passive: false });
+  addEventListener('touchend', () => { touchY = null; touchLocked = false; }, { passive: true });
+  addEventListener('keydown', e => {
+    if (!glideActive() || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    const t = e.target;
+    if (t && t !== document.body && t !== document.documentElement && t.id !== 'main') return;
+    const dir = ['ArrowDown', 'PageDown', ' '].includes(e.key) && !e.shiftKey ? 1 : (['ArrowUp', 'PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) ? -1 : 0;
+    if (dir && (gliding || intent(dir))) e.preventDefault();
+  });
 
   new IntersectionObserver(([e]) => {
     heroOnScreen = e.isIntersecting;

@@ -114,7 +114,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 }
 
 /* ---------- accueil épinglé ---------- */
-.hero{position:relative;height:230vh;background:#0f1113}
+.hero{position:relative;height:160vh;background:#0f1113}
 .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;--zoom:1;--wz:.42;--rot:0deg;--haze:.55;--lineX:0}
 .scene{position:absolute;inset:0}
 .floor{position:absolute;inset:-6%;transform-origin:68% 52%;transform:scale(var(--zoom));will-change:transform}
@@ -182,7 +182,7 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 /* ---------- accueil fixe : les cinq portes (identiques au JS) ---------- */
 /* ---------- accueil animé en portrait (téléphones, tablettes debout) ---------- */
 @media (max-width:720px),(orientation:portrait) and (max-width:1024px),(orientation:portrait) and (pointer:coarse){
-  .hero{height:230vh}
+  .hero{height:160vh}
   .floor{transform-origin:50% 33%}
   .floor__line{transform:translate(-6%,2vh) rotate(-34deg);height:clamp(12px,2.2vmin,22px)}
   .floor__pool{background:radial-gradient(48% 30% at 50% 33%,rgba(255,206,120,.22),rgba(255,206,120,.06) 55%,transparent 78%),linear-gradient(180deg,rgba(90,125,160,.16),transparent 45%)}

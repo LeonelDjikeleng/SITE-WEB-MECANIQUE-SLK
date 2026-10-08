@@ -47,6 +47,9 @@ La fluidité passe avant les animations. Mesures avant → après (navigateur sa
 Ce qui a changé : accueil épinglé ramené à 230vh (deux temps au lieu de trois), lissage plus vif (k = 0,34), ombres de texte allégées, plus aucun mélange de calques ni de flou d'arrière-plan, filtre de la roue d'inspection remplacé par un voile, apparitions plus courtes et déclenchées avant l'entrée à l'écran, effets de défilement regroupés en une seule passe par image.
 Règle pour la suite : ne jamais rallonger l'accueil au-delà d'environ 2,5 écrans, sur aucun appareil.
 
+**Un seul balayage (8 octobre 2026, à la demande de Pavel)** : l'accueil n'est plus « scrubé » à la main. Au premier geste vers le bas (doigt, molette, pavé tactile, flèche bas, barre d'espace, Page suivante), la page glisse seule jusqu'au contenu en environ 1 s : 0,6 s où la roue fait un tour complet et se rapproche, puis 0,4 s où l'accueil s'efface. Vers le haut depuis le début du contenu, retour à l'accueil. Les gestes d'inertie qui suivent sont absorbés, puis le défilement redevient normal. Désactivé si le menu est ouvert ou si l'appareil demande moins d'animations (accueil fixe). Accueil épinglé : 160vh. Code : bloc « un seul balayage » dans `site/assets/js/main.js`.
+Résultat mesuré : 0 image saccadée sur téléphone ralenti ×4, 1 sur ordinateur.
+
 ## Éléments à obtenir du garage (par impact)
 
 1. **Photos de l'atelier** (3 ou 4 plans larges + détails, mains au travail) : c'est ce qui fera passer le site de beau à crédible.
