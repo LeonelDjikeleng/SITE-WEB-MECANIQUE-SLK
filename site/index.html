@@ -57,9 +57,8 @@
     <ul class="nav__list" id="menu">
       <li><a href="#services">Services</a></li>
       <li><a href="#inspection">Inspection</a></li>
+      <li><a href="#visite-type">Votre visite</a></li>
       <li><a href="#pneus">Pneus d'hiver</a></li>
-      <li><a href="#droits">Vos droits</a></li>
-      <li><a href="#avis">Avis</a></li>
       <li><a href="#visite">Nous trouver</a></li>
       <li class="nav__cta-li"><a class="btn btn--accent btn--sm" href="#rendez-vous">Rendez-vous</a></li>
     </ul>
@@ -126,6 +125,16 @@
   </div>
 </section>
 
+<!-- ============ REPÈRES (confiance) ============ -->
+<section class="proof" aria-label="Pourquoi ce garage">
+  <ul class="wrap proof__list">
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="3.5" fill="currentColor"/></svg><span><b>Centre NAPA AutoCare</b>Un réseau de pièces reconnu partout au Canada</span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 24 13 12l4 6 3-4 6 10Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 6v6M16 9h6" stroke="currentColor" stroke-width="2"/></svg><span><b>Détaillant Nokian Tyres</b>Des pneus pensés pour l'hiver nordique</span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="8" y="5" width="16" height="22" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12h8M12 17h8M12 22h5" stroke="currentColor" stroke-width="2"/></svg><span><b>Le prix par écrit</b>Avant toute réparation de plus de 100&nbsp;$</span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 26 8v8c0 6-4.5 10-10 12C10.5 26 6 22 6 16V8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m11.5 16 3 3 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><b>Garantie 3&nbsp;mois ou 5&nbsp;000&nbsp;km</b>Sur chaque réparation, comme le prévoit la loi</span></li>
+  </ul>
+</section>
+
 <!-- ============ SERVICES ============ -->
 <section class="services light" id="services" aria-labelledby="services-title">
   <svg class="draw draw--services" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path data-draw pathLength="1" d="M-20 100 L520 100 L640 18 L1460 18" fill="none" stroke="#F5B400" stroke-width="5"/></svg>
@@ -141,21 +150,23 @@
         <h3 class="svc__name">Mécanique générale</h3>
         <p class="svc__text">Un bruit en freinant, un voyant qui s'allume, une vibration sur l'autoroute, une auto qui démarre mal. On cherche d'où ça vient, on vous le montre, puis on vous donne le prix.</p>
         <p class="svc__tags" aria-label="Exemples de symptômes"><span>Bruit</span><span>Voyant</span><span>Vibration</span><span>Démarrage</span></p>
+        <a class="svc__cta" href="#rendez-vous" data-prefill="Mécanique générale">Décrire mon problème<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
       </li>
       <li class="svc__row reveal">
         <span class="svc__num" aria-hidden="true">02</span>
         <h3 class="svc__name">Pneus</h3>
         <p class="svc__text">Vente et pose de pneus, dont les pneus d'hiver. Le garage est détaillant Nokian Tyres, une marque finlandaise conçue pour les hivers du Nord.</p>
         <p class="svc__tags" aria-label="Exemples"><span>Hiver</span><span>Été</span><span>Pose</span></p>
+        <a class="svc__cta" href="#rendez-vous" data-prefill="Pneus">Réserver une pose<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
       </li>
       <li class="svc__row reveal">
         <span class="svc__num" aria-hidden="true">03</span>
         <h3 class="svc__name">Mécanique récréative</h3>
         <p class="svc__text">Le garage travaille aussi sur des véhicules récréatifs. Appelez avec la marque et le modèle&nbsp;: on vous dit tout de suite si on peut le prendre.</p>
         <p class="svc__tags" aria-label="Exemples fictifs"><span>VTT</span><span>Motoneige</span><span>Côte-à-côte</span><span class="tag-fictif">Exemples fictifs</span></p>
+        <a class="svc__cta" href="#rendez-vous" data-prefill="Véhicule récréatif">Demander pour mon véhicule<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
       </li>
     </ol>
-    <a class="btn btn--ink reveal" href="#rendez-vous">Décrire mon problème</a>
   </div>
 </section>
 
@@ -174,6 +185,7 @@
         <li data-at="0.88"><span class="checks__box" aria-hidden="true"></span><b>Électricité</b> <span class="checks__what">batterie et éclairage</span></li>
       </ol>
       <p class="inspect__done" data-done aria-live="polite"></p>
+      <a class="btn btn--accent inspect__cta" href="#rendez-vous" data-prefill="Inspection" hidden>Faire inspecter mon véhicule</a>
       <p class="fine">Exemple de points vérifiés lors d'une inspection générale. La liste exacte dépend de votre véhicule.</p>
     </div>
     <div class="inspect__stage">
@@ -197,12 +209,30 @@
   </div>
 </section>
 
+<!-- ============ VOTRE VISITE ============ -->
+<section class="visit-steps light" id="visite-type" aria-labelledby="steps-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="label">03 · Votre visite</p>
+      <h2 id="steps-title">Quatre temps, aucune surprise.</h2>
+      <p class="lede">Vous savez à chaque étape ce qui se passe et combien ça coûte. C'est vous qui décidez.</p>
+    </header>
+    <ol class="steps" data-steps>
+      <li class="step reveal"><span class="step__n">1</span><h3>Vous décrivez</h3><p>Au téléphone ou en ligne&nbsp;: le bruit, le voyant, depuis quand. Pas besoin du mot technique.</p></li>
+      <li class="step reveal"><span class="step__n">2</span><h3>On inspecte</h3><p>Le véhicule passe sous la lampe. On vous montre ce qu'on voit, pièce à l'appui.</p></li>
+      <li class="step reveal"><span class="step__n">3</span><h3>Vous décidez</h3><p>Le prix par écrit avant les travaux. Vous acceptez, vous refusez, ou vous gardez seulement ce qui presse.</p></li>
+      <li class="step reveal"><span class="step__n">4</span><h3>On répare</h3><p>Facture détaillée, pièces remplacées remises sur demande, garantie de 3&nbsp;mois ou 5&nbsp;000&nbsp;km.</p></li>
+    </ol>
+    <p class="fine reveal"><span class="tag-fictif">Maquette</span> Parcours proposé, à valider avec le garage.</p>
+  </div>
+</section>
+
 <!-- ============ PNEUS D'HIVER ============ -->
 <section class="winter" id="pneus" aria-labelledby="winter-title">
   <div class="tape" aria-hidden="true"><div class="tape__track" data-tape><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span></div></div>
   <div class="wrap winter__grid">
     <div class="winter__count reveal" data-countdown>
-      <p class="label">03 · Pneus d'hiver</p>
+      <p class="label">04 · Pneus d'hiver</p>
       <p class="count"><span class="count__num" data-count-num>--</span><span class="count__unit" data-count-unit>jours</span></p>
       <p class="count__caption" data-count-caption>avant l'obligation du 1<sup>er</sup>&nbsp;décembre</p>
     </div>
@@ -210,8 +240,20 @@
       <h2 id="winter-title" class="reveal">La date ne bouge pas. La première neige, oui.</h2>
       <p class="reveal">Au Québec, les pneus d'hiver sont obligatoires du 1<sup>er</sup>&nbsp;décembre au 15&nbsp;mars pour tout véhicule immatriculé ici. L'amende va de 200 à 300&nbsp;$, plus les frais.</p>
       <p class="reveal">Un pneu d'hiver se reconnaît au pictogramme gravé sur son flanc&nbsp;: un flocon dans une montagne. Regardez la roue plus haut&nbsp;: il y est.</p>
-      <a class="btn btn--accent reveal" href="#rendez-vous" data-prefill="Pose de pneus d'hiver">Réserver ma pose</a>
     </div>
+    <article class="offer reveal" aria-labelledby="offer-title">
+      <header class="offer__head"><span class="tag-fictif">Exemple d'offre · maquette</span></header>
+      <h3 id="offer-title" class="offer__name">Le passage d'hiver</h3>
+      <p class="offer__lede">Une seule visite pour partir l'hiver l'esprit tranquille.</p>
+      <ul class="offer__list">
+        <li>Pose de vos quatre pneus d'hiver</li>
+        <li>Inspection des cinq points de la roue</li>
+        <li>Test de la batterie avant les grands froids</li>
+        <li>Un rappel l'automne prochain, seulement si vous le voulez</li>
+      </ul>
+      <p class="offer__price">Prix confirmé par écrit avant la pose.</p>
+      <a class="btn btn--accent" href="#rendez-vous" data-prefill="Passage d'hiver">Réserver mon passage d'hiver</a>
+    </article>
   </div>
 </section>
 
@@ -220,7 +262,7 @@
   <svg class="draw draw--rights" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path data-draw pathLength="1" d="M1460 100 L900 100 L780 18 L-20 18" fill="none" stroke="#14171A" stroke-width="3"/></svg>
   <div class="wrap">
     <header class="sec-head reveal">
-      <p class="label">04 · Vos droits</p>
+      <p class="label">05 · Vos droits</p>
       <h2 id="rights-title">Ce que la loi vous garantit au garage.</h2>
       <p class="lede">La peur de payer plus que prévu, tout le monde l'a. Voici ce que la Loi sur la protection du consommateur prévoit, en clair.</p>
     </header>
@@ -250,7 +292,7 @@
 <section class="reviews" id="avis" aria-labelledby="reviews-title">
   <div class="wrap">
     <header class="sec-head reveal">
-      <p class="label">05 · Avis</p>
+      <p class="label">06 · Avis</p>
       <h2 id="reviews-title">Ici, vos vrais avis Google.</h2>
       <p class="lede">Dans la maquette, des bons de travail <strong>fictifs</strong> montrent l'emplacement. Le vrai site affichera uniquement de vrais avis, avec leur source.</p>
     </header>
@@ -281,7 +323,7 @@
 <section class="booking" id="rendez-vous" aria-labelledby="booking-title">
   <div class="wrap booking__grid">
     <div class="booking__intro">
-      <p class="label reveal">06 · Rendez-vous</p>
+      <p class="label reveal">07 · Rendez-vous</p>
       <h2 id="booking-title" class="reveal">Dites-nous ce qui se passe.</h2>
       <p class="lede reveal">Le plus rapide reste d'appeler. Sur le vrai site, ce formulaire enverra votre demande directement au garage.</p>
       <a class="booking__phone reveal" href="tel:+14186631195">418&nbsp;663-1195</a>
@@ -327,7 +369,7 @@
 <section class="visit light" id="visite" aria-labelledby="visit-title">
   <div class="wrap visit__grid">
     <div class="visit__where reveal">
-      <p class="label">07 · Nous trouver</p>
+      <p class="label">08 · Nous trouver</p>
       <h2 id="visit-title" class="visit__addr">1100, boul. des&nbsp;Chutes<span>Beauport (Québec) G1E&nbsp;2G1</span></h2>
       <p class="visit__links">
         <a class="btn btn--ink" href="https://www.google.com/maps/dir/?api=1&amp;destination=1100+boulevard+des+Chutes+Qu%C3%A9bec+QC+G1E+2G1" target="_blank" rel="noopener">Itinéraire<span class="sr"> (ouvre Google Maps dans un nouvel onglet)</span></a>
@@ -351,6 +393,10 @@
     <div class="faq">
       <h2 class="faq__title reveal">Les questions qu'on nous pose.</h2>
       <details class="reveal">
+        <summary>Combien ça va me coûter&nbsp;?</summary>
+        <p>Ça dépend de ce qu'on trouve, et c'est justement pour ça qu'on regarde avant. Vous recevez le prix par écrit avant les travaux, et rien ne s'ajoute sans votre accord. Pour une première idée, appelez&nbsp;: décrivez le problème, on vous dit ce qu'il faut vérifier.</p>
+      </details>
+      <details class="reveal">
         <summary>Est-ce que je vais connaître le prix avant les travaux&nbsp;?</summary>
         <p>Oui. Pour une réparation de plus de 100&nbsp;$, le garage doit vous remettre une évaluation écrite, et il ne peut pas dépasser ce total sans votre accord. Si on trouve autre chose en cours de route, on vous appelle avant d'y toucher.</p>
       </details>
@@ -370,6 +416,20 @@
         <summary>Comment prendre rendez-vous&nbsp;?</summary>
         <p>Appelez pendant les heures d'ouverture, au 418&nbsp;663-1195 ou au 581&nbsp;982-1195 (deux numéros trouvés en ligne, à confirmer). Sur le vrai site, le formulaire de cette page enverra aussi votre demande directement au garage.</p>
       </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ APPEL FINAL ============ -->
+<section class="closing" aria-labelledby="closing-title">
+  <svg class="closing__wheel" viewBox="0 0 160 160" aria-hidden="true"><use href="#closing-mark"/></svg>
+  <div class="wrap closing__inner">
+    <p class="label reveal">Mécanique SKL · Beauport</p>
+    <h2 id="closing-title" class="reveal">Un bruit, un voyant, une saison qui change&nbsp;?</h2>
+    <p class="lede reveal">Appelez. On regarde, on vous explique, puis vous décidez.</p>
+    <div class="closing__ctas reveal">
+      <a class="btn btn--accent btn--shine" href="tel:+14186631195">Appeler le 418&nbsp;663-1195</a>
+      <a class="btn btn--ghost" href="#rendez-vous">Demander un rendez-vous</a>
     </div>
   </div>
 </section>
@@ -438,6 +498,12 @@
     <g id="snowpeak">
       <path d="M-22,12 L-6,-12 L2,-2 L8,-10 L24,12 Z" fill="none" stroke="#3a3f44" stroke-width="2.5" stroke-linejoin="round"/>
       <path d="M2,0 v10 M-3,5 h10 M-1.5,1.5 l7,7 M5.5,1.5 l-7,7" stroke="#3a3f44" stroke-width="1.8"/>
+    </g>
+    <g id="closing-mark">
+      <circle cx="80" cy="80" r="56" fill="none" stroke="currentColor" stroke-width="16"/>
+      <circle cx="80" cy="80" r="66.5" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="9.2 5.4"/>
+      <g fill="currentColor"><circle cx="80" cy="57" r="5.2"/><circle cx="101.9" cy="72.9" r="5.2"/><circle cx="93.5" cy="98.6" r="5.2"/><circle cx="66.5" cy="98.6" r="5.2"/><circle cx="58.1" cy="72.9" r="5.2"/></g>
+      <circle cx="80" cy="80" r="9" fill="currentColor"/>
     </g>
     <g id="wheel-art">
       <circle r="290" fill="url(#g-rubber)"/>

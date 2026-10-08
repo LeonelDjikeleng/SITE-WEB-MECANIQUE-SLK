@@ -20,6 +20,7 @@ Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle 
   - Polices hébergées sur le site (Archivo, Instrument Sans, IBM Plex Mono ; licence OFL).
 - `projet/direction-artistique.md` : triage, registre des faits, brief DA, tokens, plan média, storyboard, band map.
 - `projet/prompts-higgsfield.md` : prompts image et vidéo prêts, coûts vérifiés.
+- `projet/strategie-vente.md` (Vente 2.0) : diagnostic de conversion, proposition de valeur, éléments commerciaux ajoutés (repères, actions par service, parcours en quatre temps, offre d'exemple « Le passage d'hiver », FAQ prix, appel final) et plan local pour l'argumentaire au garage.
 
 ## Tests passés (8 octobre 2026)
 

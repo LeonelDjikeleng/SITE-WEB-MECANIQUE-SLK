@@ -341,6 +341,7 @@
     holdBtn.classList.remove('is-holding'); holdBtn.classList.add('is-done');
     holdBtn.querySelector('.hold__label').textContent = 'Inspection terminée';
     doneMsg.textContent = 'Tout est vérifié. Maintenant, on peut parler de prix, par écrit.';
+    const cta = $('.inspect__cta'); if (cta) cta.hidden = false;
   }
   function holdTick(now) {
     const dt = Math.min(64, now - (holdLast || now)); holdLast = now;
@@ -417,7 +418,8 @@
   /* ---------------- lignes de marquage et roue d'inspection, liées au défilement ---------------- */
   const drawPaths = $$('[data-draw]').map(el => ({ el, last: -1 }));
   const inspectSec = $('#inspection');
-  let lastSs = '';
+  const steps = $('[data-steps]'), closingWheel = $('.closing__wheel');
+  let lastSs = '', lastSp = -1, lastCr = '';
   function onScrollEffects() {
     if (reduceMQ.matches) return;
     const vh = innerHeight;
@@ -433,13 +435,27 @@
       const v = ((vh - ir.top) * -0.06).toFixed(1) + 'deg';
       if (v !== lastSs) { lastSs = v; wheelBox.style.setProperty('--ss', v); }
     }
+    const sr = steps.getBoundingClientRect();
+    if (sr.bottom > 0 && sr.top < vh) {
+      const v = Math.round(clamp((vh * 0.85 - sr.top) / (sr.height * 0.9), 0, 1) * 1000) / 1000;
+      if (v !== lastSp) { lastSp = v; steps.style.setProperty('--sp', v); }
+    }
+    const cr = closingWheel.getBoundingClientRect();
+    if (cr.bottom > 0 && cr.top < vh) {
+      const v = ((vh - cr.top) * 0.12).toFixed(1) + 'deg';
+      if (v !== lastCr) { lastCr = v; closingWheel.style.setProperty('--cr', v); }
+    }
   }
   addEventListener('scroll', onScrollEffects, { passive: true });
   onScrollEffects();
 
   /* ---------------- formulaire : prépare un courriel ---------------- */
   const form = $('[data-form]'), msg = $('[data-msg]');
-  $$('[data-prefill]').forEach(a => a.addEventListener('click', () => { const t = $('#f-quoi'); if (!t.value.trim()) t.value = a.dataset.prefill + '. '; }));
+  let lastPrefill = '';
+  $$('[data-prefill]').forEach(a => a.addEventListener('click', () => {
+    const t = $('#f-quoi'), v = t.value.trim();
+    if (!v || v === lastPrefill.trim()) { lastPrefill = `${a.dataset.prefill}\u00a0: `; t.value = lastPrefill; }
+  }));
   form.addEventListener('submit', e => {
     e.preventDefault();
     const fields = ['#f-nom', '#f-tel', '#f-quoi'].map(s => $(s));
@@ -478,6 +494,7 @@
     tapeOn = false;
     $$('.reveal').forEach(el => el.classList.add('in', 'done'));
     drawPaths.forEach(d => d.el.style.setProperty('--draw', 0));
+    steps.style.setProperty('--sp', 1);
   }
   function unpinFinalStates() {
     tapeOn = winter.getBoundingClientRect().top < innerHeight && winter.getBoundingClientRect().bottom > 0;
