@@ -37,6 +37,16 @@ Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle 
 
 - **Higgsfield** : le compte est au forfait gratuit et refuse toute génération (« Requires basic plan or higher »). La vidéo d'accueil est prête à être générée dès qu'un forfait (ou l'essai de 3 jours) est actif : voir `projet/prompts-higgsfield.md`, puis renseigner `HERO_VIDEO` dans `site/assets/js/main.js`.
 
+## Priorité fluidité (décision du 8 octobre 2026)
+
+La fluidité passe avant les animations. Mesures avant → après (navigateur sans interface, téléphone avec processeur ralenti ×4) :
+- Défilement avant d'atteindre le contenu : téléphone 7,2 → 2,9 écrans ; ordinateur 5,1 → 2,6.
+- Retard de la roue sur le doigt : environ 390 → 210 ms.
+- Images saccadées pendant un défilement complet : téléphone 4 → 1 ; ordinateur 20 → 4.
+
+Ce qui a changé : accueil épinglé ramené à 230vh (deux temps au lieu de trois), lissage plus vif (k = 0,34), ombres de texte allégées, plus aucun mélange de calques ni de flou d'arrière-plan, filtre de la roue d'inspection remplacé par un voile, apparitions plus courtes et déclenchées avant l'entrée à l'écran, effets de défilement regroupés en une seule passe par image.
+Règle pour la suite : ne jamais rallonger l'accueil au-delà d'environ 2,5 écrans, sur aucun appareil.
+
 ## Éléments à obtenir du garage (par impact)
 
 1. **Photos de l'atelier** (3 ou 4 plans larges + détails, mains au travail) : c'est ce qui fera passer le site de beau à crédible.

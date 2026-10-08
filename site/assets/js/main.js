@@ -123,9 +123,9 @@
   function tick(now) {
     const dt = Math.min(100, now - (lastTick || now));
     lastTick = now;
-    const k = 0.16;
+    const k = 0.34;
     shown += (target - shown) * (1 - Math.pow(1 - k, dt / 16.667));
-    if (loadStart && loadK < 1) loadK = clamp((now - loadStart) / 1100, 0, 1);
+    if (loadStart && loadK < 1) loadK = clamp((now - loadStart) / 600, 0, 1);
     const settled = Math.abs(target - shown) < 0.0005 && loadK >= 1;
     if (settled) { shown = target; rafId = null; lastTick = 0; }
     else rafId = requestAnimationFrame(tick);
@@ -270,7 +270,6 @@
     dock.classList.add('is-mobile');
     lastY = y;
   }
-  addEventListener('scroll', onPageScroll, { passive: true });
   onPageScroll();
   function setMenu(open) {
     nav.classList.toggle('is-open', open);
@@ -317,12 +316,12 @@
       const el = en.target, parent = el.parentElement;
       const n = groups.get(parent) || 0;
       groups.set(parent, n + 1);
-      el.style.setProperty('--d', Math.min(n, 5) * 0.09 + 's');
+      el.style.setProperty('--d', Math.min(n, 3) * 0.05 + 's');
       el.classList.add('in');
-      setTimeout(() => { el.classList.add('done'); el.style.removeProperty('--d'); }, 1400);
+      setTimeout(() => { el.classList.add('done'); el.style.removeProperty('--d'); }, 700);
       io.unobserve(el);
     });
-  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+  }, { rootMargin: '0px 0px 12% 0px', threshold: 0 });
   reveals.forEach(el => io.observe(el));
 
   /* ---------------- inspection : maintenir pour inspecter ---------------- */
@@ -412,7 +411,6 @@
     if (v !== tapeLast) { tapeLast = v; tape.style.setProperty('--tx', v); }
   }
   new IntersectionObserver(([e]) => { tapeOn = e.isIntersecting && !reduceMQ.matches; if (tapeOn) moveTape(); }).observe(winter);
-  addEventListener('scroll', moveTape, { passive: true });
   addEventListener('resize', () => { tapeW = 0; }, { passive: true });
 
   /* ---------------- lignes de marquage et roue d'inspection, liées au défilement ---------------- */
@@ -446,7 +444,6 @@
       if (v !== lastCr) { lastCr = v; closingWheel.style.setProperty('--cr', v); }
     }
   }
-  addEventListener('scroll', onScrollEffects, { passive: true });
   onScrollEffects();
 
   /* ---------------- formulaire : prépare un courriel ---------------- */
@@ -501,6 +498,12 @@
   }
   reduceMQ.addEventListener('change', e => { if (e.matches) pinToFinalStates(); else unpinFinalStates(); applyHeroMode(); });
   if (reduceMQ.matches) pinToFinalStates();
+
+  // Un seul passage par image pour tous les effets liés au défilement :
+  // on lit les positions une fois, on écrit ensuite, jamais en boucle.
+  let fxQueued = false;
+  function runFx() { fxQueued = false; onScrollEffects(); moveTape(); onPageScroll(); }
+  addEventListener('scroll', () => { if (!fxQueued) { fxQueued = true; requestAnimationFrame(runFx); } }, { passive: true });
 
   applyHeroMode();
 })();
