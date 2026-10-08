@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Maquette de présentation : remplacer par « Allow: / » et ajouter le sitemap une fois le site approuvé.
