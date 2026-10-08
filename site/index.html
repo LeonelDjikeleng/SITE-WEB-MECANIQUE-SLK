@@ -16,7 +16,7 @@
 <meta property="og:description" content="Mécanique générale, mécanique récréative et pneus, au 1100, boul. des Chutes à Beauport.">
 <meta property="og:url" content="https://example.com/">
 <meta property="og:image" content="https://example.com/assets/img/og.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23121416'/%3E%3Ccircle cx='32' cy='32' r='22' fill='none' stroke='%23F5B400' stroke-width='7'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23F1F2EF'/%3E%3C/svg%3E">
+<link rel="icon" href="assets/img/logo-skl-symbole.svg" type="image/svg+xml">
 <link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/styles.css">
@@ -46,15 +46,12 @@
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
 
-<div class="demo-banner" role="note">Maquette de présentation&nbsp;: ce n'est pas le site officiel de Mécanique SKL.</div>
+<div class="demo-banner" role="note"><span class="demo-banner__long">Maquette de présentation · Ce n'est pas le site officiel de Mécanique SKL · Contenu en partie fictif</span><span class="demo-banner__short">Maquette · Pas le site officiel de Mécanique SKL · Contenu en partie fictif</span></div>
 
 <div class="env" aria-hidden="true"><div class="env__haze"></div></div>
 
 <header class="top" id="top">
-  <a class="brand" href="#main" aria-label="Mécanique SKL, retour en haut">
-    <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="20" cy="20" r="15" fill="none" stroke="#121416" stroke-width="5" stroke-dasharray="2.2 3.1" opacity=".55"/><circle cx="20" cy="20" r="4.5" fill="#F5B400"/></svg>
-    <span class="brand__name">Mécanique <b>SKL</b></span>
-  </a>
+  <a class="brand" href="#main"><img class="brand__logo" src="assets/img/logo-skl-sombre.svg" width="436" height="160" alt="Mécanique SKL, retour en haut"></a>
   <nav class="nav" aria-label="Navigation principale">
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu"><span class="nav__bars" aria-hidden="true"></span><span class="nav__label">Menu</span></button>
     <ul class="nav__list" id="menu">
@@ -62,6 +59,7 @@
       <li><a href="#inspection">Inspection</a></li>
       <li><a href="#pneus">Pneus d'hiver</a></li>
       <li><a href="#droits">Vos droits</a></li>
+      <li><a href="#avis">Avis</a></li>
       <li><a href="#visite">Nous trouver</a></li>
       <li class="nav__cta-li"><a class="btn btn--accent btn--sm" href="#rendez-vous">Rendez-vous</a></li>
     </ul>
@@ -130,6 +128,7 @@
 
 <!-- ============ SERVICES ============ -->
 <section class="services light" id="services" aria-labelledby="services-title">
+  <svg class="draw draw--services" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path data-draw pathLength="1" d="M-20 100 L520 100 L640 18 L1460 18" fill="none" stroke="#F5B400" stroke-width="5"/></svg>
   <div class="wrap">
     <header class="sec-head reveal">
       <p class="label">01 · Services</p>
@@ -153,7 +152,7 @@
         <span class="svc__num" aria-hidden="true">03</span>
         <h3 class="svc__name">Mécanique récréative</h3>
         <p class="svc__text">Le garage travaille aussi sur des véhicules récréatifs. Appelez avec la marque et le modèle&nbsp;: on vous dit tout de suite si on peut le prendre.</p>
-        <p class="svc__tags" aria-label="À préciser au téléphone"><span>Marque</span><span>Modèle</span><span>Année</span></p>
+        <p class="svc__tags" aria-label="Exemples fictifs"><span>VTT</span><span>Motoneige</span><span>Côte-à-côte</span><span class="tag-fictif">Exemples fictifs</span></p>
       </li>
     </ol>
     <a class="btn btn--ink reveal" href="#rendez-vous">Décrire mon problème</a>
@@ -218,6 +217,7 @@
 
 <!-- ============ VOS DROITS ============ -->
 <section class="rights light" id="droits" aria-labelledby="rights-title">
+  <svg class="draw draw--rights" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path data-draw pathLength="1" d="M1460 100 L900 100 L780 18 L-20 18" fill="none" stroke="#14171A" stroke-width="3"/></svg>
   <div class="wrap">
     <header class="sec-head reveal">
       <p class="label">04 · Vos droits</p>
@@ -246,15 +246,48 @@
   </div>
 </section>
 
+<!-- ============ AVIS (FICTIFS, MAQUETTE) ============ -->
+<section class="reviews" id="avis" aria-labelledby="reviews-title">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <p class="label">05 · Avis</p>
+      <h2 id="reviews-title">Ici, vos vrais avis Google.</h2>
+      <p class="lede">Dans la maquette, des bons de travail <strong>fictifs</strong> montrent l'emplacement. Le vrai site affichera uniquement de vrais avis, avec leur source.</p>
+    </header>
+  </div>
+  <div class="slips" data-slips>
+    <article class="slip reveal" aria-label="Avis fictif 1">
+      <header class="slip__head"><span>Bon n° 0412</span><span class="tag-fictif">Exemple fictif</span></header>
+      <p class="slip__car">Civic 2016 · Freins</p>
+      <blockquote><p>«&nbsp;On m'a montré les plaquettes avant de les changer. Le prix final était celui de l'évaluation.&nbsp;»</p></blockquote>
+      <p class="slip__who">Client fictif, Beauport</p>
+    </article>
+    <article class="slip reveal" aria-label="Avis fictif 2">
+      <header class="slip__head"><span>Bon n° 0457</span><span class="tag-fictif">Exemple fictif</span></header>
+      <p class="slip__car">VTT 2019 · Récréatif</p>
+      <blockquote><p>«&nbsp;Mon VTT ne démarrait plus depuis l'automne. On m'a expliqué la panne au téléphone, en mots simples.&nbsp;»</p></blockquote>
+      <p class="slip__who">Cliente fictive, Giffard</p>
+    </article>
+    <article class="slip reveal" aria-label="Avis fictif 3">
+      <header class="slip__head"><span>Bon n° 0503</span><span class="tag-fictif">Exemple fictif</span></header>
+      <p class="slip__car">RAV4 2018 · Pneus d'hiver</p>
+      <blockquote><p>«&nbsp;Pose des pneus d'hiver un mardi matin. Appel la veille pour confirmer l'heure.&nbsp;»</p></blockquote>
+      <p class="slip__who">Client fictif, Courville</p>
+    </article>
+  </div>
+</section>
+
 <!-- ============ RENDEZ-VOUS ============ -->
 <section class="booking" id="rendez-vous" aria-labelledby="booking-title">
   <div class="wrap booking__grid">
     <div class="booking__intro">
-      <p class="label reveal">05 · Rendez-vous</p>
+      <p class="label reveal">06 · Rendez-vous</p>
       <h2 id="booking-title" class="reveal">Dites-nous ce qui se passe.</h2>
-      <p class="lede reveal">Le plus rapide reste d'appeler. Si vous préférez écrire, ce formulaire prépare un courriel que vous envoyez vous-même au garage.</p>
+      <p class="lede reveal">Le plus rapide reste d'appeler. Sur le vrai site, ce formulaire enverra votre demande directement au garage.</p>
       <a class="booking__phone reveal" href="tel:+14186631195">418&nbsp;663-1195</a>
-      <p class="booking__copy reveal"><button class="link-btn" type="button" data-copy="418 663-1195">Copier le numéro</button> · <button class="link-btn" type="button" data-copy="mecaniqueSKL@outlook.com">Copier le courriel</button></p>
+      <a class="booking__phone booking__phone--alt reveal" href="tel:+15819821195">581&nbsp;982-1195</a>
+      <p class="numbers-note reveal"><span class="tag-fictif">Maquette</span> Deux numéros circulent en ligne pour le garage. Les deux sont affichés en attendant que Mécanique SKL confirme le bon.</p>
+      <p class="booking__copy reveal"><button class="link-btn" type="button" data-copy="418 663-1195">Copier le 418</button> · <button class="link-btn" type="button" data-copy="581 982-1195">Copier le 581</button></p>
     </div>
     <form class="form" data-form novalidate>
       <div class="field">
@@ -281,9 +314,9 @@
           <label class="choice"><input type="radio" name="moment" value="Peu importe" checked><span>Peu importe</span></label>
         </div>
       </fieldset>
-      <p class="form__purpose field--full">Ces renseignements servent seulement à préparer votre rendez-vous. Ils partent de votre propre messagerie, rien n'est conservé par ce site. <a href="confidentialite.html">Politique de confidentialité</a></p>
+      <p class="form__purpose field--full"><span class="tag-fictif">Maquette</span> Ce formulaire est une démonstration&nbsp;: il n'envoie rien et ne conserve rien. Pour joindre le garage, appelez. <a href="confidentialite.html">Politique de confidentialité</a></p>
       <div class="form__actions field--full">
-        <button class="btn btn--accent" type="submit">Préparer le courriel</button>
+        <button class="btn btn--accent" type="submit">Envoyer ma demande</button>
         <p class="form__msg" data-msg role="status" aria-live="polite"></p>
       </div>
     </form>
@@ -294,12 +327,14 @@
 <section class="visit light" id="visite" aria-labelledby="visit-title">
   <div class="wrap visit__grid">
     <div class="visit__where reveal">
-      <p class="label">06 · Nous trouver</p>
+      <p class="label">07 · Nous trouver</p>
       <h2 id="visit-title" class="visit__addr">1100, boul. des&nbsp;Chutes<span>Beauport (Québec) G1E&nbsp;2G1</span></h2>
       <p class="visit__links">
         <a class="btn btn--ink" href="https://www.google.com/maps/dir/?api=1&amp;destination=1100+boulevard+des+Chutes+Qu%C3%A9bec+QC+G1E+2G1" target="_blank" rel="noopener">Itinéraire<span class="sr"> (ouvre Google Maps dans un nouvel onglet)</span></a>
         <a class="btn btn--line" href="tel:+14186631195">418&nbsp;663-1195</a>
+        <a class="btn btn--line" href="tel:+15819821195">581&nbsp;982-1195</a>
       </p>
+      <p class="numbers-note numbers-note--light"><span class="tag-fictif">Maquette</span> Numéro et heures tirés d'annuaires en ligne, à confirmer par le garage.</p>
       <table class="hours" data-hours>
         <caption>Heures d'ouverture</caption>
         <tbody>
@@ -333,7 +368,7 @@
       </details>
       <details class="reveal">
         <summary>Comment prendre rendez-vous&nbsp;?</summary>
-        <p>Appelez le 418&nbsp;663-1195 pendant les heures d'ouverture. Vous pouvez aussi remplir le formulaire de cette page&nbsp;: il prépare un courriel que vous envoyez de votre messagerie.</p>
+        <p>Appelez pendant les heures d'ouverture, au 418&nbsp;663-1195 ou au 581&nbsp;982-1195 (deux numéros trouvés en ligne, à confirmer). Sur le vrai site, le formulaire de cette page enverra aussi votre demande directement au garage.</p>
       </details>
     </div>
   </div>
@@ -344,13 +379,13 @@
 <footer class="foot">
   <div class="wrap foot__grid">
     <div>
-      <p class="brand brand--foot"><svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="20" cy="20" r="4.5" fill="#F5B400"/></svg><span class="brand__name">Mécanique <b>SKL</b></span></p>
+      <p class="brand brand--foot"><img class="brand__logo" src="assets/img/logo-skl-sombre.svg" width="436" height="160" alt="Mécanique SKL"></p>
       <p>Mécanique générale, mécanique récréative et pneus.</p>
       <!-- À COMPLÉTER : nom légal de l'entreprise (Registraire des entreprises) -->
     </div>
     <address>
       1100, boul. des Chutes<br>Beauport (Québec) G1E&nbsp;2G1<br>
-      <a href="tel:+14186631195">418&nbsp;663-1195</a><br>
+      <a href="tel:+14186631195">418&nbsp;663-1195</a> · <a href="tel:+15819821195">581&nbsp;982-1195</a><br>
       <a href="mailto:mecaniqueSKL@outlook.com">mecaniqueSKL@outlook.com</a>
     </address>
     <ul class="foot__links">
@@ -360,7 +395,7 @@
     </ul>
   </div>
   <div class="wrap foot__fine">
-    <p>Ce site n'utilise aucun témoin (cookie) ni outil de suivi. Illustrations dessinées pour ce site&nbsp;: ce ne sont pas des photos de l'atelier.</p>
+    <p><strong>Maquette non officielle</strong>, réalisée pour présenter une proposition de site à Mécanique SKL. Ce n'est pas le site du garage. Certains contenus sont fictifs (avis, exemples, logo)&nbsp;; l'adresse, les numéros et les heures viennent d'annuaires en ligne et restent à confirmer. Aucun témoin (cookie), aucun suivi. Illustrations dessinées pour la maquette, pas des photos de l'atelier.</p>
     <p>© <span data-year>2026</span> Mécanique SKL</p>
   </div>
 </footer>

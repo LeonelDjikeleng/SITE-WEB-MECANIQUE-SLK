@@ -6,7 +6,10 @@ Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle 
 
 - Client visé : **Mécanique SKL**, 1100, boul. des Chutes, Beauport (Québec) G1E 2G1. Le dépôt s'appelle « SLK » par erreur de frappe ; le garage s'écrit **SKL** partout (Facebook, NAPA, Nokian, Otobox).
 - Compétences utilisées : MOI 2.0 (direction, conformité, QA) et 10K Websites (accueil épinglé au défilement, standard technique).
-- Statut : **maquette de démarchage** (mode 11). Bandeau « Maquette de présentation » + `noindex` + `robots.txt` bloquant. À retirer seulement avec l'accord écrit du garage.
+- Statut : **maquette de démarchage** (mode 11), à contenu en partie fictif, assumé et signalé. Bandeau « Maquette · pas le site officiel · contenu en partie fictif » sur toutes les pages, `noindex`, `robots.txt` bloquant, mention complète dans le pied de page. À retirer seulement avec l'accord écrit du garage.
+- Éléments fictifs, tous étiquetés sur la page : logo (dessiné pour la maquette, fichiers dans `site/assets/img/`), trois avis en « bons de travail », exemples récréatifs (VTT, motoneige, côte-à-côte). Le formulaire n'envoie rien (message de démonstration).
+- Les deux numéros trouvés en ligne (418 663-1195 et 581 982-1195) sont affichés côte à côte avec une note « à confirmer ».
+- Animations sur téléphone : l'accueil épinglé (descente vers la roue, textes, poussière) tourne aussi sur mobile et tablette. Seule la réduction des animations demandée par l'appareil donne l'accueil fixe. La future vidéo, elle, ne se chargera que sur grand écran.
 - Le fichier REPRISE.md d'origine n'a jamais été reçu : ce dossier a été reconstruit à partir de la recherche publique et de l'exemple Mécanique SKL documenté dans MOI 2.0.
 
 ## Ce qui est fait
@@ -37,11 +40,11 @@ Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle 
 1. **Photos de l'atelier** (3 ou 4 plans larges + détails, mains au travail) : c'est ce qui fera passer le site de beau à crédible.
 2. **Le bon numéro** : 418 663-1195 partout, sauf NAPA qui affiche 581 982-1195.
 3. **Heures confirmées** : une seule source (lun.-jeu. 8 h-17 h, ven. 8 h-12 h).
-4. **Logo** en vectoriel (SVG ou PDF) : la marque du site est provisoire.
+4. **Logo officiel** : le logo actuel a été dessiné pour la maquette (`logo-skl-sombre.svg`, `logo-skl-clair.svg`, `logo-skl-symbole.svg`).
 5. **Nom légal**, responsable des renseignements personnels, et liste précise des services récréatifs (VTT, motoneige, VR ?).
 
 ## Pour publier
 
-1. Retirer le bandeau `.demo-banner`, la balise `noindex`, et remplacer `robots.txt` (seulement avec l'accord du garage).
+1. Retirer le bandeau `.demo-banner`, les étiquettes `.tag-fictif`, les avis fictifs, la mention « Maquette non officielle » du pied de page, la balise `noindex`, et remplacer `robots.txt` (seulement avec l'accord du garage). Brancher le formulaire (commentaire `MAQUETTE` dans `main.js`) et garder un seul numéro.
 2. Remplacer `example.com` aux endroits marqués `DEPLOY STEP` (index.html, sitemap.xml).
 3. Compresser le **contenu** de `site/` (pas le dossier) et le déployer (Hostinger selon 10K Websites).

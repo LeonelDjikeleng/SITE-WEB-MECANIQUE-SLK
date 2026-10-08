@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Mécanique SKL">
+  <title>Mécanique SKL</title>
+  <defs>
+    <mask id="gap"><rect width="160" height="160" fill="#fff"/><circle cx="80" cy="80" r="70" fill="#000"/></mask>
+    <clipPath id="tile"><rect x="2" y="2" width="156" height="156" rx="6"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <path d="M-20 156 L156 -20 L180 4 L4 180 Z" fill="#F5B400" mask="url(#gap)"/>
+  </g>
+  <circle cx="80" cy="80" r="56" fill="none" stroke="#F1F2EF" stroke-width="16"/>
+  <circle cx="80" cy="80" r="56" fill="none" stroke="#F5B400" stroke-opacity="0" stroke-width="16"/>
+  <circle cx="80" cy="80" r="66.5" fill="none" stroke="#F1F2EF" stroke-width="5" stroke-dasharray="9.2 5.4"/>
+  <g fill="#F1F2EF">
+    <circle cx="80" cy="57" r="5.2"/><circle cx="101.9" cy="72.9" r="5.2"/><circle cx="93.5" cy="98.6" r="5.2"/><circle cx="66.5" cy="98.6" r="5.2"/><circle cx="58.1" cy="72.9" r="5.2"/>
+  </g>
+  <circle cx="80" cy="80" r="9" fill="#F5B400"/>
+</svg>

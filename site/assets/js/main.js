@@ -56,8 +56,11 @@
   }
   $$('[data-split]').forEach((el, i) => split(el, 7 + i * 31));
 
-  /* ---------------- accueil : portes statique / défilement ---------------- */
-  const GATES = [
+  /* ---------------- accueil : animé partout, sauf si l'appareil demande moins d'animations ---------------- */
+  // Le décor codé (sol, roue, poussière) s'anime aussi sur téléphone.
+  // La vidéo, lourde, ne se charge que sur les grands écrans (les cinq portes de 10K Websites).
+  const STATIC_GATES = ['(prefers-reduced-motion: reduce)'];
+  const VIDEO_GATES = [
     '(max-width: 720px)',
     '(orientation: portrait) and (max-width: 1024px)',
     '(orientation: portrait) and (pointer: coarse)',
@@ -150,7 +153,13 @@
   function initHeroOnce() {
     if (heroInit) return;
     heroInit = true;
+    maybeLoadVideo();
+  }
+  let videoStarted = false;
+  function maybeLoadVideo() {
     if (!HERO_VIDEO) { ring.style.setProperty('--ld', 0); return; }
+    if (videoStarted || !scrubOn || VIDEO_GATES.some(q => matchMedia(q).matches)) return;
+    videoStarted = true;
     const img = new Image();
     let started = false;
     const start = () => { if (started) return; started = true; loadHeroBlob().catch(failVideo); };
@@ -206,8 +215,8 @@
     lastVars = {};
     stopDust();
   }
-  function applyHeroMode() { if (GATES.some(q => matchMedia(q).matches)) disableScrub(); else enableScrub(); }
-  const MQLS = GATES.map(q => matchMedia(q));
+  function applyHeroMode() { if (STATIC_GATES.some(q => matchMedia(q).matches)) disableScrub(); else { enableScrub(); maybeLoadVideo(); } }
+  const MQLS = [...STATIC_GATES, ...VIDEO_GATES].map(q => matchMedia(q));
   MQLS.forEach(m => m.addEventListener('change', applyHeroMode));
 
   new IntersectionObserver(([e]) => {
@@ -218,13 +227,16 @@
   /* ---------------- poussière dans la lumière ---------------- */
   const dust = $('.dust');
   const dctx = dust.getContext('2d');
-  let dustRaf = null, motes = [], dustLast = 0;
+  let dustRaf = null, motes = [], dustLast = 0, dustW = 0, litX = 0.66, litY = 0.5;
   function sizeDust() {
+    dustW = innerWidth;
+    const rig = $('.wheel-rig').getBoundingClientRect(), st = stage.getBoundingClientRect();
+    litX = (rig.left + rig.width / 2 - st.left) / st.width; litY = (rig.top + rig.height / 2 - st.top) / st.height;
     const dpr = Math.min(2, devicePixelRatio || 1);
     dust.width = dust.clientWidth * dpr; dust.height = dust.clientHeight * dpr;
     dctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const r = rng(42);
-    motes = Array.from({ length: 34 }, () => ({ x: r() * dust.clientWidth, y: r() * dust.clientHeight, s: 0.6 + r() * 1.6, vx: (r() - 0.5) * 0.12, vy: -0.05 - r() * 0.12, a: 0.15 + r() * 0.45, ph: r() * 6.28 }));
+    motes = Array.from({ length: innerWidth < 720 ? 22 : 34 }, () => ({ x: r() * dust.clientWidth, y: r() * dust.clientHeight, s: 0.6 + r() * 1.6, vx: (r() - 0.5) * 0.12, vy: -0.05 - r() * 0.12, a: 0.15 + r() * 0.45, ph: r() * 6.28 }));
   }
   function drawDust(now) {
     dustRaf = requestAnimationFrame(drawDust);
@@ -235,7 +247,7 @@
     motes.forEach(m => {
       m.x += m.vx; m.y += m.vy; m.ph += 0.02;
       if (m.y < -4) m.y = h + 4; if (m.x < -4) m.x = w + 4; if (m.x > w + 4) m.x = -4;
-      const lit = Math.max(0, 1 - Math.hypot(m.x - w * 0.66, m.y - h * 0.5) / (w * 0.45));
+      const lit = Math.max(0, 1 - Math.hypot(m.x - w * litX, m.y - h * litY) / (Math.max(w, h) * 0.42));
       dctx.globalAlpha = m.a * (0.25 + 0.75 * lit) * (0.7 + 0.3 * Math.sin(m.ph));
       dctx.fillStyle = '#ffe2a8';
       dctx.beginPath(); dctx.arc(m.x, m.y, m.s, 0, 6.283); dctx.fill();
@@ -243,7 +255,7 @@
   }
   function startDust() { if (dustRaf || !scrubOn || !heroOnScreen || document.hidden) return; if (!motes.length) sizeDust(); dustRaf = requestAnimationFrame(drawDust); }
   function stopDust() { if (dustRaf) cancelAnimationFrame(dustRaf); dustRaf = null; }
-  addEventListener('resize', () => { if (scrubOn) { sizeDust(); onScroll(); } }, { passive: true });
+  addEventListener('resize', () => { if (!scrubOn) return; if (innerWidth !== dustW) sizeDust(); onScroll(); }, { passive: true });
 
   /* ---------------- en-tête, menu, barre d'actions ---------------- */
   const top = $('.top'), nav = $('.nav'), toggle = $('.nav__toggle'), dock = $('.dock');
@@ -294,6 +306,7 @@
   setInterval(updateStatus, 60000);
 
   /* ---------------- apparitions ---------------- */
+  $$('h2.reveal').forEach(h => { h.innerHTML = `<span class="slit">${h.innerHTML}</span>`; });
   const reveals = $$('.reveal');
   const fold = innerHeight;
   reveals.forEach(el => { if (el.getBoundingClientRect().top > fold * 0.9) el.classList.add('pre'); });
@@ -401,9 +414,31 @@
   addEventListener('scroll', moveTape, { passive: true });
   addEventListener('resize', () => { tapeW = 0; }, { passive: true });
 
+  /* ---------------- lignes de marquage et roue d'inspection, liées au défilement ---------------- */
+  const drawPaths = $$('[data-draw]').map(el => ({ el, last: -1 }));
+  const inspectSec = $('#inspection');
+  let lastSs = '';
+  function onScrollEffects() {
+    if (reduceMQ.matches) return;
+    const vh = innerHeight;
+    drawPaths.forEach(d => {
+      const r = d.el.ownerSVGElement.getBoundingClientRect();
+      if (r.bottom < -50 || r.top > vh + 50) return;
+      const prog = clamp((vh - r.top) / (vh * 0.75), 0, 1);
+      const v = Math.round((1 - prog) * 1000) / 1000;
+      if (v !== d.last) { d.last = v; d.el.style.setProperty('--draw', v); }
+    });
+    const ir = inspectSec.getBoundingClientRect();
+    if (ir.bottom > 0 && ir.top < vh) {
+      const v = ((vh - ir.top) * -0.06).toFixed(1) + 'deg';
+      if (v !== lastSs) { lastSs = v; wheelBox.style.setProperty('--ss', v); }
+    }
+  }
+  addEventListener('scroll', onScrollEffects, { passive: true });
+  onScrollEffects();
+
   /* ---------------- formulaire : prépare un courriel ---------------- */
   const form = $('[data-form]'), msg = $('[data-msg]');
-  const TO = 'mecaniqueSKL@outlook.com';
   $$('[data-prefill]').forEach(a => a.addEventListener('click', () => { const t = $('#f-quoi'); if (!t.value.trim()) t.value = a.dataset.prefill + '. '; }));
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -416,20 +451,10 @@
       firstBad.focus();
       return;
     }
-    const d = new FormData(form);
-    const subject = `Demande de rendez-vous · ${d.get('nom')}`;
-    const body = [
-      `Nom : ${d.get('nom')}`,
-      `Téléphone : ${d.get('tel')}`,
-      `Véhicule : ${d.get('auto') || 'non précisé'}`,
-      `Moment souhaité : ${d.get('moment')}`,
-      '',
-      'Ce qui se passe :',
-      d.get('quoi')
-    ].join('\n');
-    location.href = `mailto:${TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    // MAQUETTE : rien n'est envoyé. Sur le vrai site, brancher ici l'envoi vers le garage.
+    form.classList.add('is-sent');
     msg.className = 'form__msg is-ok';
-    msg.textContent = `Votre messagerie s'ouvre avec la demande prête : il reste à l'envoyer. Rien ne s'ouvre ? Écrivez à ${TO} ou appelez le 418 663-1195.`;
+    msg.textContent = `Merci ${new FormData(form).get('nom').trim().split(' ')[0]}. Ceci est une maquette : votre demande n'a été envoyée à personne. Sur le vrai site, elle arriverait directement au garage. En attendant, appelez le 418 663-1195.`;
   });
   form.addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) e.target.setAttribute('aria-invalid', 'false'); });
 
@@ -452,6 +477,7 @@
     countNum.textContent = wt.days; counted = true;
     tapeOn = false;
     $$('.reveal').forEach(el => el.classList.add('in', 'done'));
+    drawPaths.forEach(d => d.el.style.setProperty('--draw', 0));
   }
   function unpinFinalStates() {
     tapeOn = winter.getBoundingClientRect().top < innerHeight && winter.getBoundingClientRect().bottom > 0;
