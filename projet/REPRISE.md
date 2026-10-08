@@ -15,7 +15,7 @@ Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle 
 ## Ce qui est fait
 
 - `site/` : site statique complet, sans dépendance ni étape de compilation.
-  - `index.html` : accueil épinglé (la caméra descend vers la roue), statut ouvert/fermé en direct (heure de Québec), services, inspection à maintenir (moment interactif), pneus d'hiver avec compte à rebours réel, vos droits (LPC), rendez-vous (prépare un courriel, aucun tiers), adresse, heures, FAQ.
+  - `index.html` : accueil épinglé (la caméra descend vers la roue), statut ouvert/fermé en direct (heure de Québec), services, inspection à maintenir (moment interactif), pneus d'hiver avec compte à rebours réel, vos droits (LPC), avis fictifs en bons de travail, rendez-vous (formulaire de démonstration), adresse, heures, FAQ.
   - `confidentialite.html` (Loi 25) et `accessibilite.html`.
   - Polices hébergées sur le site (Archivo, Instrument Sans, IBM Plex Mono ; licence OFL).
 - `projet/direction-artistique.md` : triage, registre des faits, brief DA, tokens, plan média, storyboard, band map.
