@@ -24,3 +24,9 @@ Puis ouvrir http://localhost:8765. Un double-clic sur `index.html` fonctionne au
 ## Licences
 
 Polices Archivo, Instrument Sans et IBM Plex Mono : SIL Open Font License, utilisation commerciale permise. Illustrations (roue, sol, ruban) dessinées en code pour ce site.
+
+## Deuxième maquette : Garage Jean-Yves Deschênes
+
+- Dossier : `garage-deschenes/` (`site/` pour le site, `projet/` pour la direction artistique et la reprise).
+- Publiée par le même flux GitHub Pages, sous `/garage-deschenes/`.
+- Direction artistique distincte de Mécanique SKL : « Le manuel d'atelier ». Lire `garage-deschenes/projet/REPRISE.md` en premier.

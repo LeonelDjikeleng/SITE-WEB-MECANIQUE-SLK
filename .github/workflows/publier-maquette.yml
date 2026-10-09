@@ -1,11 +1,13 @@
-# Publie le dossier site/ sur GitHub Pages à chaque modification.
+# Publie les maquettes sur GitHub Pages à chaque modification :
+#   site/                   → racine (Mécanique SKL)
+#   garage-deschenes/site/  → /garage-deschenes/
 # Prérequis (une seule fois) : Settings → Pages → Source : « GitHub Actions ».
 name: Publier la maquette
 
 on:
   push:
     branches: [main]
-    paths: ['site/**', '.github/workflows/publier-maquette.yml']
+    paths: ['site/**', 'garage-deschenes/site/**', '.github/workflows/publier-maquette.yml']
   workflow_dispatch:
 
 permissions:
@@ -26,8 +28,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Assembler les maquettes
+        run: |
+          mkdir -p _site
+          cp -r site/. _site/
+          mkdir -p _site/garage-deschenes
+          cp -r garage-deschenes/site/. _site/garage-deschenes/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _site
       - id: deploiement
         uses: actions/deploy-pages@v4
