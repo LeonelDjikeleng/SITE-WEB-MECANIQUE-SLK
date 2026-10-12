@@ -5,3 +5,5 @@ node_modules/
 livraison/
 # Données financières internes (taux horaires, marges) : jamais dans le dépôt public
 projet/administrateur/02-prix-forfaits.md
+projet/administrateur/05-offre-commerciale.md
+projet/administrateur/06-discours-de-vente.md
