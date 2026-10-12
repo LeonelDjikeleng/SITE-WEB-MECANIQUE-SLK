@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mécanique SKL · Garage à Beauport · Mécanique générale, récréative et pneus</title>
+<title>Mécanique SKL · Garage et pneus à Beauport (Québec)</title>
 <meta name="description" content="Mécanique SKL, garage au 1100, boul. des Chutes à Beauport (Québec). Mécanique générale, mécanique récréative, vente et pose de pneus. Appelez le 418 663-1195.">
 <!-- MAQUETTE DE DÉMARCHAGE (MOI 2.0, mode 11) : retirer cette ligne et le bandeau .demo-banner une fois le site approuvé par Mécanique SKL. -->
 <meta name="robots" content="noindex, nofollow">
@@ -17,13 +17,14 @@
 <meta property="og:url" content="https://example.com/">
 <meta property="og:image" content="https://example.com/assets/img/og.jpg">
 <link rel="icon" href="assets/img/logo-skl-symbole.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="preload" href="assets/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/instrument-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/styles.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": ["AutoRepair", "TireShop"],
+  "@id": "https://example.com/#garage",
   "name": "Mécanique SKL",
   "telephone": "+1-418-663-1195",
   "email": "mecaniqueSKL@outlook.com",
@@ -35,7 +36,11 @@
     "postalCode": "G1E 2G1",
     "addressCountry": "CA"
   },
-  "areaServed": "Beauport, Québec",
+  "geo": {"@type": "GeoCoordinates", "latitude": 46.86987, "longitude": -71.17556},
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=M%C3%A9canique%20SKL%2C%201100%20boulevard%20des%20Chutes%2C%20Qu%C3%A9bec%2C%20QC%20G1E%202G1",
+  "url": "https://example.com/",
+  "image": "https://example.com/assets/img/og.jpg",
+  "areaServed": {"@type": "Place", "name": "Beauport, Québec"},
   "openingHoursSpecification": [
     {"@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "08:00", "closes": "17:00"},
     {"@type": "OpeningHoursSpecification", "dayOfWeek": "Friday", "opens": "08:00", "closes": "12:00"}
@@ -46,11 +51,11 @@
 <body>
 <a class="skip" href="#main">Aller au contenu</a>
 
-<div class="demo-banner" role="note"><span class="demo-banner__long">Maquette de présentation · Ce n'est pas le site officiel de Mécanique SKL · Contenu en partie fictif</span><span class="demo-banner__short">Maquette · Pas le site officiel de Mécanique SKL · Contenu en partie fictif</span></div>
+<div class="demo-banner" role="note"><span class="demo-banner__long">Maquette non officielle · Ce n'est pas le site de Mécanique SKL · Contenu en partie fictif</span><span class="demo-banner__short">Maquette non officielle · En partie fictif</span></div>
 
-<div class="env" aria-hidden="true"><div class="env__haze"></div></div>
+<div class="env" aria-hidden="true"></div>
 
-<!-- DÉCOR FIXE : le sol, la ligne jaune et la roue restent derrière la page ; la roue tourne au fil du défilement.
+<!-- DÉCOR FIXE : le sol, la ligne jaune et la roue restent derrière la page ; la roue tourne au fil du défilement (natif).
      VIDÉO : quand la vidéo Higgsfield existe, mettre son chemin dans HERO_VIDEO (assets/js/main.js) ; elle remplace le sol codé sur grand écran. -->
 <div class="backdrop" aria-hidden="true">
   <div class="floor">
@@ -61,7 +66,6 @@
   </div>
   <div class="wheel-rig"><div class="wheel-spin"><svg class="wheel" viewBox="-300 -300 600 600"><use href="#wheel-art"/></svg></div></div>
   <div class="haze"></div>
-  <canvas class="dust"></canvas>
   <div class="backdrop__shade"></div>
 </div>
 
@@ -71,14 +75,14 @@
     <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu"><span class="nav__bars" aria-hidden="true"></span><span class="nav__label">Menu</span></button>
     <ul class="nav__list" id="menu">
       <li><a href="#services">Services</a></li>
-      <li><a href="#inspection">Inspection</a></li>
-      <li><a href="#visite-type">Votre visite</a></li>
-      <li><a href="#pneus">Pneus d'hiver</a></li>
       <li><a href="#visite">Nous trouver</a></li>
+      <li><a href="#inspection">Votre visite</a></li>
+      <li><a href="#pneus">Pneus d'hiver</a></li>
+      <li><a href="#droits">Vos droits</a></li>
       <li class="nav__cta-li"><a class="btn btn--accent btn--sm" href="#rendez-vous">Rendez-vous</a></li>
     </ul>
   </nav>
-  <a class="top__call" href="tel:+14186631195"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.4 6c.4.5.4 1.2 0 1.7L8 9.3a13 13 0 0 0 6.7 6.7l1.6-1.4c.5-.4 1.2-.4 1.7 0l3.2 2.8c.5.5.6 1.2.1 1.8l-1.5 1.8c-.6.7-1.6 1-2.5.7A20 20 0 0 1 2.3 8c-.3-.9 0-1.9.7-2.5L4.8 4c.6-.5 1.3-.4 1.8.1Z" fill="currentColor"/></svg><span>418&nbsp;663-1195</span></a>
+  <a class="top__call" href="tel:+14186631195"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg><span>418&nbsp;663-1195</span></a>
 </header>
 
 <main id="main" tabindex="-1">
@@ -86,13 +90,14 @@
 <!-- ============ ACCUEIL ============ -->
 <section class="hero" id="accueil" aria-labelledby="hero-title">
   <div class="wrap hero__inner">
-    <p class="kicker hero__in" style="--i:0"><span class="kicker__dot" aria-hidden="true"></span>Garage à Beauport<span class="kicker__more"> · 1100, boul. des Chutes</span></p>
-    <h1 class="hero__title hero__in" style="--i:1" id="hero-title">Mécanique SKL</h1>
-    <p class="hero__sub hero__in" style="--i:2">Mécanique générale, mécanique récréative et pneus, au 1100, boul. des Chutes à Beauport.</p>
-    <div class="hero__ctas hero__in" style="--i:3">
-      <a class="btn btn--accent btn--shine" href="tel:+14186631195">Appeler le 418&nbsp;663-1195</a>
-      <a class="btn btn--ghost" href="#rendez-vous">Demander un rendez-vous</a>
+    <p class="kicker hero__in" style="--i:0" data-status><span class="status__dot" aria-hidden="true"></span><span class="status__text">Lundi au jeudi 8&nbsp;h à 17&nbsp;h</span><span class="kicker__more"> · Beauport</span></p>
+    <h1 class="hero__title hero__in" style="--i:1" id="hero-title">Mécanique SKL <span class="hero__tag">Garage et pneus à Beauport</span></h1>
+    <p class="hero__sub hero__in" style="--i:2">Mécanique générale, mécanique récréative et pneus, au 1100, boul. des Chutes.</p>
+    <div class="hero__ctas hero__in" style="--i:3" data-cta-zone>
+      <a class="btn btn--accent btn--shine" href="tel:+14186631195"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg>Appeler le 418&nbsp;663-1195</a>
+      <a class="btn btn--ghost" href="https://www.google.com/maps/dir/?api=1&amp;destination=M%C3%A9canique%20SKL%2C%201100%20boulevard%20des%20Chutes%2C%20Qu%C3%A9bec%2C%20QC%20G1E%202G1&amp;travelmode=driving" target="_blank" rel="noopener" data-route><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-route"/></svg>Itinéraire<span class="sr"> (ouvre votre application de cartes, nouvel onglet)</span></a>
     </div>
+    <p class="hero__more hero__in" style="--i:4"><a href="#rendez-vous">Ou demandez un rendez-vous en ligne</a></p>
   </div>
   <div class="cue" aria-hidden="true"><span class="cue__line"></span><span>Défilez</span></div>
 </section>
@@ -108,51 +113,38 @@
   </div>
 </section>
 
-<!-- ============ STATUT ============ -->
-<section class="status" aria-label="Heures et statut">
-  <div class="wrap status__row">
-    <p class="status__state" data-status><span class="status__dot" aria-hidden="true"></span><span class="status__text">Heures d'ouverture</span></p>
-    <p class="status__today" data-today>Lundi au jeudi 8&nbsp;h à 17&nbsp;h · vendredi 8&nbsp;h à 12&nbsp;h</p>
-    <a class="status__link" href="https://www.google.com/maps/search/?api=1&amp;query=1100+boulevard+des+Chutes+Qu%C3%A9bec+QC+G1E+2G1" rel="noopener" target="_blank">1100, boul. des Chutes<span class="sr"> (ouvre Google Maps dans un nouvel onglet)</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M6 4h6v6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
-  </div>
-</section>
-
 <!-- ============ REPÈRES (confiance) ============ -->
 <section class="proof" aria-label="Pourquoi ce garage">
   <ul class="wrap proof__list">
-    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="3.5" fill="currentColor"/></svg><span><b>Centre NAPA AutoCare</b>Un réseau de pièces reconnu partout au Canada</span></li>
-    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 24 13 12l4 6 3-4 6 10Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 6v6M16 9h6" stroke="currentColor" stroke-width="2"/></svg><span><b>Détaillant Nokian Tyres</b>Des pneus pensés pour l'hiver nordique</span></li>
-    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="8" y="5" width="16" height="22" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12h8M12 17h8M12 22h5" stroke="currentColor" stroke-width="2"/></svg><span><b>Le prix par écrit</b>Avant toute réparation de plus de 100&nbsp;$</span></li>
-    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 26 8v8c0 6-4.5 10-10 12C10.5 26 6 22 6 16V8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m11.5 16 3 3 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><b>Garantie 3&nbsp;mois ou 5&nbsp;000&nbsp;km</b>Sur chaque réparation, comme le prévoit la loi</span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="16" cy="16" r="3.5" fill="currentColor"/></svg><span><b>Centre NAPA AutoCare</b><small>Réseau de pièces reconnu au Canada</small></span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 24 13 12l4 6 3-4 6 10Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M19 6v6M16 9h6" stroke="currentColor" stroke-width="2"/></svg><span><b>Détaillant Nokian Tyres</b><small>Pneus pensés pour l'hiver nordique</small></span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="8" y="5" width="16" height="22" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 12h8M12 17h8M12 22h5" stroke="currentColor" stroke-width="2"/></svg><span><b>Le prix par écrit</b><small>Avant toute réparation de plus de 100&nbsp;$</small></span></li>
+    <li class="proof__item reveal"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 26 8v8c0 6-4.5 10-10 12C10.5 26 6 22 6 16V8Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m11.5 16 3 3 6-6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span><b>Garantie 3&nbsp;mois ou 5&nbsp;000&nbsp;km</b><small>Sur les réparations d'automobiles, selon la loi</small></span></li>
   </ul>
 </section>
 
 <!-- ============ SERVICES ============ -->
 <section class="services light" id="services" aria-labelledby="services-title">
-  <svg class="draw draw--services" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path data-draw pathLength="1" d="M-20 100 L520 100 L640 18 L1460 18" fill="none" stroke="#F5B400" stroke-width="2.5"/></svg>
   <div class="wrap">
     <header class="sec-head reveal">
-      <p class="label">01 · Services</p>
+      <p class="label">Services</p>
       <h2 id="services-title">Ce qu'on fait au garage.</h2>
-      <p class="lede">Trois métiers sous le même toit. Si vous ne savez pas lequel il vous faut, décrivez ce que vous entendez ou ce que vous voyez&nbsp;: on part de là.</p>
+      <p class="lede">Trois métiers sous le même toit. Décrivez ce que vous entendez ou ce que vous voyez&nbsp;: on part de là.</p>
     </header>
     <ol class="svc">
       <li class="svc__row reveal">
-        <span class="svc__num" aria-hidden="true">01</span>
         <h3 class="svc__name">Mécanique générale</h3>
-        <p class="svc__text">Un bruit en freinant, un voyant qui s'allume, une vibration sur l'autoroute, une auto qui démarre mal. On cherche d'où ça vient, on vous le montre, puis on vous donne le prix.</p>
+        <p class="svc__text">Un bruit au freinage, un voyant, une vibration, un démarrage difficile&nbsp;: on trouve la cause, on vous la montre, puis on vous donne le prix.</p>
         <p class="svc__tags" aria-label="Exemples de symptômes"><span>Bruit</span><span>Voyant</span><span>Vibration</span><span>Démarrage</span></p>
         <a class="svc__cta" href="#rendez-vous" data-prefill="Mécanique générale">Décrire mon problème<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
       </li>
       <li class="svc__row reveal">
-        <span class="svc__num" aria-hidden="true">02</span>
         <h3 class="svc__name">Pneus</h3>
-        <p class="svc__text">Vente et pose de pneus, dont les pneus d'hiver. Le garage est détaillant Nokian Tyres, une marque finlandaise conçue pour les hivers du Nord.</p>
+        <p class="svc__text">Vente et pose, été comme hiver. Le garage est détaillant Nokian Tyres, une marque finlandaise conçue pour les hivers du Nord.</p>
         <p class="svc__tags" aria-label="Exemples"><span>Hiver</span><span>Été</span><span>Pose</span></p>
         <a class="svc__cta" href="#rendez-vous" data-prefill="Pneus">Réserver une pose<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
       </li>
       <li class="svc__row reveal">
-        <span class="svc__num" aria-hidden="true">03</span>
         <h3 class="svc__name">Mécanique récréative</h3>
         <p class="svc__text">Le garage travaille aussi sur des véhicules récréatifs. Appelez avec la marque et le modèle&nbsp;: on vous dit tout de suite si on peut le prendre.</p>
         <p class="svc__tags" aria-label="Exemples fictifs"><span>VTT</span><span>Motoneige</span><span>Côte-à-côte</span><span class="tag-fictif">Exemples fictifs</span></p>
@@ -162,25 +154,108 @@
   </div>
 </section>
 
-<!-- ============ INSPECTION (moment interactif) ============ -->
+<!-- ============ NOUS TROUVER ============
+     Rien n'est chargé depuis Google, Waze ou Apple avant un toucher (Loi 25).
+     CARTE GOOGLE INTÉGRÉE : coller le src du code officiel « Partager > Intégrer une carte » de Google Maps
+     dans MAP_EMBED (assets/js/main.js). Le bouton devient alors « Afficher la carte Google » (chargée au toucher seulement,
+     avec l'avis affiché avant). Tant que MAP_EMBED est vide, le bouton ouvre Google Maps dans un nouvel onglet. -->
+<section class="find light" id="visite" aria-labelledby="find-title">
+  <div class="wrap find__grid">
+    <div class="find__head">
+      <p class="label">Nous trouver</p>
+      <h2 id="find-title" class="find__title">Au 1100, boul. des&nbsp;Chutes.</h2>
+      <p class="find__city">Beauport (Québec) G1E&nbsp;2G1</p>
+      <p class="find__status" data-status><span class="status__dot" aria-hidden="true"></span><span class="status__text">Heures d'ouverture</span></p>
+    </div>
+
+    <div class="find__map">
+    <figure class="map-card" data-map>
+      <svg class="radar" viewBox="0 0 400 300" role="img" aria-labelledby="radar-t">
+        <title id="radar-t">Plan schématique, pas une carte : Mécanique SKL au centre, entouré de cercles de 1, 3 et 10 km.</title>
+        <defs>
+          <radialGradient id="radar-glow" cx="200" cy="150" r="190" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2a2f34"/><stop offset="1" stop-color="#121416"/></radialGradient>
+          <pattern id="radar-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(241,242,239,.045)" stroke-width="1"/></pattern>
+        </defs>
+        <rect width="400" height="300" fill="url(#radar-glow)"/>
+        <rect width="400" height="300" fill="url(#radar-grid)"/>
+        <path d="M-10 262 L410 70" stroke="#F5B400" stroke-width="3" stroke-dasharray="14 10" opacity=".28"/>
+        <g fill="none" stroke="rgba(241,242,239,.16)">
+          <circle cx="200" cy="150" r="120" stroke-dasharray="3 5"/>
+          <circle cx="200" cy="150" r="66"/>
+          <circle cx="200" cy="150" r="38"/>
+          <path d="M200 20V280M60 150H340" stroke="rgba(241,242,239,.07)"/>
+        </g>
+        <g class="radar__km" fill="#8A929B"><text x="204" y="108">1 km</text><text x="204" y="80">3 km</text><text x="204" y="26">10 km</text></g>
+        <g class="radar__n" transform="translate(372 34)"><path d="M0 -14 6 4 0 0 -6 4Z" fill="#F5B400"/><text y="18" text-anchor="middle" fill="#A3ABB4">N</text></g>
+        <g class="radar__me" data-me hidden>
+          <line x1="200" y1="150" x2="200" y2="150" stroke="#F1F2EF" stroke-width="1.5" stroke-dasharray="4 4" data-me-line/>
+          <g data-me-dot><circle r="12" fill="rgba(90,209,122,.22)"/><circle r="6" fill="#5AD17A" stroke="#121416" stroke-width="2"/><text class="radar__me-label" x="10" y="-10" fill="#F1F2EF" data-me-label>Vous</text></g>
+        </g>
+        <circle cx="200" cy="150" r="26" fill="rgba(245,180,0,.16)"/>
+        <circle cx="200" cy="150" r="15" fill="#F5B400"/>
+        <use href="#closing-mark" x="0" y="0" width="160" height="160" transform="translate(188.6 138.6) scale(.1425)" style="color:#16130A"/>
+        <g transform="translate(224 126)">
+          <rect width="148" height="44" rx="10" fill="#0D0F11" stroke="rgba(241,242,239,.14)"/>
+          <text class="radar__name" x="12" y="19" fill="#F1F2EF">Mécanique SKL</text>
+          <text class="radar__addr" x="12" y="34" fill="#A3ABB4">1100, boul. des Chutes</text>
+        </g>
+      </svg>
+      <div id="map-frame" class="map-card__frame" hidden></div>
+      <a class="map-card__load" href="https://www.google.com/maps/search/?api=1&amp;query=M%C3%A9canique%20SKL%2C%201100%20boulevard%20des%20Chutes%2C%20Qu%C3%A9bec%2C%20QC%20G1E%202G1" target="_blank" rel="noopener" data-map-load aria-describedby="map-note"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg><span data-map-label>Voir sur Google Maps</span><span class="sr"> (nouvel onglet)</span></a>
+    </figure>
+    <p class="find__note" id="map-note" data-map-note><svg class="find__ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 7v4.2M8 4.6v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Plan schématique, pas une carte. Rien n'est chargé depuis Google, Waze ou Apple tant que vous ne touchez pas un bouton. <a href="confidentialite.html#carte">Confidentialité</a></span></p>
+    </div>
+
+    <div class="find__body">
+      <div class="find__addr">
+        <span class="find__addr-txt">1100, boul. des Chutes, Québec G1E&nbsp;2G1</span>
+        <span class="find__addr-btns">
+          <button class="find__mini" type="button" data-copy="1100, boul. des Chutes, Québec (Québec) G1E 2G1" data-copy-done="Adresse copiée"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg><span>Copier</span></button>
+          <button class="find__mini" type="button" data-share hidden><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-share"/></svg><span>Partager</span></button>
+        </span>
+      </div>
+      <p class="find__copied" data-copied aria-live="polite"></p>
+
+      <p class="label find__apps-label">Ouvrir l'itinéraire dans</p>
+      <div class="find__apps" data-apps>
+        <a href="https://www.google.com/maps/dir/?api=1&amp;destination=M%C3%A9canique%20SKL%2C%201100%20boulevard%20des%20Chutes%2C%20Qu%C3%A9bec%2C%20QC%20G1E%202G1&amp;travelmode=driving" target="_blank" rel="noopener" data-app="google"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>Google Maps<span class="sr"> (nouvel onglet)</span></a>
+        <a href="https://waze.com/ul?ll=46.86987%2C-71.17556&amp;navigate=yes&amp;zoom=17" target="_blank" rel="noopener" data-app="waze"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-route"/></svg>Waze<span class="sr"> (nouvel onglet)</span></a>
+        <a href="https://maps.apple.com/?daddr=1100%20boulevard%20des%20Chutes%2C%20Qu%C3%A9bec%2C%20QC%20G1E%202G1&amp;dirflg=d" target="_blank" rel="noopener" data-app="apple"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-compass"/></svg>Plans<span class="sr"> (Apple, nouvel onglet)</span></a>
+      </div>
+
+      <button class="btn btn--ink find__near" type="button" data-near aria-describedby="near-note" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-target"/></svg><span data-near-label>À quelle distance suis-je&nbsp;?</span></button>
+      <p class="find__note" id="near-note" data-near-note hidden><svg class="find__ico" viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 7V5a2.5 2.5 0 0 1 5 0v2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><span>Facultatif. Votre téléphone vous demandera la permission&nbsp;; votre position sert seulement à calculer la distance sur votre appareil. Elle n'est ni envoyée ni conservée.</span></p>
+      <p class="find__near-out" data-near-out aria-live="polite"></p>
+
+      <table class="hours" data-hours>
+        <caption>Heures <span class="hours__note">à confirmer</span></caption>
+        <tbody>
+          <tr data-days="1 2 3 4"><th scope="row">Lundi au jeudi</th><td>8&nbsp;h à 17&nbsp;h</td></tr>
+          <tr data-days="5"><th scope="row">Vendredi</th><td>8&nbsp;h à 12&nbsp;h</td></tr>
+          <tr data-days="6 0"><th scope="row">Samedi et dimanche</th><td>Fermé</td></tr>
+        </tbody>
+      </table>
+      <p class="numbers-note numbers-note--light"><span class="tag-fictif">Maquette</span> Adresse, numéros et heures tirés d'annuaires en ligne, à confirmer par le garage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOTRE VISITE + INSPECTION (moment interactif) ============ -->
 <section class="inspect" id="inspection" aria-labelledby="inspect-title">
   <div class="wrap inspect__grid">
     <div class="inspect__copy">
-      <p class="label reveal">02 · Inspection</p>
+      <p class="label reveal">Votre visite</p>
       <h2 id="inspect-title" class="reveal">Avant de parler de prix, on regarde.</h2>
-      <p class="lede reveal">Maintenez le bouton pour passer la roue sous la lampe. C'est ce qu'un mécanicien vérifie avant de vous dire quoi réparer.</p>
-      <ol class="checks" data-checks>
-        <li data-at="0.16"><span class="checks__box" aria-hidden="true"></span><b>Pneus</b> <span class="checks__what">usure de la bande, pression, flancs</span></li>
-        <li data-at="0.34"><span class="checks__box" aria-hidden="true"></span><b>Freins</b> <span class="checks__what">plaquettes, disques, conduites</span></li>
-        <li data-at="0.52"><span class="checks__box" aria-hidden="true"></span><b>Suspension</b> <span class="checks__what">amortisseurs, rotules, biellettes</span></li>
-        <li data-at="0.70"><span class="checks__box" aria-hidden="true"></span><b>Liquides</b> <span class="checks__what">niveaux et fuites</span></li>
-        <li data-at="0.88"><span class="checks__box" aria-hidden="true"></span><b>Électricité</b> <span class="checks__what">batterie et éclairage</span></li>
+      <ol class="steps" data-steps>
+        <li class="step reveal"><span class="step__n">1</span><div><h3>Vous décrivez</h3><p>Le bruit, le voyant, depuis quand. Pas besoin du mot technique.</p></div></li>
+        <li class="step reveal"><span class="step__n">2</span><div><h3>On inspecte</h3><p>On vous montre ce qu'on voit, pièce à l'appui.</p></div></li>
+        <li class="step reveal"><span class="step__n">3</span><div><h3>Vous décidez</h3><p>Le prix par écrit avant les travaux. Vous gardez seulement ce qui presse.</p></div></li>
+        <li class="step reveal"><span class="step__n">4</span><div><h3>On répare</h3><p>Facture détaillée, pièces remplacées remises sur demande.</p></div></li>
       </ol>
-      <p class="inspect__done" data-done aria-live="polite"></p>
-      <a class="btn btn--accent inspect__cta" href="#rendez-vous" data-prefill="Inspection" hidden>Faire inspecter mon véhicule</a>
-      <p class="fine">Exemple de points vérifiés lors d'une inspection générale. La liste exacte dépend de votre véhicule.</p>
+      <p class="fine reveal"><span class="tag-fictif">Maquette</span> Parcours proposé, à valider avec le garage.</p>
     </div>
     <div class="inspect__stage">
+      <p class="inspect__hint">Voyez ce qu'un mécanicien vérifie à l'étape 2.</p>
       <div class="inspect__wheel" data-wheel>
         <svg class="wheel" viewBox="-300 -300 600 600" aria-hidden="true"><use href="#wheel-art"/></svg>
         <div class="lamp" aria-hidden="true"></div>
@@ -192,30 +267,21 @@
           <g data-pin="4"><circle cx="-150" cy="-70" r="11"/></g>
         </svg>
       </div>
-      <button class="hold" type="button" data-hold aria-describedby="hold-help">
+      <button class="hold" type="button" data-hold>
         <span class="hold__fill" aria-hidden="true"></span>
-        <span class="hold__label">Maintenir pour inspecter</span>
+        <span class="hold__label">Lancer l'inspection</span>
       </button>
-      <p class="sr" id="hold-help">Maintenez le bouton enfoncé, à la souris, au doigt ou avec la barre d'espacement. Relâcher trop tôt fait redescendre la jauge.</p>
+      <ol class="checks" data-checks>
+        <li data-at="0.16"><span class="checks__box" aria-hidden="true"></span><b>Pneus</b> <span class="checks__what">usure, pression, flancs</span></li>
+        <li data-at="0.34"><span class="checks__box" aria-hidden="true"></span><b>Freins</b> <span class="checks__what">plaquettes, disques, conduites</span></li>
+        <li data-at="0.52"><span class="checks__box" aria-hidden="true"></span><b>Suspension</b> <span class="checks__what">amortisseurs, rotules</span></li>
+        <li data-at="0.70"><span class="checks__box" aria-hidden="true"></span><b>Liquides</b> <span class="checks__what">niveaux et fuites</span></li>
+        <li data-at="0.88"><span class="checks__box" aria-hidden="true"></span><b>Électricité</b> <span class="checks__what">batterie et éclairage</span></li>
+      </ol>
+      <p class="inspect__done" data-done aria-live="polite"></p>
+      <a class="btn btn--accent inspect__cta" href="#rendez-vous" data-prefill="Inspection" hidden>Faire inspecter mon véhicule</a>
+      <p class="fine">Exemple de points vérifiés. La liste exacte dépend de votre véhicule.</p>
     </div>
-  </div>
-</section>
-
-<!-- ============ VOTRE VISITE ============ -->
-<section class="visit-steps light" id="visite-type" aria-labelledby="steps-title">
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <p class="label">03 · Votre visite</p>
-      <h2 id="steps-title">Quatre temps, aucune surprise.</h2>
-      <p class="lede">Vous savez à chaque étape ce qui se passe et combien ça coûte. C'est vous qui décidez.</p>
-    </header>
-    <ol class="steps" data-steps>
-      <li class="step reveal"><span class="step__n">1</span><h3>Vous décrivez</h3><p>Au téléphone ou en ligne&nbsp;: le bruit, le voyant, depuis quand. Pas besoin du mot technique.</p></li>
-      <li class="step reveal"><span class="step__n">2</span><h3>On inspecte</h3><p>Le véhicule passe sous la lampe. On vous montre ce qu'on voit, pièce à l'appui.</p></li>
-      <li class="step reveal"><span class="step__n">3</span><h3>Vous décidez</h3><p>Le prix par écrit avant les travaux. Vous acceptez, vous refusez, ou vous gardez seulement ce qui presse.</p></li>
-      <li class="step reveal"><span class="step__n">4</span><h3>On répare</h3><p>Facture détaillée, pièces remplacées remises sur demande, garantie de 3&nbsp;mois ou 5&nbsp;000&nbsp;km.</p></li>
-    </ol>
-    <p class="fine reveal"><span class="tag-fictif">Maquette</span> Parcours proposé, à valider avec le garage.</p>
   </div>
 </section>
 
@@ -224,59 +290,27 @@
   <div class="tape" aria-hidden="true"><div class="tape__track" data-tape><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span><span>Pneus d'hiver obligatoires · 1<sup>er</sup> décembre au 15 mars · </span></div></div>
   <div class="wrap winter__grid">
     <div class="winter__count reveal" data-countdown>
-      <p class="label">04 · Pneus d'hiver</p>
+      <p class="label">Pneus d'hiver</p>
       <p class="count"><span class="count__num" data-count-num>--</span><span class="count__unit" data-count-unit>jours</span></p>
       <p class="count__caption" data-count-caption>avant l'obligation du 1<sup>er</sup>&nbsp;décembre</p>
     </div>
     <div class="winter__copy">
       <h2 id="winter-title" class="reveal">La date ne bouge pas. La première neige, oui.</h2>
-      <p class="reveal">Au Québec, les pneus d'hiver sont obligatoires du 1<sup>er</sup>&nbsp;décembre au 15&nbsp;mars pour tout véhicule immatriculé ici. L'amende va de 200 à 300&nbsp;$, plus les frais.</p>
-      <p class="reveal">Un pneu d'hiver se reconnaît au pictogramme gravé sur son flanc&nbsp;: un flocon dans une montagne. Regardez la roue plus haut&nbsp;: il y est.</p>
+      <p class="reveal">Au Québec, les pneus d'hiver sont obligatoires du 1<sup>er</sup>&nbsp;décembre au 15&nbsp;mars. L'amende va de 200 à 300&nbsp;$, plus les frais.</p>
     </div>
     <article class="offer reveal" aria-labelledby="offer-title">
       <header class="offer__head"><span class="tag-fictif">Exemple d'offre · maquette</span></header>
       <h3 id="offer-title" class="offer__name">Le passage d'hiver</h3>
-      <p class="offer__lede">Une seule visite pour partir l'hiver l'esprit tranquille.</p>
+      <p class="offer__lede">Une seule visite pour partir l'hiver l'esprit tranquille. Le flocon dans la montagne, gravé sur le flanc de la roue plus haut, c'est le pictogramme des vrais pneus d'hiver.</p>
       <ul class="offer__list">
         <li>Pose de vos quatre pneus d'hiver</li>
         <li>Inspection des cinq points de la roue</li>
         <li>Test de la batterie avant les grands froids</li>
-        <li>Un rappel l'automne prochain, seulement si vous le voulez</li>
+        <li>Un rappel l'automne prochain, seulement avec votre accord exprès</li>
       </ul>
-      <p class="offer__price">Prix confirmé par écrit avant la pose.</p>
+      <p class="offer__price">Prix total confirmé par écrit avant la pose.</p>
       <a class="btn btn--accent" href="#rendez-vous" data-prefill="Passage d'hiver">Réserver mon passage d'hiver</a>
     </article>
-  </div>
-</section>
-
-<!-- ============ VOS DROITS ============ -->
-<section class="rights light" id="droits" aria-labelledby="rights-title">
-  <svg class="draw draw--rights" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path data-draw pathLength="1" d="M1460 100 L900 100 L780 18 L-20 18" fill="none" stroke="#14171A" stroke-width="1.5"/></svg>
-  <div class="wrap">
-    <header class="sec-head reveal">
-      <p class="label">05 · Vos droits</p>
-      <h2 id="rights-title">Ce que la loi vous garantit au garage.</h2>
-      <p class="lede">La peur de payer plus que prévu, tout le monde l'a. Voici ce que la Loi sur la protection du consommateur prévoit, en clair.</p>
-    </header>
-    <dl class="spec">
-      <div class="spec__row reveal">
-        <dt>Évaluation</dt>
-        <dd><strong>Une évaluation écrite avant les travaux</strong> pour toute réparation de plus de 100&nbsp;$. Le garage ne peut pas facturer plus que le total indiqué sans votre accord.</dd>
-      </div>
-      <div class="spec__row reveal">
-        <dt>Renonciation</dt>
-        <dd><strong>Vous seul pouvez y renoncer,</strong> dans un document écrit et signé de votre main. Une renonciation préimprimée n'a aucune valeur.</dd>
-      </div>
-      <div class="spec__row reveal">
-        <dt>Garantie</dt>
-        <dd><strong>3&nbsp;mois ou 5&nbsp;000&nbsp;km,</strong> selon le premier terme atteint, à partir du moment où on vous remet le véhicule.</dd>
-      </div>
-      <div class="spec__row reveal">
-        <dt>Réseau</dt>
-        <dd><strong>Centre NAPA AutoCare</strong> et <strong>détaillant Nokian Tyres.</strong></dd>
-      </div>
-    </dl>
-    <p class="fine reveal">Source&nbsp;: Office de la protection du consommateur du Québec. Ce résumé ne remplace pas un avis juridique.</p>
   </div>
 </section>
 
@@ -284,9 +318,9 @@
 <section class="reviews" id="avis" aria-labelledby="reviews-title">
   <div class="wrap">
     <header class="sec-head reveal">
-      <p class="label">06 · Avis</p>
+      <p class="label">Avis</p>
       <h2 id="reviews-title">Ici, vos vrais avis Google.</h2>
-      <p class="lede">Dans la maquette, des bons de travail <strong>fictifs</strong> montrent l'emplacement. Le vrai site affichera uniquement de vrais avis, avec leur source.</p>
+      <p class="lede">Dans la maquette, des bons de travail <strong>fictifs</strong> montrent l'emplacement. Le vrai site affichera seulement de vrais avis, cités avec l'accord de leurs auteurs.</p>
     </header>
   </div>
   <div class="slips" data-slips>
@@ -311,17 +345,60 @@
   </div>
 </section>
 
+<!-- ============ VOS DROITS + QUESTIONS ============ -->
+<section class="rights light" id="droits" aria-labelledby="rights-title">
+  <div class="wrap rights__grid">
+    <div>
+      <header class="sec-head reveal">
+        <p class="label">Vos droits</p>
+        <h2 id="rights-title">Ce que la loi vous garantit au garage.</h2>
+      </header>
+      <dl class="spec">
+        <div class="spec__row reveal">
+          <dt>Évaluation</dt>
+          <dd><strong>Une évaluation écrite avant les travaux</strong> pour toute réparation de plus de 100&nbsp;$. Le garage ne peut pas facturer plus que ce total sans votre accord. Si l'évaluation est payante, son prix doit vous être annoncé avant.</dd>
+        </div>
+        <div class="spec__row reveal">
+          <dt>Renonciation</dt>
+          <dd><strong>Vous seul pouvez y renoncer,</strong> par un document écrit et signé de votre main. Une renonciation préimprimée n'a aucune valeur.</dd>
+        </div>
+        <div class="spec__row reveal">
+          <dt>Garantie</dt>
+          <dd><strong>3&nbsp;mois ou 5&nbsp;000&nbsp;km</strong> sur les réparations d'automobiles, selon le premier terme atteint, à partir de la remise du véhicule.</dd>
+        </div>
+      </dl>
+      <p class="fine reveal">Source&nbsp;: Loi sur la protection du consommateur, Office de la protection du consommateur. Ce résumé ne remplace pas un avis juridique.</p>
+    </div>
+    <div class="faq">
+      <h3 class="faq__title reveal">Vos questions</h3>
+      <details class="reveal">
+        <summary>Combien ça va me coûter&nbsp;?</summary>
+        <p>Ça dépend de ce qu'on trouve, et c'est pour ça qu'on regarde avant. Vous recevez le prix par écrit avant les travaux, et rien ne s'ajoute sans votre accord. Pour une première idée, appelez&nbsp;: décrivez le problème, on vous dit quoi vérifier.</p>
+      </details>
+      <details class="reveal">
+        <summary>Quand poser mes pneus d'hiver&nbsp;?</summary>
+        <p>Ils sont obligatoires du 1<sup>er</sup>&nbsp;décembre au 15&nbsp;mars. Le plus sûr est de les poser avant la première neige, qui arrive souvent avant décembre à Québec.</p>
+      </details>
+      <details class="reveal">
+        <summary>Vous travaillez sur les véhicules récréatifs&nbsp;?</summary>
+        <p>Oui. Donnez la marque, le modèle et l'année au téléphone&nbsp;: on vous dit tout de suite si on peut le prendre. La garantie légale de 3&nbsp;mois ou 5&nbsp;000&nbsp;km vise les automobiles&nbsp;; pour un VTT ou une motoneige, demandez la garantie offerte par écrit.</p>
+      </details>
+      <details class="reveal">
+        <summary>Comment prendre rendez-vous&nbsp;?</summary>
+        <p>Appelez pendant les heures d'ouverture, ou remplissez le formulaire plus bas&nbsp;: sur le vrai site, il enverra votre demande directement au garage.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
 <!-- ============ RENDEZ-VOUS ============ -->
-<section class="booking" id="rendez-vous" aria-labelledby="booking-title">
+<section class="booking" id="rendez-vous" aria-labelledby="booking-title" data-cta-zone>
   <div class="wrap booking__grid">
     <div class="booking__intro">
-      <p class="label reveal">07 · Rendez-vous</p>
+      <p class="label reveal">Rendez-vous</p>
       <h2 id="booking-title" class="reveal">Dites-nous ce qui se passe.</h2>
-      <p class="lede reveal">Le plus rapide reste d'appeler. Sur le vrai site, ce formulaire enverra votre demande directement au garage.</p>
-      <a class="booking__phone reveal" href="tel:+14186631195">418&nbsp;663-1195</a>
-      <a class="booking__phone booking__phone--alt reveal" href="tel:+15819821195">581&nbsp;982-1195</a>
-      <p class="numbers-note reveal"><span class="tag-fictif">Maquette</span> Deux numéros circulent en ligne pour le garage. Les deux sont affichés en attendant que Mécanique SKL confirme le bon.</p>
-      <p class="booking__copy reveal"><button class="link-btn" type="button" data-copy="418 663-1195">Copier le 418</button> · <button class="link-btn" type="button" data-copy="581 982-1195">Copier le 581</button></p>
+      <p class="booking__fast reveal">Plus rapide&nbsp;: <a href="tel:+14186631195">418&nbsp;663-1195</a></p>
+      <p class="numbers-note reveal"><span class="tag-fictif">Maquette</span> Un second numéro circule en ligne (<a href="tel:+15819821195">581&nbsp;982-1195</a>). Le garage confirmera le bon.</p>
     </div>
     <form class="form" data-form novalidate>
       <div class="field">
@@ -332,103 +409,44 @@
         <label for="f-tel">Téléphone</label>
         <input id="f-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" required placeholder="418 555-0123">
       </div>
-      <div class="field">
-        <label for="f-auto">Véhicule <span class="opt">(année, marque, modèle)</span></label>
-        <input id="f-auto" name="auto" type="text" placeholder="2018 Toyota RAV4">
-      </div>
       <div class="field field--full">
         <label for="f-quoi">Ce qui se passe</label>
-        <textarea id="f-quoi" name="quoi" rows="4" required placeholder="Ça grince quand je freine, surtout le matin."></textarea>
+        <textarea id="f-quoi" name="quoi" rows="3" required placeholder="Ça grince quand je freine, surtout le matin."></textarea>
       </div>
-      <fieldset class="field field--full">
+      <div class="field">
+        <label for="f-auto">Véhicule <span class="opt">(facultatif)</span></label>
+        <input id="f-auto" name="auto" type="text" placeholder="2018 Toyota RAV4">
+      </div>
+      <fieldset class="field">
         <legend>Moment qui vous arrange</legend>
         <div class="choices">
-          <label class="choice"><input type="radio" name="moment" value="Le matin"><span>Le matin</span></label>
-          <label class="choice"><input type="radio" name="moment" value="L'après-midi"><span>L'après-midi</span></label>
+          <label class="choice"><input type="radio" name="moment" value="Le matin"><span>Matin</span></label>
+          <label class="choice"><input type="radio" name="moment" value="L'après-midi"><span>Après-midi</span></label>
           <label class="choice"><input type="radio" name="moment" value="Peu importe" checked><span>Peu importe</span></label>
         </div>
       </fieldset>
-      <p class="form__purpose field--full"><span class="tag-fictif">Maquette</span> Ce formulaire est une démonstration&nbsp;: il n'envoie rien et ne conserve rien. Pour joindre le garage, appelez. <a href="confidentialite.html">Politique de confidentialité</a></p>
       <div class="form__actions field--full">
         <button class="btn btn--accent" type="submit">Envoyer ma demande</button>
         <p class="form__msg" data-msg role="status" aria-live="polite"></p>
       </div>
+      <p class="form__purpose field--full">Vos renseignements servent seulement à vous rappeler et à préparer votre visite. Seul Mécanique SKL les reçoit&nbsp;; vous pouvez les consulter ou les faire corriger. <a href="confidentialite.html">Politique de confidentialité</a></p>
+      <p class="form__demo field--full"><span class="tag-fictif">Maquette</span> Démonstration&nbsp;: ce formulaire n'envoie rien et ne conserve rien.</p>
     </form>
-  </div>
-</section>
-
-<!-- ============ VISITE + FAQ ============ -->
-<section class="visit light" id="visite" aria-labelledby="visit-title">
-  <div class="wrap visit__grid">
-    <div class="visit__where reveal">
-      <p class="label">08 · Nous trouver</p>
-      <h2 id="visit-title" class="visit__addr">1100, boul. des&nbsp;Chutes<span>Beauport (Québec) G1E&nbsp;2G1</span></h2>
-      <p class="visit__links">
-        <a class="btn btn--ink" href="https://www.google.com/maps/dir/?api=1&amp;destination=1100+boulevard+des+Chutes+Qu%C3%A9bec+QC+G1E+2G1" target="_blank" rel="noopener">Itinéraire<span class="sr"> (ouvre Google Maps dans un nouvel onglet)</span></a>
-        <a class="btn btn--line" href="tel:+14186631195">418&nbsp;663-1195</a>
-        <a class="btn btn--line" href="tel:+15819821195">581&nbsp;982-1195</a>
-      </p>
-      <p class="numbers-note numbers-note--light"><span class="tag-fictif">Maquette</span> Numéro et heures tirés d'annuaires en ligne, à confirmer par le garage.</p>
-      <table class="hours" data-hours>
-        <caption>Heures d'ouverture</caption>
-        <tbody>
-          <tr data-day="1"><th scope="row">Lundi</th><td>8&nbsp;h à 17&nbsp;h</td></tr>
-          <tr data-day="2"><th scope="row">Mardi</th><td>8&nbsp;h à 17&nbsp;h</td></tr>
-          <tr data-day="3"><th scope="row">Mercredi</th><td>8&nbsp;h à 17&nbsp;h</td></tr>
-          <tr data-day="4"><th scope="row">Jeudi</th><td>8&nbsp;h à 17&nbsp;h</td></tr>
-          <tr data-day="5"><th scope="row">Vendredi</th><td>8&nbsp;h à 12&nbsp;h</td></tr>
-          <tr data-day="6"><th scope="row">Samedi</th><td>Fermé</td></tr>
-          <tr data-day="0"><th scope="row">Dimanche</th><td>Fermé</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="faq">
-      <h2 class="faq__title reveal">Les questions qu'on nous pose.</h2>
-      <details class="reveal">
-        <summary>Combien ça va me coûter&nbsp;?</summary>
-        <p>Ça dépend de ce qu'on trouve, et c'est justement pour ça qu'on regarde avant. Vous recevez le prix par écrit avant les travaux, et rien ne s'ajoute sans votre accord. Pour une première idée, appelez&nbsp;: décrivez le problème, on vous dit ce qu'il faut vérifier.</p>
-      </details>
-      <details class="reveal">
-        <summary>Est-ce que je vais connaître le prix avant les travaux&nbsp;?</summary>
-        <p>Oui. Pour une réparation de plus de 100&nbsp;$, le garage doit vous remettre une évaluation écrite, et il ne peut pas dépasser ce total sans votre accord. Si on trouve autre chose en cours de route, on vous appelle avant d'y toucher.</p>
-      </details>
-      <details class="reveal">
-        <summary>Ma réparation est-elle garantie&nbsp;?</summary>
-        <p>Oui, 3&nbsp;mois ou 5&nbsp;000&nbsp;km, selon le premier terme atteint. C'est la garantie prévue par la Loi sur la protection du consommateur. Si le problème revient pendant cette période, revenez au garage.</p>
-      </details>
-      <details class="reveal">
-        <summary>Quand dois-je poser mes pneus d'hiver&nbsp;?</summary>
-        <p>Ils sont obligatoires du 1<sup>er</sup>&nbsp;décembre au 15&nbsp;mars. Le plus sûr est de les poser avant la première neige, qui arrive souvent bien avant décembre à Québec. Appelez pour choisir votre moment.</p>
-      </details>
-      <details class="reveal">
-        <summary>Vous travaillez sur les véhicules récréatifs&nbsp;?</summary>
-        <p>Oui, Mécanique SKL fait aussi de la mécanique récréative. Donnez-nous la marque, le modèle et l'année au téléphone&nbsp;: on vous dit tout de suite si on peut le prendre.</p>
-      </details>
-      <details class="reveal">
-        <summary>Comment prendre rendez-vous&nbsp;?</summary>
-        <p>Appelez pendant les heures d'ouverture, au 418&nbsp;663-1195 ou au 581&nbsp;982-1195 (deux numéros trouvés en ligne, à confirmer). Sur le vrai site, le formulaire de cette page enverra aussi votre demande directement au garage.</p>
-      </details>
-    </div>
-  </div>
-</section>
-
-<!-- ============ APPEL FINAL ============ -->
-<section class="closing" aria-labelledby="closing-title">
-  <svg class="closing__wheel" viewBox="0 0 160 160" aria-hidden="true"><use href="#closing-mark"/></svg>
-  <div class="wrap closing__inner">
-    <p class="label reveal">Mécanique SKL · Beauport</p>
-    <h2 id="closing-title" class="reveal">Un bruit, un voyant, une saison qui change&nbsp;?</h2>
-    <p class="lede reveal">Appelez. On regarde, on vous explique, puis vous décidez.</p>
-    <div class="closing__ctas reveal">
-      <a class="btn btn--accent btn--shine" href="tel:+14186631195">Appeler le 418&nbsp;663-1195</a>
-      <a class="btn btn--ghost" href="#rendez-vous">Demander un rendez-vous</a>
-    </div>
   </div>
 </section>
 
 </main>
 
-<footer class="foot">
+<!-- ============ APPEL FINAL + PIED DE PAGE ============ -->
+<footer class="foot" id="pied">
+  <div class="wrap foot__call" data-cta-zone>
+    <p class="label">Mécanique SKL · Beauport</p>
+    <h2 class="foot__title">Un bruit, un voyant, une saison qui change&nbsp;?</h2>
+    <div class="closing__ctas">
+      <a class="btn btn--accent" href="tel:+14186631195"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg>Appeler le 418&nbsp;663-1195</a>
+      <a class="btn btn--ghost" href="#visite">Nous trouver</a>
+    </div>
+  </div>
   <div class="wrap foot__grid">
     <div>
       <p class="brand brand--foot"><img class="brand__logo" src="assets/img/logo-skl-sombre.svg" width="436" height="160" alt="Mécanique SKL"></p>
@@ -447,16 +465,28 @@
     </ul>
   </div>
   <div class="wrap foot__fine">
-    <p><strong>Maquette non officielle</strong>, réalisée pour présenter une proposition de site à Mécanique SKL. Ce n'est pas le site du garage. Certains contenus sont fictifs (avis, exemples, logo)&nbsp;; l'adresse, les numéros et les heures viennent d'annuaires en ligne et restent à confirmer. Aucun témoin (cookie), aucun suivi. Illustrations dessinées pour la maquette, pas des photos de l'atelier.</p>
+    <p><strong>Maquette non officielle</strong>, préparée pour proposer un site à Mécanique SKL. Ce n'est pas le site du garage. Certains contenus sont fictifs (avis, exemples, logo, illustrations)&nbsp;; l'adresse, les numéros et les heures viennent d'annuaires en ligne et restent à confirmer. Aucun témoin, aucun suivi. Si Mécanique SKL ne donne pas suite, cette maquette et tous les fichiers qui la concernent seront supprimés.</p>
     <p>© <span data-year>2026</span> Mécanique SKL</p>
   </div>
 </footer>
 
 <nav class="dock" aria-label="Actions rapides">
-  <a href="tel:+14186631195"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 2.8 9.4 6c.4.5.4 1.2 0 1.7L8 9.3a13 13 0 0 0 6.7 6.7l1.6-1.4c.5-.4 1.2-.4 1.7 0l3.2 2.8c.5.5.6 1.2.1 1.8l-1.5 1.8c-.6.7-1.6 1-2.5.7A20 20 0 0 1 2.3 8c-.3-.9 0-1.9.7-2.5L4.8 4c.6-.5 1.3-.4 1.8.1Z" fill="currentColor"/></svg>Appeler</a>
-  <a href="#rendez-vous"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8"/></svg>Rendez-vous</a>
-  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=1100+boulevard+des+Chutes+Qu%C3%A9bec+QC+G1E+2G1" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11Z" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="10" r="2.3" fill="currentColor"/></svg>Itinéraire</a>
+  <a href="tel:+14186631195" class="dock__call"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg><span><span class="dock__big">Appeler</span><small data-dock-status>418&nbsp;663-1195</small></span></a>
+  <a href="#rendez-vous"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-cal"/></svg>Rendez-vous</a>
+  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=M%C3%A9canique%20SKL%2C%201100%20boulevard%20des%20Chutes%2C%20Qu%C3%A9bec%2C%20QC%20G1E%202G1&amp;travelmode=driving" target="_blank" rel="noopener" data-route><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-route"/></svg>Trajet<span class="sr"> (nouvel onglet)</span></a>
 </nav>
+
+<!-- ============ ICÔNES (dessinées pour le site, aucun logo de marque tierce) ============ -->
+<svg width="0" height="0" class="defs" aria-hidden="true" focusable="false">
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 2.8 9.4 6c.4.5.4 1.2 0 1.7L8 9.3a13 13 0 0 0 6.7 6.7l1.6-1.4c.5-.4 1.2-.4 1.7 0l3.2 2.8c.5.5.6 1.2.1 1.8l-1.5 1.8c-.6.7-1.6 1-2.5.7A20 20 0 0 1 2.3 8c-.3-.9 0-1.9.7-2.5L4.8 4c.6-.5 1.3-.4 1.8.1Z" fill="currentColor"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><path d="M12 2.5 20.5 21 12 16.8 3.5 21Z" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11Z" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="10" r="2.3" fill="currentColor"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="m15.5 8.5-2 5-5 2 2-5Z" fill="currentColor"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.9"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/><path d="M12 1.5v3.5M12 19v3.5M1.5 12H5M19 12h3.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M16 8V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.9"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 15V3M7.5 7.5 12 3l4.5 4.5M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.9"/></symbol>
+</svg>
 
 <!-- ============ ROUE (dessin unique, réutilisé) ============ -->
 <svg width="0" height="0" class="defs" aria-hidden="true" focusable="false">
