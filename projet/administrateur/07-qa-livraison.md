@@ -4,7 +4,9 @@
 > Date : 12-13 octobre 2026 · Version testée : commit `7f2a24f` « Version VIP mobile… » (commité à 23 h 49 UTC par le constructeur au début du contrôle ; arbre de travail identique à ce commit pendant tous les tests) · Serveur : `http://localhost:8765/`
 > Usage prévu : **montrer la maquette au garage sur un téléphone**.
 
-## Décision : BLOQUÉ (correctifs courts)
+> **DÉCISION FINALE (13 octobre, après contre-vérification du commit `07527a3`) : PRÊT SOUS RÉSERVE.** Voir la section 7. Les sections 1 à 6 décrivent le premier passage (décision BLOQUÉ, aujourd'hui levée).
+
+## Décision du premier passage (12 octobre) : BLOQUÉ (correctifs courts)
 
 **Aucun P0 ni P1.** Trois des cinq critères (règles absolues de Pavel) ne sont pas entièrement tenus, ce qui bloque d'office selon la grille QA :
 
@@ -170,4 +172,57 @@ node t5-a11y.mjs    # R-038 : sans_nom_390 vide ; contrastes et mouvement rédui
 node t3-mobile.mjs  # non-régression : débordement, deux « Appeler », champ visible
 ```
 
-Le constructeur corrige (Moi 2.0, version VIP mobile). QA rejoue, puis Pavel décide. Rien n'a été publié ni commité.
+Le constructeur corrige (Moi 2.0, version VIP mobile). QA rejoue, puis Pavel décide. Le contrôleur n'a rien publié ni commité.
+
+---
+
+## 7. Contre-vérification du 13 octobre
+
+**Version contre-vérifiée** : commit `07527a3` « Correctifs QA… », fait par le constructeur à 00 h 11 UTC. Les fichiers du site n'ont pas bougé depuis 00 h 11 ; tous les tests ont été rejoués après cette heure. Le contrôleur n'a modifié aucun fichier du site et n'a fait aucun commit. Nouvelle campagne : `scratchpad/admin-qa/QA2.json`, rapport brut : `rapport-qa-2.md`.
+
+**Tests rejoués** : `t1` (Loi 25), `t2` (fluidité, 3 passages, plus un témoin), `t3` (débordements, cibles, « Appeler », rendez-vous), `t4` (fonctions), `t5` et `t7` (contrastes, clavier, noms, mouvement réduit), `t6` (focus), `t9` (point « Vous »), `t10` (console et tiers), `t11` (captures), ainsi que `qa.py site` et `qa.py livrable`.
+
+### Correctifs vérifiés
+
+| Anomalie | Correctif | Mesure après correction | Statut |
+|---|---|---|---|
+| R-023 (P2) mention de géolocalisation | `#near-note` placé avant le bouton | note avant le bouton dans le DOM (note 323-401 px, bouton 413-467 px) ; bouton juste au-dessus de la barre : note à 610-688 px, **entièrement visible**, barre à 768 px, élément au centre de la note = texte de la note. Capture `v2-geo-bouton-entree.png` | **CORRIGÉ** |
+| R-044 (P2) point « Vous » caché | lien « Voir sur Google Maps » sorti du plan | 9 lieux × 2 largeurs (320 et 390 px), dont Vieux-Québec, Lévis, Sainte-Foy et Montréal : point et libellé **couverts à 0 %**, libellé jamais hors de la carte. Capture `v2-plan-levis.png` | **CORRIGÉ** |
+| R-037 (P2) focus caché | `.top:focus-within{transform:none}` | après un cycle Tab complet : marque à top 50 px, « Services » à 51 px (au lieu de −59) ; 0 focus hors écran à 390 et 1440 px | **CORRIGÉ** |
+| R-038 (P2) nom accessible | `aria-label` sur `.top__call` | arbre d'accessibilité : 0 lien ou bouton sans nom à 390 et 1440 px | **CORRIGÉ** |
+| R-031 (P3) bandeau tronqué | texte « Maquette non officielle » sous 380 px, pages légales alignées | 0 texte tronqué sur 18 combinaisons (3 pages × 6 largeurs) | **CORRIGÉ** |
+| R-032 (P3) cibles | `.brand` et `.btn--sm` à 44 px minimum | logo 98×44, menu « Rendez-vous » 129×44 | **CORRIGÉ** (réserve ci-dessous) |
+| R-053 (P3) garantie | « réparations d'automobiles de plus de 50 $ » | présent dans le repère et dans « Vos droits » ; la FAQ récréatif reste cohérente | **CORRIGÉ** |
+| R-041 (P4) « Ferme bientôt » | textes alignés | lun 16 h 30 : « Ferme bientôt · à 17 h » à l'accueil et dans Nous trouver, « Ferme bientôt · 17 h » dans la barre ; ven 11 h 30 : même chose pour 12 h | **CORRIGÉ** |
+| R-054 (P4) apostrophes | apostrophes typographiques dans l'accueil et dans le JS | accueil et JS : 0 apostrophe droite. **Restent** 18 apostrophes droites dans `confidentialite.html`, 7 dans `accessibilite.html`, et `data-prefill="Passage d'hiver"`, qui préremplit le champ avec une droite | **PARTIEL (P4 ouvert)** |
+| R-055 (P4) CSS mort | règle `breathe … infinite` supprimée | 0 règle `infinite` dans les feuilles de style | **CORRIGÉ** |
+
+### Non-régression
+
+| Domaine | Résultat du 13 octobre | Statut |
+|---|---|---|
+| Loi 25, réseau | 10 requêtes, toutes vers `localhost:8765` ; **0 tiers** au chargement, au défilement complet (11 051 px) et sur les pages légales | PASSÉ |
+| Loi 25, stockage et géolocalisation | 0 témoin et 0 stockage ; 0 appel de géolocalisation avant le toucher ; après le calcul, 0 fetch, XHR, beacon ou requête ; « Vous · 6,8 km » | PASSÉ |
+| Fluidité, CPU ×4, 390 px | 3 passages : **56,4 à 57,6 images/s**, p50 16,7 ms, 0,69 à 1,1 % d'images au-delà de 33 ms (une image sautée), max de 50 à 83 ms, **0 long task**. Témoin : l'ancienne version `7f2a24f`, servie à part (copie dans le scratchpad, port 8766) dans les mêmes conditions, donne 56,6 à 58,1 images/s et 0,34 à 0,98 %. L'écart avec le 12 octobre (0,07 %) vient de la charge de la machine, pas des correctifs | PASSÉ |
+| Repos et glissement | 0,5 ms de travail en 5 s, 0 animation ; glissement depuis « Lancer l'inspection » : +356 px, bouton non déclenché | PASSÉ |
+| Débordements 320 à 1920 px | 18 combinaisons, 0 débordement, scrollX 0 | PASSÉ |
+| Deux « Appeler » | 379 positions, 0 violation | PASSÉ |
+| Rendez-vous | `#f-nom` visible et non masqué dans les 5 tailles et par les 4 chemins | PASSÉ |
+| Contrastes | couleurs inchangées, mêmes mesures : minimum 4,58 | PASSÉ |
+| Mouvement réduit | tout est affiché à 150 ms, roue et ruban figés, inspection immédiate | PASSÉ |
+| Fonctions | statut (10 cas), inspection, Plans en premier sur iPhone, copier et partager, formulaire (0 requête), menu, 8 ancres, pages légales, 0 erreur console | PASSÉ |
+| Contenu | 0 tiret cadratin, JSON-LD valide | PASSÉ |
+
+### Réserves (ne bloquent pas la démonstration)
+
+- **P3, à trancher par Pavel** : 7 liens dans le texte font de 16 à 23 px de haut (« Confidentialité », numéros, courriel, « Politique de confidentialité »). WCAG 2.5.8 les exempte (liens dans une phrase), mais la règle de Pavel dit 44 px pour tout. Pour la tenir à la lettre, ajouter une zone de toucher (`padding-block`) sur ces liens.
+- **P4** : apostrophes droites restantes sur les deux pages légales et dans `data-prefill="Passage d'hiver"`.
+- **P4, observation** : sous 380 px, le bandeau dit seulement « Maquette non officielle ». « Fictif » reste dans le pied de page et sur chaque étiquette ; le choix est acceptable.
+- **P4, observation** : l'icône téléphone de l'en-tête coexiste avec « Appeler » (12 à 18 positions sur environ 125 avec plus d'un lien `tel:`). La règle sur deux « Appeler » est respectée à la lettre.
+- **P4, observation** : à 1440 px, quand le focus revient dans l'en-tête, celui-ci glisse en 0,35 s ; pendant ce court instant, le focus est en mouvement mais il n'est jamais hors de l'écran une fois la transition finie.
+- Faux positifs de `qa.py` (example.com voulu, placeholder 555-0123, sélecteurs CSS) : exceptions enregistrées. Liens externes non ouverts (règle : ne pas contacter de tiers).
+- À faire par Pavel avant le rendez-vous, en 2 minutes : ouvrir la maquette sur **l'iPhone de démonstration** (Safari) et toucher une fois « À quelle distance suis-je ? ». L'émulation Chromium ne couvre ni l'invite iOS ni la barre d'adresse dynamique.
+
+### Décision finale : PRÊT SOUS RÉSERVE
+
+Pour l'usage prévu (montrer la maquette au garage sur un téléphone) : les 5 critères sont PASSÉS, il ne reste aucune anomalie P0, P1 ou P2, et seulement des réserves P3 et P4 (couverture : 37 sur 42 contrôles exécutés ; 34 PASSÉS, 3 ÉCHOUÉS, à savoir les 2 faux positifs couverts par exception et 1 P4). **« Prêt » n'autorise pas une publication** : `example.com`, le `noindex` et `Disallow` restent en place, comme prévu pour une maquette.
