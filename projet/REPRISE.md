@@ -1,6 +1,6 @@
 # REPRISE : où en est le site de Mécanique SKL
 
-Dernière mise à jour : 8 octobre 2026. À lire en premier dans toute nouvelle session.
+Dernière mise à jour : 12 octobre 2026. À lire en premier dans toute nouvelle session.
 
 ## Contexte
 
@@ -51,6 +51,14 @@ Règle pour la suite : ne jamais rallonger l'accueil au-delà d'environ 2,5 écr
 Mesures (navigateur sans carte graphique) : téléphone ralenti ×4, 59 img/s et 0 image saccadée ; ordinateur, 53 img/s.
 
 **Finition premium (8 octobre 2026)** : couche « FINITION PREMIUM » en fin de `styles.css`. Titres en minuscules plus fins et serrés (graisse 740-760), filet doré sous le nom ; boutons en capsules à relief doré ; en-tête flottant en capsule ; sections claires en feuilles arrondies qui glissent sur le fond sombre ; formulaire, offre et étapes en cartes ; barre d'actions mobile flottante ; étiquettes en pastilles ; lignes de marquage affinées. Aucun effet continu ajouté : fluidité inchangée (téléphone ralenti ×4 : 60 img/s).
+
+**Version VIP mobile (12 octobre 2026, mission Administrateur 2.0)** : voir `projet/administrateur/` (00 mission, 01 audit, 03 carte et géolocalisation, 04 design ; 02 prix, 05 offre et 06 discours restent hors du dépôt public).
+- Page de 16,7 à 14 écrans au téléphone : statut en direct dans l'accueil, repères en grille 2 × 2, services sans numérotation, Inspection fusionnée avec « Votre visite » (inspection d'un seul appui, qui ne bloque plus le défilement), Vos droits fusionné avec les questions, appel final fusionné avec le pied de page.
+- **Nous trouver** placé juste après les services : plan schématique local (cercles de 1, 3 et 10 km), « Voir sur Google Maps » (lien), trio Google Maps / Waze / Plans (Plans en premier sur iPhone), adresse à copier ou partager, « À quelle distance suis-je ? » (calcul sur l'appareil, point « Vous » placé sur le plan), heures en 3 lignes.
+- Carte Google intégrée prête mais inactive : coller le `src` du code officiel « Partager > Intégrer une carte » dans `MAP_EMBED` (main.js) ; elle se charge alors seulement au toucher, avec l'avis Google affiché avant. Le format non documenté `output=embed` est exclu.
+- Barre du bas : capsule « Appeler » avec l'état ouvert/fermé, cachée quand un autre « Appeler » est à l'écran, pendant la saisie et avec le menu ouvert.
+- Retirés : fondu de page, poussière animée, brume, reflet en boucle, lignes de marquage et effets liés au défilement (sauf la roue et le ruban). Ajoutés : `og.jpg`, `apple-touch-icon.png`, `geo`/`hasMap` dans le JSON-LD, politique de confidentialité (carte, itinéraire, distance, formulaire).
+- Règle absolue de Pavel : ne jamais violer la Loi 25, tout faire légalement et officiellement.
 
 ## Éléments à obtenir du garage (par impact)
 

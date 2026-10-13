@@ -14,7 +14,6 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
-  const rng = seed => { let s = seed >>> 0; return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296; };
   const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
   const fmtH = h => `${h} h`;
 
@@ -30,7 +29,6 @@
      Le défilement reste 100 % natif. On ne fait que suivre scrollY avec un léger lissage
      (≈ 0,15 s) pour que la roue tourne en douceur, même avec une molette à crans. */
   const backdrop = $('.backdrop');
-  const rig = $('.wheel-rig');
   let bdTarget = 0, bdShown = null, bdRaf = null, bdLast = 0, bdVars = {};
   const setBd = (n, v) => { if (bdVars[n] !== v) { bdVars[n] = v; backdrop.style.setProperty(n, v); } };
   function paintBackdrop(y) {
@@ -100,42 +98,10 @@
   }
   VIDEO_GATES.forEach(q => matchMedia(q).addEventListener('change', maybeLoadVideo));
 
-  /* ---------------- poussière dans la lumière (haut de page seulement) ---------------- */
-  const dust = $('.dust');
-  const dctx = dust.getContext('2d');
-  let dustRaf = null, motes = [], dustLast = 0, dustW = 0, litX = 0.66, litY = 0.5;
-  function sizeDust() {
-    dustW = innerWidth;
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    dust.width = dust.clientWidth * dpr; dust.height = dust.clientHeight * dpr;
-    dctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const r = rig.getBoundingClientRect();
-    litX = (r.left + r.width / 2) / dust.clientWidth; litY = (r.top + r.height / 2) / dust.clientHeight;
-    const g = rng(42);
-    motes = Array.from({ length: innerWidth < 720 ? 22 : 34 }, () => ({ x: g() * dust.clientWidth, y: g() * dust.clientHeight, s: 0.6 + g() * 1.6, vx: (g() - 0.5) * 0.12, vy: -0.05 - g() * 0.12, a: 0.15 + g() * 0.45, ph: g() * 6.28 }));
-  }
-  function drawDust(now) {
-    dustRaf = requestAnimationFrame(drawDust);
-    if (now - dustLast < 33) return;           // ~30 i/s suffit
-    dustLast = now;
-    const w = dust.clientWidth, h = dust.clientHeight;
-    dctx.clearRect(0, 0, w, h);
-    motes.forEach(m => {
-      m.x += m.vx; m.y += m.vy; m.ph += 0.02;
-      if (m.y < -4) m.y = h + 4; if (m.x < -4) m.x = w + 4; if (m.x > w + 4) m.x = -4;
-      const lit = Math.max(0, 1 - Math.hypot(m.x - w * litX, m.y - h * litY) / (Math.max(w, h) * 0.42));
-      dctx.globalAlpha = m.a * (0.25 + 0.75 * lit) * (0.7 + 0.3 * Math.sin(m.ph));
-      dctx.fillStyle = '#ffe2a8';
-      dctx.beginPath(); dctx.arc(m.x, m.y, m.s, 0, 6.283); dctx.fill();
-    });
-  }
-  function startDust() { if (dustRaf || reduceMQ.matches || document.hidden || scrollY > innerHeight * 1.3) return; if (!motes.length) sizeDust(); dustRaf = requestAnimationFrame(drawDust); }
-  function stopDust() { if (dustRaf) cancelAnimationFrame(dustRaf); dustRaf = null; }
-  function dustByScroll() { if (scrollY > innerHeight * 1.3) stopDust(); else startDust(); }
-  addEventListener('resize', () => { measureServices(); if (innerWidth !== dustW) { motes = []; if (dustRaf) sizeDust(); } onBackdropScroll(); }, { passive: true });
+  addEventListener('resize', () => { measureServices(); onBackdropScroll(); }, { passive: true });
   addEventListener('load', measureServices);
 
-  /* ---------------- en-tête, menu, barre d'actions ---------------- */
+  /* ---------------- en-tête, menu ---------------- */
   const top = $('.top'), nav = $('.nav'), toggle = $('.nav__toggle'), dock = $('.dock');
   let lastY = scrollY;
   function onPageScroll() {
@@ -144,8 +110,6 @@
     const menuOpen = nav.classList.contains('is-open');
     top.classList.toggle('is-hidden', !menuOpen && y > 500 && y > lastY + 4);
     if (y < lastY - 4) top.classList.remove('is-hidden');
-    dock.classList.toggle('is-in', y > 140);
-    dock.classList.add('is-mobile');
     lastY = y;
   }
   onPageScroll();
@@ -154,36 +118,69 @@
     toggle.setAttribute('aria-expanded', String(open));
     toggle.querySelector('.nav__label').textContent = open ? 'Fermer' : 'Menu';
     document.documentElement.style.overflow = open ? 'hidden' : '';
+    paintDock();
   }
   toggle.addEventListener('click', () => setMenu(!nav.classList.contains('is-open')));
   $$('.nav__list a').forEach(a => a.addEventListener('click', () => setMenu(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape' && nav.classList.contains('is-open')) { setMenu(false); toggle.focus(); } });
 
-  /* ---------------- statut ouvert / fermé ---------------- */
-  const statusEl = $('.status'), statusText = $('.status__text'), todayText = $('[data-today]');
+  /* ---------------- barre d'actions (téléphone) ----------------
+     Cachée tant qu'un autre bloc « Appeler » est à l'écran : jamais deux « Appeler » à la fois.
+     Elle s'efface aussi pendant la saisie du formulaire et quand le menu est ouvert. */
+  const zones = new Set();
+  let typing = false;
+  function paintDock() {
+    const show = zones.size === 0 && !typing && !nav.classList.contains('is-open') && scrollY > 80;
+    dock.classList.toggle('is-in', show);
+  }
+  const zoneIO = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) zones.add(e.target); else zones.delete(e.target); });
+    paintDock();
+  }, { threshold: 0 });
+  $$('[data-cta-zone]').forEach(z => zoneIO.observe(z));
+  const formEl = $('[data-form]');
+  formEl.addEventListener('focusin', () => { typing = true; paintDock(); });
+  formEl.addEventListener('focusout', () => { typing = false; setTimeout(paintDock, 150); });
+
+  /* ---------------- trajet : l'application de cartes de l'appareil ---------------- */
+  const IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const apps = $('[data-apps]');
+  if (IOS && apps) {
+    const apple = $('[data-app="apple"]', apps);
+    apps.prepend(apple);
+    $$('[data-route]').forEach(a => { a.href = apple.href; });
+  }
+
+  /* ---------------- statut ouvert / fermé (heure de Québec) ---------------- */
+  const statusEls = $$('[data-status]'), dockStatus = $('[data-dock-status]');
   function nextOpening(q) {
     for (let i = 0; i < 8; i++) {
       const wd = (q.wd + i) % 7, slot = HOURS[wd];
       if (!slot) continue;
       if (i === 0 && q.h >= slot[0]) continue;
-      const when = i === 0 ? "aujourd'hui" : i === 1 ? 'demain' : DAYS[wd];
-      return `ouvre ${when} à ${fmtH(slot[0])}`;
+      const when = i === 0 ? 'aujourd’hui' : i === 1 ? 'demain' : DAYS[wd];
+      const short = i === 0 ? `ouvre à ${fmtH(slot[0])}` : i === 1 ? `demain ${fmtH(slot[0])}` : `${DAYS[wd].slice(0, 3)}. ${fmtH(slot[0])}`;
+      return { long: `ouvre ${when} à ${fmtH(slot[0])}`, short };
     }
-    return '';
+    return { long: '', short: '' };
   }
   function updateStatus() {
     const q = quebecNow(), slot = HOURS[q.wd];
     const open = !!slot && q.h >= slot[0] && q.h < slot[1];
-    statusEl.classList.toggle('is-open', open);
-    statusText.textContent = open ? `Ouvert maintenant · ferme à ${fmtH(slot[1])}` : `Fermé · ${nextOpening(q)}`;
-    todayText.textContent = slot ? `Aujourd'hui, ${DAYS[q.wd]} : ${fmtH(slot[0])} à ${fmtH(slot[1])}`.replace(' :', ' :') : `Aujourd'hui, ${DAYS[q.wd]} : fermé`;
-    $$('[data-hours] tr').forEach(tr => tr.classList.toggle('is-today', +tr.dataset.day === q.wd));
+    const soon = open && slot[1] - (q.h + q.min / 60) <= 1;
+    const nx = open ? null : nextOpening(q);
+    const txt = open ? (soon ? `Ferme bientôt · à ${fmtH(slot[1])}` : `Ouvert · ferme à ${fmtH(slot[1])}`) : `Fermé · ${nx.long}`;
+    statusEls.forEach(el => {
+      el.classList.toggle('is-open', open); el.classList.toggle('is-soon', soon); el.classList.toggle('is-closed', !open);
+      $('.status__text', el).textContent = txt;
+    });
+    if (dockStatus) dockStatus.textContent = open ? (soon ? `Ferme bientôt · ${fmtH(slot[1])}` : `Ouvert · jusqu’à ${fmtH(slot[1])}`) : `Fermé · ${nx.short}`;
+    $$('[data-hours] tr').forEach(tr => tr.classList.toggle('is-today', tr.dataset.days.split(' ').includes(String(q.wd))));
   }
   updateStatus();
   setInterval(updateStatus, 60000);
 
-  /* ---------------- apparitions ---------------- */
-  $$('h2.reveal').forEach(h => { h.innerHTML = `<span class="slit">${h.innerHTML}</span>`; });
+  /* ---------------- apparitions (une fois, sous le premier écran seulement) ---------------- */
   const reveals = $$('.reveal');
   const fold = innerHeight;
   reveals.forEach(el => { if (el.getBoundingClientRect().top > fold * 0.9) el.classList.add('pre'); });
@@ -194,7 +191,7 @@
       const el = en.target, parent = el.parentElement;
       const n = groups.get(parent) || 0;
       groups.set(parent, n + 1);
-      el.style.setProperty('--d', Math.min(n, 3) * 0.05 + 's');
+      el.style.setProperty('--d', Math.min(n, 3) * 0.06 + 's');
       el.classList.add('in');
       setTimeout(() => { el.classList.add('done'); el.style.removeProperty('--d'); }, 700);
       io.unobserve(el);
@@ -202,10 +199,10 @@
   }, { rootMargin: '0px 0px 12% 0px', threshold: 0 });
   reveals.forEach(el => io.observe(el));
 
-  /* ---------------- inspection : maintenir pour inspecter ---------------- */
+  /* ---------------- inspection : un seul appui, 2,6 s, sans bloquer le défilement ---------------- */
   const holdBtn = $('[data-hold]'), wheelBox = $('[data-wheel]');
   const checks = $$('[data-checks] li'), pins = $$('.inspect__pins g'), doneMsg = $('[data-done]');
-  let hp = 0, holding = false, holdRaf = null, holdLast = 0, holdDone = false;
+  let hp = 0, running = false, holdRaf = null, holdLast = 0, holdDone = false;
   function paintHold() {
     wheelBox.style.setProperty('--p', hp.toFixed(3));
     wheelBox.style.setProperty('--sweep', (hp * 720).toFixed(1) + 'deg');
@@ -214,7 +211,7 @@
     checks.forEach((li, i) => { const on = hp >= +li.dataset.at; if (li.classList.contains('on') !== on) { li.classList.toggle('on', on); pins[i] && pins[i].classList.toggle('on', on); } });
   }
   function finishHold() {
-    holdDone = true; hp = 1; holding = false; paintHold();
+    holdDone = true; hp = 1; running = false; paintHold();
     holdBtn.classList.remove('is-holding'); holdBtn.classList.add('is-done');
     holdBtn.querySelector('.hold__label').textContent = 'Inspection terminée';
     doneMsg.textContent = 'Tout est vérifié. Maintenant, on peut parler de prix, par écrit.';
@@ -222,26 +219,18 @@
   }
   function holdTick(now) {
     const dt = Math.min(64, now - (holdLast || now)); holdLast = now;
-    if (holding) hp = Math.min(1, hp + dt / 2600);
-    else hp = Math.max(0, hp - dt / 1500 * (0.4 + hp));   // redescend en douceur
+    hp = Math.min(1, hp + dt / 2600);
     paintHold();
     if (hp >= 1) { finishHold(); holdRaf = null; holdLast = 0; return; }
-    if (!holding && hp <= 0) { holdRaf = null; holdLast = 0; return; }
     holdRaf = requestAnimationFrame(holdTick);
   }
-  function holdStart(e) {
-    if (holdDone) return;
-    if (e && e.type === 'pointerdown') { holdBtn.setPointerCapture && holdBtn.setPointerCapture(e.pointerId); e.preventDefault(); }
-    holding = true; holdBtn.classList.add('is-holding');
-    if (!holdRaf) holdRaf = requestAnimationFrame(holdTick);
-  }
-  function holdEnd() { if (!holding) return; holding = false; holdBtn.classList.remove('is-holding'); if (!holdRaf && !holdDone) holdRaf = requestAnimationFrame(holdTick); }
-  holdBtn.addEventListener('pointerdown', holdStart);
-  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(t => holdBtn.addEventListener(t, holdEnd));
-  holdBtn.addEventListener('contextmenu', e => e.preventDefault());
-  holdBtn.addEventListener('keydown', e => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); holdStart(); } });
-  holdBtn.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') holdEnd(); });
-  holdBtn.addEventListener('blur', holdEnd);
+  holdBtn.addEventListener('click', () => {
+    if (holdDone || running) return;
+    if (reduceMQ.matches) { finishHold(); return; }
+    running = true; holdBtn.classList.add('is-holding');
+    holdBtn.querySelector('.hold__label').textContent = 'Inspection en cours…';
+    holdRaf = requestAnimationFrame(holdTick);
+  });
 
   /* ---------------- pneus d'hiver : compte à rebours vrai ---------------- */
   const countNum = $('[data-count-num]'), countUnit = $('[data-count-unit]'), countCap = $('[data-count-caption]');
@@ -252,32 +241,19 @@
     if (inSeason) {
       const endY = q.m === 12 ? q.y + 1 : q.y;
       const days = Math.round((Date.UTC(endY, 2, 15) - today) / 864e5);
-      return { days, caption: "d'obligation encore, jusqu'au 15 mars" };
+      return { days, caption: 'd’obligation encore, jusqu’au 15 mars' };
     }
     const dec1 = Date.UTC(q.y, 11, 1);
     const days = Math.round((dec1 - today) / 864e5);
-    return { days, caption: 'avant l’obligation du 1er décembre' };
+    return { days, caption: 'avant l’obligation du 1er décembre' };
   }
   const wt = winterTarget();
   countCap.innerHTML = wt.caption.replace('1er', '1<sup>er</sup>');
   countUnit.textContent = wt.days === 1 ? 'jour' : 'jours';
   countNum.setAttribute('aria-label', `${wt.days} ${wt.days === 1 ? 'jour' : 'jours'}`);
-  let counted = false;
-  function runCount() {
-    if (counted) return; counted = true;
-    if (reduceMQ.matches) { countNum.textContent = wt.days; return; }
-    const t0 = performance.now(), from = Math.max(wt.days + 60, 120);
-    const step = now => {
-      const t = clamp((now - t0) / 1400, 0, 1), e = 1 - Math.pow(1 - t, 3);
-      countNum.textContent = Math.round(from + (wt.days - from) * e);
-      if (t < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  }
   countNum.textContent = wt.days;
-  new IntersectionObserver(([e], o) => { if (e.isIntersecting) { runCount(); o.disconnect(); } }, { threshold: 0.4 }).observe($('[data-countdown]'));
 
-  // ruban de chantier : il avance avec le défilement (jamais tout seul)
+  // ruban de chantier : il avance avec le défilement (jamais tout seul), seulement quand il est visible
   const tape = $('[data-tape]'), winter = $('#pneus');
   let tapeOn = false, tapeW = 0, tapeLast = '';
   function moveTape() {
@@ -291,47 +267,85 @@
   new IntersectionObserver(([e]) => { tapeOn = e.isIntersecting && !reduceMQ.matches; if (tapeOn) moveTape(); }).observe(winter);
   addEventListener('resize', () => { tapeW = 0; }, { passive: true });
 
-  /* ---------------- lignes de marquage et roue d'inspection, liées au défilement ---------------- */
-  const drawPaths = $$('[data-draw]').map(el => ({ el, last: -1 }));
-  const inspectSec = $('#inspection');
-  const steps = $('[data-steps]'), closingWheel = $('.closing__wheel');
-  let lastSs = '', lastSp = -1, lastCr = '';
-  function onScrollEffects() {
-    if (reduceMQ.matches) return;
-    const vh = innerHeight;
-    drawPaths.forEach(d => {
-      const r = d.el.ownerSVGElement.getBoundingClientRect();
-      if (r.bottom < -50 || r.top > vh + 50) return;
-      const prog = clamp((vh - r.top) / (vh * 0.75), 0, 1);
-      const v = Math.round((1 - prog) * 1000) / 1000;
-      if (v !== d.last) { d.last = v; d.el.style.setProperty('--draw', v); }
+  /* ---------------- Nous trouver : carte sur demande, partage, distance ----------------
+     Loi 25 : aucune requête vers Google, Waze ou Apple avant un toucher ; position jamais transmise ni conservée. */
+  const GARAGE = { lat: 46.86987, lng: -71.17556 }; // 4 sources concordantes (±20 m) ; à vérifier sur l'épingle de la fiche Google
+  // Code officiel « Partager > Intégrer une carte » de Google Maps : coller ici la valeur de src (https://www.google.com/maps/embed?pb=…).
+  const MAP_EMBED = '';
+  const card = $('[data-map]'), mapBtn = $('[data-map-load]'), frame = $('#map-frame');
+  if (MAP_EMBED && card && mapBtn) {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = mapBtn.className; btn.setAttribute('aria-describedby', 'map-note'); btn.setAttribute('aria-controls', 'map-frame');
+    btn.innerHTML = mapBtn.innerHTML.replace('<span class="sr"> (nouvel onglet)</span>', '');
+    mapBtn.replaceWith(btn);
+    const label = $('[data-map-label]', btn);
+    label.textContent = 'Afficher la carte Google';
+    $('[data-map-note] span').innerHTML = 'La carte est fournie par Google. En l’affichant, Google reçoit votre adresse IP et peut utiliser des témoins. Rien n’est chargé avant ce toucher. <a href="confidentialite.html#carte">Confidentialité</a>';
+    btn.addEventListener('click', () => {
+      if (frame.firstChild) { frame.replaceChildren(); frame.hidden = true; card.classList.remove('is-live'); label.textContent = 'Afficher la carte Google'; return; }
+      const f = Object.assign(document.createElement('iframe'), { src: MAP_EMBED, title: 'Carte Google : Mécanique SKL, 1100, boulevard des Chutes', loading: 'lazy', referrerPolicy: 'strict-origin-when-cross-origin' });
+      f.addEventListener('load', () => card.classList.add('is-live'), { once: true });
+      frame.hidden = false; frame.append(f); label.textContent = 'Masquer la carte';
     });
-    const ir = inspectSec.getBoundingClientRect();
-    if (ir.bottom > 0 && ir.top < vh) {
-      const v = ((vh - ir.top) * -0.06).toFixed(1) + 'deg';
-      if (v !== lastSs) { lastSs = v; wheelBox.style.setProperty('--ss', v); }
-    }
-    const sr = steps.getBoundingClientRect();
-    if (sr.bottom > 0 && sr.top < vh) {
-      const v = Math.round(clamp((vh * 0.85 - sr.top) / (sr.height * 0.9), 0, 1) * 1000) / 1000;
-      if (v !== lastSp) { lastSp = v; steps.style.setProperty('--sp', v); }
-    }
-    const cr = closingWheel.getBoundingClientRect();
-    if (cr.bottom > 0 && cr.top < vh) {
-      const v = ((vh - cr.top) * 0.12).toFixed(1) + 'deg';
-      if (v !== lastCr) { lastCr = v; closingWheel.style.setProperty('--cr', v); }
-    }
   }
-  onScrollEffects();
 
-  /* ---------------- formulaire : prépare un courriel ---------------- */
-  const form = $('[data-form]'), msg = $('[data-msg]');
+  const copied = $('[data-copied]');
+  $$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
+    const lbl = $('span', b) || b, label = lbl.textContent;
+    try { await navigator.clipboard.writeText(b.dataset.copy); lbl.textContent = 'Copié'; if (copied && b.dataset.copyDone) copied.textContent = b.dataset.copyDone; }
+    catch { if (copied) copied.textContent = b.dataset.copy; }
+    setTimeout(() => { lbl.textContent = label; if (copied) copied.textContent = ''; }, 1800);
+  }));
+  const shareBtn = $('[data-share]');
+  if (shareBtn && navigator.share) {
+    shareBtn.hidden = false;
+    shareBtn.addEventListener('click', () => navigator.share({ title: 'Mécanique SKL', text: 'Mécanique SKL, 1100, boul. des Chutes, Québec (Québec) G1E 2G1', url: location.href.split('#')[0] }).catch(() => {}));
+  }
+
+  const near = $('[data-near]'), nearOut = $('[data-near-out]'), nearLabel = $('[data-near-label]');
+  const me = $('[data-me]'), meLine = $('[data-me-line]'), meDot = $('[data-me-dot]'), meText = $('[data-me-label]');
+  const fmtKm = km => km < 1 ? `${Math.max(50, Math.round(km * 1000 / 50) * 50)} m` : `${km.toLocaleString('fr-CA', { maximumFractionDigits: km < 10 ? 1 : 0 })} km`;
+  function placeMe(lat, lng) {
+    const R = 6371, rad = d => d * Math.PI / 180;
+    const dLat = rad(lat - GARAGE.lat), dLng = rad(lng - GARAGE.lng);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(rad(GARAGE.lat)) * Math.cos(rad(lat)) * Math.sin(dLng / 2) ** 2;
+    const km = 2 * R * Math.asin(Math.sqrt(a));
+    // direction depuis le garage (plan schématique : 1 km, 3 km et 10 km sur des cercles)
+    const east = dLng * Math.cos(rad(GARAGE.lat)), north = dLat, len = Math.hypot(east, north) || 1;
+    const r = km >= 10 ? 128 : 120 * Math.sqrt(km / 10);
+    const x = 200 + (east / len) * r, y = 150 - (north / len) * r;
+    meLine.setAttribute('x2', x.toFixed(1)); meLine.setAttribute('y2', y.toFixed(1));
+    meDot.setAttribute('transform', `translate(${x.toFixed(1)} ${y.toFixed(1)})`);
+    meText.textContent = `Vous · ${fmtKm(km)}`;
+    meText.setAttribute('x', x > 290 ? -10 : 10); meText.setAttribute('text-anchor', x > 290 ? 'end' : 'start');
+    me.removeAttribute('hidden');
+    return km;
+  }
+  if (near && 'geolocation' in navigator && window.isSecureContext) {
+    near.hidden = false; $('[data-near-note]').hidden = false;
+    const idle = nearLabel.textContent;
+    near.addEventListener('click', () => {
+      near.setAttribute('aria-busy', 'true'); nearLabel.textContent = 'Recherche de votre position…';
+      navigator.geolocation.getCurrentPosition(p => {
+        // la position sert ici seulement : rien n'est envoyé, rien n'est enregistré
+        const km = placeMe(p.coords.latitude, p.coords.longitude);
+        nearOut.textContent = `Vous êtes à environ ${fmtKm(km)} du garage, à vol d’oiseau. Le trajet exact s’affiche dans votre application de cartes.`;
+        near.removeAttribute('aria-busy'); nearLabel.textContent = idle;
+      }, e => {
+        nearOut.textContent = e.code === 1 ? 'Localisation refusée. Aucun souci : les boutons ci-dessus calculent le trajet dans votre application.' : 'Position introuvable pour l’instant. Réessayez dans un moment.';
+        near.removeAttribute('aria-busy'); nearLabel.textContent = idle;
+      }, { enableHighAccuracy: false, timeout: 9000, maximumAge: 600000 });
+    });
+  }
+
+  /* ---------------- formulaire de démonstration ---------------- */
+  const msg = $('[data-msg]');
   let lastPrefill = '';
   $$('[data-prefill]').forEach(a => a.addEventListener('click', () => {
     const t = $('#f-quoi'), v = t.value.trim();
-    if (!v || v === lastPrefill.trim()) { lastPrefill = `${a.dataset.prefill}\u00a0: `; t.value = lastPrefill; }
+    if (!v || v === lastPrefill.trim()) { lastPrefill = `${a.dataset.prefill} : `; t.value = lastPrefill; }
   }));
-  form.addEventListener('submit', e => {
+  formEl.addEventListener('submit', e => {
     e.preventDefault();
     const fields = ['#f-nom', '#f-tel', '#f-quoi'].map(s => $(s));
     let firstBad = null;
@@ -342,48 +356,29 @@
       firstBad.focus();
       return;
     }
-    // MAQUETTE : rien n'est envoyé. Sur le vrai site, brancher ici l'envoi vers le garage.
-    form.classList.add('is-sent');
+    // MAQUETTE : rien n'est envoyé. Sur le vrai site, brancher ici l'envoi vers le garage (après l'EFVP et la politique à jour).
+    formEl.classList.add('is-sent');
     msg.className = 'form__msg is-ok';
-    msg.textContent = `Merci ${new FormData(form).get('nom').trim().split(' ')[0]}. Ceci est une maquette : votre demande n'a été envoyée à personne. Sur le vrai site, elle arriverait directement au garage. En attendant, appelez le 418 663-1195.`;
+    msg.textContent = `Merci ${new FormData(formEl).get('nom').trim().split(' ')[0]}. Ceci est une maquette : votre demande n’a été envoyée à personne. Pour joindre le garage, appelez le 418 663-1195.`;
   });
-  form.addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) e.target.setAttribute('aria-invalid', 'false'); });
-
-  $$('[data-copy]').forEach(b => b.addEventListener('click', async () => {
-    const label = b.textContent;
-    try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copié'; }
-    catch { b.textContent = b.dataset.copy; }
-    setTimeout(() => { b.textContent = label; }, 1800);
-  }));
+  formEl.addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) e.target.setAttribute('aria-invalid', 'false'); });
 
   /* ---------------- divers ---------------- */
   $$('[data-year]').forEach(el => { el.textContent = quebecNow().y; });
-  document.addEventListener('visibilitychange', () => {
-    document.body.classList.toggle('paused', document.hidden);
-    if (document.hidden) stopDust(); else startDust();
-  });
+  document.addEventListener('visibilitychange', () => { document.body.classList.toggle('paused', document.hidden); });
 
   function pinToFinalStates() {
-    if (!holdDone) finishHold();
-    countNum.textContent = wt.days; counted = true;
     tapeOn = false;
     $$('.reveal').forEach(el => el.classList.add('in', 'done'));
-    drawPaths.forEach(d => d.el.style.setProperty('--draw', 0));
-    steps.style.setProperty('--sp', 1);
   }
-  function unpinFinalStates() {
-    tapeOn = winter.getBoundingClientRect().top < innerHeight && winter.getBoundingClientRect().bottom > 0;
-  }
-  reduceMQ.addEventListener('change', e => { if (e.matches) { pinToFinalStates(); resetBackdrop(); stopDust(); } else { unpinFinalStates(); onBackdropScroll(); startDust(); } });
+  reduceMQ.addEventListener('change', e => { if (e.matches) { pinToFinalStates(); resetBackdrop(); } else { onBackdropScroll(); } });
   if (reduceMQ.matches) pinToFinalStates();
 
-  // Un seul passage par image pour tous les effets liés au défilement :
-  // on lit les positions une fois, on écrit ensuite, jamais en boucle.
+  // Un seul passage par image pour tout ce qui suit le défilement.
   let fxQueued = false;
-  function runFx() { fxQueued = false; onBackdropScroll(); dustByScroll(); onScrollEffects(); moveTape(); onPageScroll(); }
+  function runFx() { fxQueued = false; onBackdropScroll(); moveTape(); onPageScroll(); paintDock(); }
   addEventListener('scroll', () => { if (!fxQueued) { fxQueued = true; requestAnimationFrame(runFx); } }, { passive: true });
 
   onBackdropScroll();
-  startDust();
   maybeLoadVideo();
 })();
