@@ -158,7 +158,7 @@
       const wd = (q.wd + i) % 7, slot = HOURS[wd];
       if (!slot) continue;
       if (i === 0 && q.h >= slot[0]) continue;
-      const when = i === 0 ? "aujourd'hui" : i === 1 ? 'demain' : DAYS[wd];
+      const when = i === 0 ? 'aujourd’hui' : i === 1 ? 'demain' : DAYS[wd];
       const short = i === 0 ? `ouvre à ${fmtH(slot[0])}` : i === 1 ? `demain ${fmtH(slot[0])}` : `${DAYS[wd].slice(0, 3)}. ${fmtH(slot[0])}`;
       return { long: `ouvre ${when} à ${fmtH(slot[0])}`, short };
     }
@@ -169,12 +169,12 @@
     const open = !!slot && q.h >= slot[0] && q.h < slot[1];
     const soon = open && slot[1] - (q.h + q.min / 60) <= 1;
     const nx = open ? null : nextOpening(q);
-    const txt = open ? `${soon ? 'Ferme bientôt' : 'Ouvert'} · ferme à ${fmtH(slot[1])}` : `Fermé · ${nx.long}`;
+    const txt = open ? (soon ? `Ferme bientôt · à ${fmtH(slot[1])}` : `Ouvert · ferme à ${fmtH(slot[1])}`) : `Fermé · ${nx.long}`;
     statusEls.forEach(el => {
       el.classList.toggle('is-open', open); el.classList.toggle('is-soon', soon); el.classList.toggle('is-closed', !open);
       $('.status__text', el).textContent = txt;
     });
-    if (dockStatus) dockStatus.textContent = open ? `Ouvert · jusqu’à ${fmtH(slot[1])}` : `Fermé · ${nx.short}`;
+    if (dockStatus) dockStatus.textContent = open ? (soon ? `Ferme bientôt · ${fmtH(slot[1])}` : `Ouvert · jusqu’à ${fmtH(slot[1])}`) : `Fermé · ${nx.short}`;
     $$('[data-hours] tr').forEach(tr => tr.classList.toggle('is-today', tr.dataset.days.split(' ').includes(String(q.wd))));
   }
   updateStatus();
@@ -241,7 +241,7 @@
     if (inSeason) {
       const endY = q.m === 12 ? q.y + 1 : q.y;
       const days = Math.round((Date.UTC(endY, 2, 15) - today) / 864e5);
-      return { days, caption: "d'obligation encore, jusqu'au 15 mars" };
+      return { days, caption: 'd’obligation encore, jusqu’au 15 mars' };
     }
     const dec1 = Date.UTC(q.y, 11, 1);
     const days = Math.round((dec1 - today) / 864e5);
@@ -359,7 +359,7 @@
     // MAQUETTE : rien n'est envoyé. Sur le vrai site, brancher ici l'envoi vers le garage (après l'EFVP et la politique à jour).
     formEl.classList.add('is-sent');
     msg.className = 'form__msg is-ok';
-    msg.textContent = `Merci ${new FormData(formEl).get('nom').trim().split(' ')[0]}. Ceci est une maquette : votre demande n'a été envoyée à personne. Pour joindre le garage, appelez le 418 663-1195.`;
+    msg.textContent = `Merci ${new FormData(formEl).get('nom').trim().split(' ')[0]}. Ceci est une maquette : votre demande n’a été envoyée à personne. Pour joindre le garage, appelez le 418 663-1195.`;
   });
   formEl.addEventListener('input', e => { if (e.target.getAttribute('aria-invalid') === 'true' && e.target.value.trim()) e.target.setAttribute('aria-invalid', 'false'); });
 

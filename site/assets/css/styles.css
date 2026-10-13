@@ -206,7 +206,6 @@ body.paused *,body.paused *::before,body.paused *::after{animation-play-state:pa
 .status__state{display:inline-flex;align-items:center;gap:10px;font:600 1rem/1.2 var(--body)}
 .status__dot{position:relative;width:10px;height:10px;border-radius:50%;background:var(--steel-dark);transform:translateY(-1px)}
 .status.is-open .status__dot{background:#5ad17a}
-.status.is-open .status__dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:2px solid #5ad17a;opacity:0;animation:breathe 4s var(--ease-out) -1s infinite}
 @keyframes breathe{0%{opacity:.7;transform:scale(.6)}70%,100%{opacity:0;transform:scale(1.5)}}
 .status__today{color:var(--steel);font:400 .92rem/1.4 var(--mono)}
 .status__link{margin-left:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;text-decoration:none;color:var(--text);font-size:.95rem;border-bottom:1px solid transparent}
@@ -705,6 +704,7 @@ html{scroll-padding-bottom:24px}
 .map-card__load:active{transform:translateX(-50%) scale(.97);transition-duration:var(--t-press)}
 .find__note{display:flex;gap:8px;align-items:flex-start;margin-top:10px;font-size:.8125rem;line-height:1.5;color:var(--ink-3);max-inline-size:52ch}
 .find__note a{color:var(--ink);text-underline-offset:3px}
+#near-note{margin:14px 0 0}
 .find__ico{flex:none;width:14px;height:14px;margin-top:3px;color:var(--ink-4)}
 .find__addr{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;margin-top:24px;padding-block:6px;border-block:1px solid rgba(20,23,26,.12);font-size:1rem;color:var(--ink)}
 .find__addr-btns{display:flex;gap:6px;flex:none}
@@ -728,7 +728,7 @@ html{scroll-padding-bottom:24px}
 .hours__note{margin-left:8px;font:400 .8125rem/1 var(--body);letter-spacing:0;text-transform:none;color:var(--ink-4)}
 .find .hours th{font:400 1rem/1.3 var(--body);color:var(--ink-2);padding-block:16px}
 .find .hours td{font:400 .9375rem/1.3 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink)}
-.find .hours tr.is-today th::after{content:"aujourd'hui";margin-left:10px;padding:3px 8px;border-radius:999px;background:rgba(20,23,26,.07);font:500 .75rem/1 var(--mono);letter-spacing:.06em;color:var(--ink-4)}
+.find .hours tr.is-today th::after{content:"aujourd’hui";margin-left:10px;padding:3px 8px;border-radius:999px;background:rgba(20,23,26,.07);font:500 .75rem/1 var(--mono);letter-spacing:.06em;color:var(--ink-4)}
 @media (min-width:900px){
   .find__grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);column-gap:64px;align-items:start}
   .find__head{grid-column:1;grid-row:1}
@@ -802,3 +802,12 @@ html{scroll-padding-bottom:24px}
   .dock.is-in{opacity:1}
   .radar__me:not([hidden]){animation:none}
 }
+
+/* ---------- correctifs QA (13 octobre 2026) ---------- */
+.top:focus-within{transform:none}
+.brand{min-height:44px}
+.btn--sm{min-height:44px}
+.demo-banner__tiny{display:none}
+@media (max-width:380px){.demo-banner__short{display:none!important}.demo-banner__tiny{display:inline}}
+.find__map .map-card__load{position:static;transform:none;display:flex;justify-content:center;width:100%;margin-top:10px;min-height:48px;border-color:rgba(20,23,26,.14);background:linear-gradient(180deg,#22262a,#121416)}
+.find__map .map-card__load:active{transform:scale(.97)}
