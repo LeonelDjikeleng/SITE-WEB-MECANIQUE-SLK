@@ -7,7 +7,7 @@ import numpy as np
 SR = 48000
 CUTS = {
     'principal': [('hook', 3.5), ('identity', 5.5), ('general', 4.5), ('tires', 4.5), ('rec', 4.5), ('manifest', 6), ('promise', 6), ('cta', 7.5)],
-    'court': [('hook', 2), ('identity', 3.5), ('general', 1.5), ('tires', 1.5), ('rec', 1.5), ('cta', 4.5)],
+    'court': [('hook', 1.5), ('identity', 3), ('general', 1.5), ('tires', 1.5), ('rec', 1.5), ('promise', 1.5), ('cta', 4.5)],
 }
 name, out = sys.argv[1], sys.argv[2]
 cut = CUTS[name]
@@ -54,7 +54,8 @@ def kick(g=1.0):
     n = int(.45 * SR); t = np.arange(n) / SR
     f = 46 + 90 * np.exp(-t * 28)
     ph = 2 * np.pi * np.cumsum(f) / SR
-    return np.sin(ph) * np.exp(-t * 7.5) * g * .62
+    click = hp_fast(rng.standard_normal(n), 2500) * np.exp(-t * 300) * .15
+    return (np.sin(ph) * np.exp(-t * 7.5) + click) * g * .5
 
 def boom():
     n = int(2.6 * SR); t = np.arange(n) / SR
@@ -122,6 +123,8 @@ def pad(freqs, d, g=.12, fc=1400, attack=1.2, release=1.5):
 def bass(f, d, g=.32):
     n = int(d * SR); t = np.arange(n) / SR
     s = np.sin(2 * np.pi * f * t) + .25 * np.sin(2 * np.pi * 2 * f * t)
+    s = np.tanh(1.8 * s) / np.tanh(1.8)          # saturation douce : harmoniques de 300 Hz à 2 kHz
+    s += .12 * np.sin(2 * np.pi * 4 * f * t) + .08 * np.sin(2 * np.pi * 6 * f * t)
     return s * np.minimum(1, t / .01) * np.exp(-t * 1.4) * g
 
 # accords (la mineur → fa → do → sol), fréquences
@@ -147,8 +150,8 @@ k = 0; t = groove_from
 while t < full_to - 1e-6:
     root, ch = CHORDS[(k // 2) % 4]
     d = min(bar, full_to - t)
-    add(pad(ch, d + 1.4, g=.16 if t < groove_to else .2, fc=1100 if t < groove_to else 1600, attack=.6, release=1.2), t, 1.0)
-    add(bass(root, d, g=.3 if t >= groove_from + 2 else .18), t, 1.0)
+    add(pad(ch, d + 1.4, g=.16 if t < groove_to else .2, fc=1900 if t < groove_to else 2400, attack=.6, release=1.2), t, 1.0)
+    add(bass(root, d, g=.22 if t >= groove_from + 2 else .14), t, 1.0)
     for b in range(4):
         tb = t + b * .5
         if tb >= full_to: break
@@ -157,6 +160,18 @@ while t < full_to - 1e-6:
             if b % 2 == 1: add(clap(), tb, .55, pan=.1)
             for e in range(2): add(hat(.8 if e else .5), tb + e * .25, 1.0, pan=.25)
     k += 1; t += bar
+
+def pluck(f, d=.45):
+    n = int(d * SR); t = np.arange(n) / SR
+    s = np.sin(2 * np.pi * f * t) + .35 * np.sin(2 * np.pi * 2 * f * t) + .15 * np.sin(2 * np.pi * 3 * f * t)
+    return s * np.minimum(1, t / .003) * np.exp(-t * 7) * .17
+ARP = [[A3 * 2, C4 * 2, E4 * 2, C4 * 2], [F3 * 2, A3 * 2, C4 * 2, A3 * 2], [G3 * 2, C4 * 2, E4 * 2, C4 * 2], [G3 * 2, B3 * 2, D4 * 2, B3 * 2]]
+for sec in ('identity', 'manifest'):
+    if sec not in starts: continue
+    s0, sd = starts[sec]; k = 0; tt = s0 + (1.0 if sec == 'identity' else 0)
+    while tt < s0 + sd - .1:
+        bar_i = int((tt - groove_from) // 2) % 4
+        add(pluck(ARP[bar_i][k % 4]), tt, 1.0, pan=(-.35 if k % 2 else .35)); k += 1; tt += .25
 
 # ---- accents synchronisés aux images ----
 i0, idd = starts['identity']; add(ratchet(), i0 + 1.1, .7, pan=-.2)
@@ -171,9 +186,12 @@ if 'manifest' in starts:
     for i in range(3): add(kick(.5), m0 + .3 + i * 1.25, 1.0); add(tick(), m0 + .3 + i * 1.25, .35)
 if 'promise' in starts:
     p0, pd = starts['promise']
-    for i in range(4): add(pen(.35), p0 + .9 + i * .35, 1.0, pan=.3)
-    add(stamp(), p0 + 2.62, .8)
-    add(whoosh(1.0, up=True), p0 + pd - 1.0, .45)
+    if pd >= 3:
+        for i in range(4): add(pen(.35), p0 + .8 + i * .35, 1.0, pan=.3)
+        add(stamp(), p0 + 2.62, .8)
+        add(whoosh(1.0, up=True), p0 + pd - 1.0, .45)
+    else:
+        add(tick(), p0 + .05, .6); add(whoosh(pd, up=True), p0, .35)
 
 # ---- carte finale : résolution en do majeur, cloche ----
 c0, cd = starts['cta']

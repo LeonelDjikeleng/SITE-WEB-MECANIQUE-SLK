@@ -1,24 +1,24 @@
 1
-00:00:00,000 --> 00:00:03,500
-[Musique originale. Gros plan sur une roue ; l’adresse du garage est gravée sur le flanc.]
+00:00:00,400 --> 00:00:03,500
+Votre auto, vue de près.
 
 2
-00:00:04,600 --> 00:00:09,000
+00:00:04,200 --> 00:00:09,000
 Mécanique SKL · Garage à Beauport
 1100, boulevard des Chutes
 
 3
-00:00:09,300 --> 00:00:13,500
+00:00:09,200 --> 00:00:13,500
 Mécanique générale
-On regarde avant de parler de prix.
+Inspection, diagnostic, réparation.
 
 4
-00:00:13,800 --> 00:00:18,000
+00:00:13,700 --> 00:00:18,000
 Pneus
 Vente et pose, été comme hiver.
 
 5
-00:00:18,300 --> 00:00:22,500
+00:00:18,200 --> 00:00:22,500
 Mécanique récréative
 Aussi pour les véhicules récréatifs.
 
@@ -28,11 +28,15 @@ On regarde. On vous explique.
 Ensuite, on répare.
 
 7
-00:00:29,700 --> 00:00:34,300
+00:00:29,400 --> 00:00:34,500
 Le prix par écrit, avant de réparer.
 Pour une réparation de plus de 100 $, c’est votre droit au Québec.
 
 8
-00:00:35,400 --> 00:00:42,000
+00:00:34,900 --> 00:00:35,700
+Mécanique SKL
+
+9
+00:00:35,700 --> 00:00:42,000
 Mécanique SKL · Appelez le 418 663-1195
 1100, boul. des Chutes · Beauport (Québec)
