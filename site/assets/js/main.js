@@ -390,7 +390,7 @@
   btn.addEventListener('click', () => {
     // téléphone tenu en portrait : montage vertical (textes lisibles) ; petit écran ou économie de données : 720p
     const portrait = matchMedia('(max-width: 720px) and (orientation: portrait)').matches;
-    const small = portrait || matchMedia('(max-width: 720px)').matches || (navigator.connection && navigator.connection.saveData);
+    const small = portrait || matchMedia('(max-width: 900px), (max-height: 500px)').matches || (navigator.connection && navigator.connection.saveData);
     const q = portrait ? 'v720' : small ? '720' : '1080';
     const v = document.createElement('video');
     Object.assign(v, { controls: true, playsInline: true, preload: 'auto', poster: portrait ? 'assets/video/skl-film-v-poster.jpg' : 'assets/video/skl-film-poster.jpg' });
