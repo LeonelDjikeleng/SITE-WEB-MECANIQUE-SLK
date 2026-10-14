@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process';
 const [mode, cutName, out, fpsS = '30', dprS = '2', a = '0', z = '0'] = process.argv.slice(2);
 const fps = +fpsS, dpr = +dprS;
 const [w, h] = mode === 'v' ? [1080, 1920] : [1920, 1080];
-const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--allow-file-access-from-files', '--force-color-profile=srgb'] });
+const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome', args: ['--allow-file-access-from-files', '--force-color-profile=srgb', '--default-tile-width=4096', '--default-tile-height=4096'] });
 const p = await b.newPage({ viewport: { width: w * dpr, height: h * dpr }, deviceScaleFactor: 1 });
 const errs = []; p.on('pageerror', e => errs.push(e.message));
 await p.goto('file:///home/user/SITE-WEB-MECANIQUE-SLK/projet/film/render/film.html');
