@@ -811,3 +811,26 @@ html{scroll-padding-bottom:24px}
 @media (max-width:380px){.demo-banner__short{display:none!important}.demo-banner__tiny{display:inline}}
 .find__map .map-card__load{position:static;transform:none;display:flex;justify-content:center;width:100%;margin-top:10px;min-height:48px;border-color:rgba(20,23,26,.14);background:linear-gradient(180deg,#22262a,#121416)}
 .find__map .map-card__load:active{transform:scale(.97)}
+
+/* ---------- le film (lecteur chargé au clic) ---------- */
+.film{padding-block:var(--section-y);background:linear-gradient(180deg,rgba(13,15,16,.86),#0d0f10 40%)}
+.film__grid{display:grid;gap:28px}
+.film__copy h2{margin-top:14px;font-size:clamp(1.875rem,4.8vw,4.3rem);font-weight:740;letter-spacing:-.035em;line-height:1.02}
+.film__player{position:relative;aspect-ratio:16/9;border-radius:var(--r-card);overflow:hidden;background:#000;box-shadow:var(--e-2)}
+.film__player img,.film__player video{display:block;width:100%;height:100%;object-fit:cover}
+.film__play{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-start;gap:14px;padding:clamp(14px,3vw,28px);border:0;background:linear-gradient(180deg,transparent 45%,rgba(8,9,10,.72));color:var(--text);cursor:pointer;touch-action:manipulation;text-align:left}
+.film__play-ico{display:grid;place-items:center;width:64px;height:64px;flex:none;border-radius:50%;background:linear-gradient(180deg,var(--gold-hi),var(--gold) 60%,var(--gold-lo));color:#16130A;box-shadow:var(--glow-gold);transition:transform var(--t-release) var(--ease-out)}
+.film__play-ico svg{width:26px;height:26px;margin-left:3px}
+.film__play-txt{display:flex;flex-direction:column;gap:4px;font:600 1.125rem/1.1 var(--body)}
+.film__play-txt small{font:400 .875rem/1.2 var(--body);color:var(--text-2)}
+.film__play:active .film__play-ico{transform:scale(.94);transition-duration:var(--t-press)}
+@media (hover:hover){.film__play:hover .film__play-ico{transform:scale(1.06)}}
+.film__transcript summary{display:inline-flex;align-items:center;min-height:44px;cursor:pointer;color:var(--text-2);text-decoration:underline;text-underline-offset:4px}
+.film__transcript p{margin-top:8px;max-width:70ch;color:var(--text-3);font-size:.95rem}
+.film .fine{margin-top:8px}
+@media (min-width:900px){
+  .film__grid{grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);column-gap:64px;align-items:center}
+  .film__copy{grid-column:1;grid-row:1}
+  .film__player{grid-column:2;grid-row:1 / span 2}
+  .film__meta{grid-column:1;grid-row:2;align-self:start}
+}

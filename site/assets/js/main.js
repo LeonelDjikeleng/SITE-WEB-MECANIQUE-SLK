@@ -382,3 +382,22 @@
   onBackdropScroll();
   maybeLoadVideo();
 })();
+
+/* ---------- le film : rien n'est chargé avant le toucher ; fichiers hébergés sur le site (Loi 25) ---------- */
+(() => {
+  const box = document.querySelector('[data-film]'), btn = document.querySelector('[data-film-play]');
+  if (!box || !btn) return;
+  btn.addEventListener('click', () => {
+    const small = matchMedia('(max-width: 720px)').matches || (navigator.connection && navigator.connection.saveData);
+    const q = small ? '720' : '1080';
+    const v = document.createElement('video');
+    Object.assign(v, { controls: true, playsInline: true, preload: 'auto', poster: 'assets/video/skl-film-poster.jpg' });
+    v.setAttribute('aria-label', 'Film de démonstration : Mécanique SKL en 42 secondes');
+    v.innerHTML = `<source src="assets/video/skl-film-${q}.webm" type="video/webm"><source src="assets/video/skl-film-${q}.mp4" type="video/mp4"><track kind="captions" srclang="fr" label="Français" src="assets/video/skl-film.fr.vtt">`;
+    box.replaceChildren(v);
+    v.play().catch(() => {});
+    v.focus({ preventScroll: true });
+    // pause quand le lecteur sort de l'écran
+    new IntersectionObserver(([e]) => { if (!e.isIntersecting && !v.paused) v.pause(); }, { threshold: .15 }).observe(v);
+  }, { once: true });
+})();

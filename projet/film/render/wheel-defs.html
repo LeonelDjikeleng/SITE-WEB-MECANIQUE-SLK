@@ -1,0 +1,70 @@
+<!-- ============ ROUE (dessin unique, réutilisé) ============ -->
+<svg width="0" height="0" class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="g-rubber" cx="0" cy="0" r="290" gradientUnits="userSpaceOnUse">
+      <stop offset=".62" stop-color="#16181a"/>
+      <stop offset=".80" stop-color="#202326"/>
+      <stop offset=".93" stop-color="#17191b"/>
+      <stop offset="1" stop-color="#0e0f10"/>
+    </radialGradient>
+    <linearGradient id="g-rim" x1="-180" y1="-180" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8d959d"/>
+      <stop offset=".45" stop-color="#3b4146"/>
+      <stop offset=".7" stop-color="#5d656c"/>
+      <stop offset="1" stop-color="#25292d"/>
+    </linearGradient>
+    <linearGradient id="g-spoke" x1="0" y1="-60" x2="0" y2="-178" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4a5157"/>
+      <stop offset="1" stop-color="#2a2e32"/>
+    </linearGradient>
+    <radialGradient id="g-sheen" cx="-120" cy="-150" r="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd27a" stop-opacity=".30"/>
+      <stop offset=".45" stop-color="#ffd27a" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <path id="p-sidewall" d="M0,-216 a216,216 0 1,1 -0.01,0"/>
+    <g id="spoke">
+      <path d="M-15,-58 L-30,-170 Q0,-180 30,-170 L15,-58 Q0,-52 -15,-58 Z" fill="url(#g-spoke)" stroke="#1b1e21" stroke-width="2"/>
+      <path d="M-4,-64 L-9,-166 L9,-166 L4,-64 Z" fill="#121416" opacity=".55"/>
+    </g>
+    <g id="snowpeak">
+      <path d="M-22,12 L-6,-12 L2,-2 L8,-10 L24,12 Z" fill="none" stroke="#3a3f44" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M2,0 v10 M-3,5 h10 M-1.5,1.5 l7,7 M5.5,1.5 l-7,7" stroke="#3a3f44" stroke-width="1.8"/>
+    </g>
+    <g id="closing-mark">
+      <circle cx="80" cy="80" r="56" fill="none" stroke="currentColor" stroke-width="16"/>
+      <circle cx="80" cy="80" r="66.5" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="9.2 5.4"/>
+      <g fill="currentColor"><circle cx="80" cy="57" r="5.2"/><circle cx="101.9" cy="72.9" r="5.2"/><circle cx="93.5" cy="98.6" r="5.2"/><circle cx="66.5" cy="98.6" r="5.2"/><circle cx="58.1" cy="72.9" r="5.2"/></g>
+      <circle cx="80" cy="80" r="9" fill="currentColor"/>
+    </g>
+    <g id="wheel-art">
+      <circle r="290" fill="url(#g-rubber)"/>
+      <!-- bande de roulement : blocs et lamelles -->
+      <circle r="272" fill="none" stroke="#25292c" stroke-width="30" stroke-dasharray="16 9"/>
+      <circle r="272" fill="none" stroke="#111315" stroke-width="2" stroke-dasharray="3 22" transform="rotate(4)"/>
+      <circle r="286" fill="none" stroke="#2c3034" stroke-width="5" stroke-dasharray="7 18" transform="rotate(9)"/>
+      <circle r="253" fill="none" stroke="#0d0e0f" stroke-width="3"/>
+      <!-- flanc : inscriptions comme un vrai pneu -->
+      <text class="sidewall" font-family="'Plex Mono', ui-monospace, monospace" font-weight="500" fill="#4a5056" font-size="15.5" letter-spacing="1.6"><textPath href="#p-sidewall" textLength="1262" lengthAdjust="spacing">MÉCANIQUE SKL · 1100 BOUL. DES CHUTES · BEAUPORT QC G1E 2G1 · 418 663-1195 · GÉNÉRALE · RÉCRÉATIVE · PNEUS ·</textPath></text>
+      <use href="#snowpeak" transform="rotate(347.4) translate(0,-214) scale(.85)"/>
+      <circle r="192" fill="none" stroke="#0c0d0e" stroke-width="6"/>
+      <!-- jante -->
+      <circle r="186" fill="url(#g-rim)"/>
+      <circle r="176" fill="#1d2023"/>
+      <circle r="176" fill="none" stroke="#6b737a" stroke-width="1.5" opacity=".6"/>
+      <use href="#spoke"/>
+      <use href="#spoke" transform="rotate(72)"/>
+      <use href="#spoke" transform="rotate(144)"/>
+      <use href="#spoke" transform="rotate(216)"/>
+      <use href="#spoke" transform="rotate(288)"/>
+      <!-- étrier aperçu entre les rayons -->
+      <path d="M118,-96 A152,152 0 0,1 150,-24" stroke="#F5B400" stroke-width="16" fill="none" stroke-linecap="round" opacity=".9"/>
+      <circle r="60" fill="#2b3035" stroke="#15181a" stroke-width="3"/>
+      <g fill="#8a9299" stroke="#1a1d20" stroke-width="2">
+        <circle cx="0" cy="-38" r="7"/><circle cx="36.1" cy="-11.7" r="7"/><circle cx="22.3" cy="30.7" r="7"/><circle cx="-22.3" cy="30.7" r="7"/><circle cx="-36.1" cy="-11.7" r="7"/>
+      </g>
+      <circle r="17" fill="#121416" stroke="#F5B400" stroke-width="3"/>
+      <circle r="290" fill="url(#g-sheen)"/>
+    </g>
+  </defs>
+</svg>

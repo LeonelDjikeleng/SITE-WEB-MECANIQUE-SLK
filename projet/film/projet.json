@@ -1,0 +1,73 @@
+{
+  "projet": {"id": "2026-10-14-mecanique-skl-film", "client": "Mécanique SKL", "langue": "fr-CA", "version": 1},
+  "brief": {
+    "entreprise": "Mécanique SKL, garage de quartier à Beauport (Québec)",
+    "secteur": "garage",
+    "offre": "Mécanique générale, mécanique récréative, vente et pose de pneus",
+    "cible": "Automobilistes de Beauport et des environs qui cherchent un garage de confiance, surtout ceux qui craignent de payer une réparation qu'ils ne comprennent pas",
+    "objectif_commercial": "Renforcer la crédibilité de Mécanique SKL et faire appeler le garage",
+    "action_spectateur": "Appeler le garage ou demander un rendez-vous depuis le site",
+    "canal": "site-presentation",
+    "placement": "Section « Le film » du site, lecteur avec commandes et poster, chargé au clic ; version verticale pour les réseaux ; version complète pour la présentation au propriétaire",
+    "strategie": "premium+service",
+    "justification": "Un garage de quartier se choisit sur la confiance. Un film soigné, sobre et précis, construit sur l'identité du site (la roue, la ligne jaune, l'inspection), montre la rigueur avant de parler de prix, sans rien inventer sur l'atelier.",
+    "promesse": "Un garage qui regarde avant de réparer et donne le prix par écrit",
+    "accroche": "Très gros plan d'une bande de roulement balayée par un trait de lumière, l'adresse gravée sur le flanc",
+    "benefice": "Savoir ce qui sera fait et combien ça coûtera, avant les travaux",
+    "objections": ["« Je vais payer pour des réparations inutiles » → on regarde, on explique, puis vous décidez, prix par écrit", "« Je ne sais pas où c'est » → adresse et repère à l'écran"],
+    "kpi": "Clics sur Appeler et sur Rendez-vous des visiteurs qui lancent le film, comparés à ceux qui ne le lancent pas ; taux de lecture jusqu'à la carte finale",
+    "test_ab": "Accroche roue (actuelle) contre accroche inspection, quand le site aura au moins 1 000 visites par mois"
+  },
+  "faits": [
+    {"id": "F1", "texte": "Le garage s'appelle Mécanique SKL", "statut": "verifie", "source": "Facebook, NAPA AutoCare, Nokian Tyres, Otobox", "date": "2026-10-08"},
+    {"id": "F2", "texte": "Adresse : 1100, boulevard des Chutes, Beauport (Québec) G1E 2G1", "statut": "verifie", "source": "annuaires concordants", "date": "2026-10-08"},
+    {"id": "F3", "texte": "Services : mécanique générale, mécanique récréative, vente et pose de pneus", "statut": "verifie", "source": "Facebook et annuaires", "date": "2026-10-08"},
+    {"id": "F4", "texte": "Téléphone 418 663-1195 (un second numéro, 581 982-1195, circule chez NAPA)", "statut": "hypothese", "source": "annuaires, à confirmer par le garage", "date": "2026-10-08"},
+    {"id": "F5", "texte": "Au Québec, le prix d'une réparation de plus de 100 $ est remis par écrit avant les travaux (évaluation écrite, Loi sur la protection du consommateur)", "statut": "verifie", "source": "Office de la protection du consommateur", "date": "2026-10-09"},
+    {"id": "F6", "texte": "Façon de travailler : on regarde, on explique, ensuite on répare", "statut": "hypothese", "source": "positionnement de la maquette, à valider avec le garage", "date": "2026-10-08"},
+    {"id": "F7", "texte": "Logo officiel du garage", "statut": "a_fournir"},
+    {"id": "F8", "texte": "Photos et vidéos réelles de l'atelier", "statut": "a_fournir"}
+  ],
+  "direction_artistique": {
+    "idee": "« Avant de parler de prix, on regarde. » Le film suit la roue signature du site, de la matière au repère sur la carte, comme une inspection.",
+    "style": "Motion design cinématographique, rendu vectoriel net, noirs profonds, une seule couleur d'accent ; aucun faux plan d'atelier",
+    "emotion": "Précision → confiance → passage à l'action",
+    "palette": ["#121416", "#F1F2EF", "#F5B400"],
+    "lumiere": "Clé ambrée chaude venant du haut à droite, noirs graphite, balayage de lampe d'inspection",
+    "cameras": "Très gros plan puis recul lent, rotation continue de la roue, travelling latéral doux sur le texte, aucun zoom brusque",
+    "rythme": "Plans de 3,5 à 7 s, accélère légèrement sur les trois métiers, respire sur la promesse et la carte finale",
+    "transitions": "Coupes franches sur le temps fort de la musique, un fondu au noir avant la carte finale",
+    "typo": {"famille": "Archivo (titres) et Instrument Sans (texte), polices du site", "titres": "Archivo 760", "texte": "Instrument Sans 400/600"},
+    "son": "Impact grave à l'ouverture, cliquet de clé et tic de lampe sur les coupes, pulsation sobre qui monte, résolution sur la carte finale",
+    "musique": {"description": "Pulsation électronique sobre à 96 bpm, basse ronde, sans voix", "source": "composition originale générée par code pour ce film", "licence": "œuvre originale, droits de LD SOLUTIONS, cédables au client", "statut": "originale"},
+    "logo": {"statut": "a_fournir"}
+  },
+  "concepts_alternatifs": [
+    "Tournage réel en atelier (mains, outils, propriétaire) au téléphone 4K, puis même montage : plus crédible, demande l'accord du garage et une demi-journée de tournage"
+  ],
+  "formats": [
+    {"nom": "principal", "ratio": "16:9", "resolution_cible": "3840x2160", "usage": "master, site, présentation au propriétaire"},
+    {"nom": "vertical", "ratio": "9:16", "resolution_cible": "2160x3840", "usage": "Reels, Stories, TikTok, présentation sur téléphone"}
+  ],
+  "voix_off": {"active": false, "voix": "", "outil": "", "statut": "aucune"},
+  "cta": {"texte": "Appelez le 418 663-1195", "coordonnees": "418 663-1195 · 1100, boul. des Chutes, Beauport", "statut": "a_fournir"},
+  "mention_images_illustratives": "Film de démonstration non officiel · images graphiques",
+  "scenes": [
+    {"id": "S1", "duree": 3.5, "fonction": "accroche", "action": "Très gros plan de la bande de roulement ; un trait de lumière ambrée la balaie ; l'adresse gravée sur le flanc défile", "plan": "macro", "mouvement": "rotation lente de la roue, léger travelling latéral", "texte_ecran": "", "son": "impact grave, souffle", "source": "graphique", "transition": "coupe", "faits_utilises": ["F1", "F2"]},
+    {"id": "S2", "duree": 5.5, "fonction": "identite", "action": "Recul : la roue entière sur le sol de béton, la ligne jaune au sol ; le nom apparaît avec son filet doré", "plan": "plan large", "mouvement": "recul lent, roue qui tourne", "texte_ecran": "Mécanique SKL · Garage à Beauport", "son": "pulsation qui démarre", "source": "graphique", "transition": "coupe", "faits_utilises": ["F1", "F2"]},
+    {"id": "S3", "duree": 4.5, "fonction": "demonstration", "action": "La lampe d'inspection fait le tour de la roue ; cinq repères s'allument en or", "plan": "plan rapproché", "mouvement": "rotation lente", "texte_ecran": "Mécanique générale", "son": "tic de lampe à chaque repère", "source": "graphique", "transition": "coupe", "faits_utilises": ["F3"]},
+    {"id": "S4", "duree": 4.5, "fonction": "demonstration", "action": "Gros plan du flanc : le pictogramme flocon dans la montagne s'éclaire", "plan": "gros plan", "mouvement": "travelling circulaire", "texte_ecran": "Pneus · été et hiver", "son": "cliquet", "source": "graphique", "transition": "coupe", "faits_utilises": ["F3"]},
+    {"id": "S5", "duree": 4.5, "fonction": "demonstration", "action": "Une roue à crampons de véhicule récréatif entre dans le cadre et tourne", "plan": "plan moyen", "mouvement": "travelling latéral", "texte_ecran": "Mécanique récréative", "son": "cliquet", "source": "graphique", "transition": "coupe", "faits_utilises": ["F3"]},
+    {"id": "S6", "duree": 6, "fonction": "preuve", "action": "Trois phrases apparaissent l'une après l'autre devant la roue assombrie", "plan": "plan large", "mouvement": "léger avancé", "texte_ecran": "On regarde. On vous explique. Ensuite, on répare.", "son": "pulsation pleine", "source": "graphique", "transition": "coupe", "faits_utilises": ["F6"]},
+    {"id": "S7", "duree": 6, "fonction": "preuve", "action": "Un bon de travail se dépose ; la promesse et le droit légal s'écrivent", "plan": "plan rapproché", "mouvement": "fixe", "texte_ecran": "Le prix par écrit, avant de réparer.", "son": "stylo, résolution harmonique", "source": "graphique", "transition": "fondu_noir", "faits_utilises": ["F5"]},
+    {"id": "S8", "duree": 7.5, "fonction": "cta", "action": "Repère du garage sur un plan schématique, puis carte finale : nom, appel à l'action, adresse", "plan": "carton graphique", "mouvement": "apparition douce", "texte_ecran": "Appelez le 418 663-1195", "son": "accord final, fin en fondu", "source": "graphique", "transition": "coupe", "faits_utilises": ["F1", "F2", "F4"]}
+  ],
+  "ressources": [
+    {"nom": "Polices Archivo, Instrument Sans, IBM Plex Mono", "source": "site de la maquette (Fontsource)", "droits": "SIL Open Font License", "statut": "libre_verifiee"},
+    {"nom": "Roue, sol, repères (dessins SVG)", "source": "créés pour la maquette", "droits": "LD SOLUTIONS", "statut": "originale"},
+    {"nom": "Musique et effets sonores", "source": "composés par code pour ce film", "droits": "LD SOLUTIONS", "statut": "originale"}
+  ],
+  "production": {"outil_video": "rendu graphique par code (Chromium sans écran, image par image) + FFmpeg", "outil_image": "aucun (SVG et CSS)", "resolution_generation": "4k", "fps": 30, "cout_estime_credits": 0, "mesure_le": "2026-10-14", "statut": "prepare", "fichiers_produits": []},
+  "integration_web": {"methode": "lecteur avec commandes, preload none, poster, sous-titres VTT, chargé au clic", "poids_cible": "≤ 10 Mo en 1080p, 720p pour téléphone", "mesure": ""},
+  "reste_a_faire": ["Confirmer le numéro de téléphone avec le garage", "Obtenir le logo officiel", "Tourner de vrais plans d'atelier pour la version 2"]
+}

@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<title>Mécanique SKL · film</title>
+<style>
+@font-face{font-family:Archivo;src:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/site/assets/fonts/archivo-var.woff2) format("woff2");font-weight:100 900;font-stretch:62% 125%}
+@font-face{font-family:Instrument;src:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/site/assets/fonts/instrument-sans-latin-400-normal.woff2) format("woff2");font-weight:400}
+@font-face{font-family:Instrument;src:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/site/assets/fonts/instrument-sans-latin-600-normal.woff2) format("woff2");font-weight:600}
+@font-face{font-family:"Plex Mono";src:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/site/assets/fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400}
+@font-face{font-family:"Plex Mono";src:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/site/assets/fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500}
+:root{--W:1920px;--H:1080px;--gold:#F5B400;--gold-hi:#FFD45C;--gold-lo:#E2A200;--text:#F1F2EF;--steel:#A3ABB4}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:var(--W);height:var(--H);overflow:hidden;background:#0b0c0d}
+body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+#stage{position:relative;width:var(--W);height:var(--H);overflow:hidden;background:#121416}
+.abs{position:absolute;left:0;top:0}
+/* sol de béton (repris du site) */
+#floor{position:absolute;inset:-6%;background:radial-gradient(60% 50% at 66% 52%,#34383c 0%,#25282b 45%,#16181a 100%),#1b1d20;transform-origin:50% 50%}
+#floor::before{content:"";position:absolute;inset:0;opacity:.5;background-image:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/projet/film/render/concrete.png);background-size:520px 520px}
+#line{position:absolute;left:50%;top:50%;width:260%;height:34px;margin:-17px 0 0 -130%;background:linear-gradient(90deg,rgba(245,180,0,.92),rgba(245,180,0,.78) 40%,rgba(230,168,10,.94));box-shadow:0 0 40px rgba(245,180,0,.14);transform-origin:50% 50%}
+#pool{position:absolute;inset:0;background:radial-gradient(30% 38% at 66% 50%,rgba(255,206,120,.22),rgba(255,206,120,.06) 50%,transparent 75%),linear-gradient(90deg,rgba(90,125,160,.14),transparent 45%)}
+.wrap{position:absolute;left:0;top:0;width:600px;height:600px;transform-origin:0 0}
+.wrap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;will-change:transform}
+.wrap .shadow{position:absolute;inset:3%;border-radius:50%;box-shadow:0 40px 120px 20px rgba(0,0,0,.7),0 8px 24px rgba(0,0,0,.6)}
+#lamp{position:absolute;inset:-2%;border-radius:50%;mix-blend-mode:screen;opacity:0}
+#pins circle{fill:rgba(18,20,22,.65);stroke:#6b737a;stroke-width:3}
+#pins circle.on{fill:var(--gold);stroke:var(--gold)}
+#pins text{font:600 22px Instrument;fill:#F1F2EF;paint-order:stroke;stroke:#0d0f10;stroke-width:6px;opacity:0}
+#sweep{position:absolute;inset:-20%;mix-blend-mode:screen;opacity:0;background:linear-gradient(100deg,transparent 40%,rgba(255,214,140,.0) 44%,rgba(255,220,160,.45) 50%,rgba(255,214,140,0) 56%,transparent 60%)}
+#vig{position:absolute;inset:0;background:radial-gradient(85% 75% at 55% 50%,transparent 55%,rgba(0,0,0,.55) 100%);pointer-events:none}
+#grain{position:absolute;inset:0;opacity:.09;background-image:url(file:///home/user/SITE-WEB-MECANIQUE-SLK/projet/film/render/grain.png);background-size:256px 256px}
+#veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,11,12,.86) 0%,rgba(10,11,12,.6) 34%,rgba(10,11,12,.1) 60%,rgba(10,11,12,0) 70%);opacity:0}
+#shade{position:absolute;inset:0;background:#0b0c0d;opacity:0}
+#black{position:absolute;inset:0;background:#000;opacity:1}
+/* textes */
+.t{position:absolute;opacity:0;will-change:transform,opacity;text-shadow:0 2px 18px rgba(0,0,0,.55)}
+.kick{font:500 22px/1 "Plex Mono";letter-spacing:.2em;text-transform:uppercase;color:#C8CDD2;display:flex;align-items:center;gap:16px}
+.kick::before{content:"";width:40px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--gold-hi),var(--gold))}
+.big{font:760 150px/.92 Archivo;letter-spacing:-.045em}
+.mid{font:740 112px/1 Archivo;letter-spacing:-.04em}
+.sub{font:400 38px/1.3 Instrument;color:#D7DBDE}
+.rule{position:absolute;height:5px;border-radius:5px;background:linear-gradient(90deg,var(--gold-hi),var(--gold-lo));transform-origin:0 50%;transform:scaleX(0)}
+.man{font:760 132px/1 Archivo;letter-spacing:-.045em}
+.man em{font-style:normal;color:var(--gold)}
+.clip{overflow:hidden;padding-bottom:.08em}
+.clip>span{display:inline-block;will-change:transform}
+/* bon de travail */
+#slip{position:absolute;width:640px;padding:44px 44px 40px;background:linear-gradient(180deg,#F1F2EF,#E3E4E1);color:#14171A;border-radius:6px;box-shadow:0 40px 90px rgba(0,0,0,.55);opacity:0;transform-origin:50% 50%}
+#slip::before{content:"";position:absolute;left:0;right:0;top:-10px;height:20px;background:radial-gradient(circle at 10px 10px,#121416 7px,transparent 7.5px) 0 0/26px 20px repeat-x}
+.slip__head{display:flex;justify-content:space-between;font:500 20px/1 "Plex Mono";letter-spacing:.1em;text-transform:uppercase;color:#4d555c;padding-bottom:20px;border-bottom:2px dashed rgba(20,23,26,.3)}
+.slip__row{display:flex;align-items:center;gap:18px;margin-top:26px}
+.slip__row b{font:600 24px/1 Instrument;width:200px;color:#2f353b}
+.slip__bar{flex:1;height:14px;border-radius:7px;background:#C9CCC8;transform-origin:0 50%;transform:scaleX(0)}
+.slip__total{margin-top:34px;padding-top:22px;border-top:2px solid #14171A;display:flex;justify-content:space-between;font:740 34px/1 Archivo;letter-spacing:-.02em}
+.slip__total span:last-child{font:500 24px/1.4 "Plex Mono";color:#59616A;letter-spacing:.04em}
+#stamp{position:absolute;right:34px;bottom:96px;width:150px;height:150px;border:5px solid rgba(160,105,0,.75);border-radius:50%;display:grid;place-items:center;text-align:center;font:600 21px/1.15 "Plex Mono";letter-spacing:.06em;text-transform:uppercase;color:rgba(140,92,0,.85);transform:rotate(-14deg) scale(2);opacity:0}
+.legal{font:400 30px/1.35 Instrument;color:#C8CDD2}
+/* plan et carte finale */
+#radar{position:absolute;opacity:0;border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);transform-origin:50% 50%}
+#radar svg{display:block;width:100%;height:100%}
+#radar text{font-family:Instrument}
+.radar__km text{font-size:10px}.radar__n text{font:600 10px "Plex Mono"}.radar__name{font-size:13px;font-weight:600}.radar__addr{font-size:11px}
+#pulse{position:absolute;border-radius:50%;border:3px solid var(--gold);opacity:0}
+.end-name{font:760 128px/.92 Archivo;letter-spacing:-.045em}
+.end-cta{font:740 76px/1.02 Archivo;letter-spacing:-.03em}
+.end-cta b{color:var(--gold);font-weight:760;white-space:nowrap}
+.end-addr{font:400 34px/1.35 Instrument;color:#D7DBDE}
+.end-svc{font:500 22px/1 "Plex Mono";letter-spacing:.16em;text-transform:uppercase;color:#A3ABB4}
+#disclose{position:absolute;font:500 19px/1.2 "Plex Mono";letter-spacing:.08em;color:#8A929B;opacity:0}
+/* vertical */
+.v .big{font-size:132px}.v .mid{font-size:92px}.v .sub{font-size:40px}.v .man{font-size:108px}.v .end-name{font-size:118px}.v .end-cta{font-size:72px}.v .end-addr{font-size:36px}
+.v #veil{background:linear-gradient(180deg,rgba(10,11,12,0) 30%,rgba(10,11,12,.72) 56%,rgba(10,11,12,.9) 100%)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="floor"><div id="line"></div><div id="pool"></div></div>
+  <div id="wheelB" class="wrap"><div class="shadow"></div>
+    <svg viewBox="-300 -300 600 600"><g id="knobby">
+      <circle r="292" fill="#141617"/>
+      <g id="knobs"></g>
+      <circle r="238" fill="#1b1d1f" stroke="#0d0e0f" stroke-width="4"/>
+      <circle r="226" fill="none" stroke="#2a2e32" stroke-width="2" stroke-dasharray="3 9"/>
+      <circle r="168" fill="url(#g-rim)"/>
+      <circle r="156" fill="#1d2023"/>
+      <g fill="#59616a" stroke="#1b1e21" stroke-width="3" id="ribs"></g>
+      <circle r="62" fill="#2b3035" stroke="#15181a" stroke-width="4"/>
+      <g fill="#8a9299" stroke="#1a1d20" stroke-width="2"><circle cx="0" cy="-36" r="8"/><circle cx="31" cy="18" r="8"/><circle cx="-31" cy="18" r="8"/><circle cx="31" cy="-18" r="0"/></g>
+      <circle r="18" fill="#121416" stroke="#F5B400" stroke-width="4"/>
+      <circle r="292" fill="url(#g-sheen)"/>
+    </g></svg>
+  </div>
+  <div id="wheelA" class="wrap"><div class="shadow"></div>
+    <svg viewBox="-300 -300 600 600"><use href="#wheel-art"/></svg>
+    <div id="lamp"></div>
+    <svg viewBox="-300 -300 600 600" id="pins">
+      <g><circle cx="0" cy="-268" r="13"/><text x="22" y="-276">Pneus</text></g>
+      <g><circle cx="150" cy="-60" r="13"/><text x="172" y="-52">Freins</text></g>
+      <g><circle cx="110" cy="150" r="13"/><text x="132" y="158">Suspension</text></g>
+      <g><circle cx="-120" cy="140" r="13"/><text x="-98" y="148">Liquides</text></g>
+      <g><circle cx="-150" cy="-70" r="13"/><text x="-128" y="-62">Électricité</text></g>
+    </svg>
+    <svg viewBox="-300 -300 600 600" id="snowRing" style="opacity:0"><circle id="snowC" r="34" fill="none" stroke="#F5B400" stroke-width="4"/></svg>
+  </div>
+  <div id="sweep"></div>
+  <div id="veil"></div>
+  <div id="shade"></div>
+
+  <!-- identité -->
+  <p class="t kick" id="kick1">Garage à Beauport</p>
+  <h1 class="t big" id="title"><span class="clip" style="display:block"><span>Mécanique SKL</span></span></h1>
+  <div class="rule" id="rule1"></div>
+  <p class="t sub" id="sub1">1100, boulevard des Chutes</p>
+  <!-- métiers -->
+  <p class="t kick" id="kickS">Ce qu’on fait au garage</p>
+  <h2 class="t mid" id="svc1"><span class="clip" style="display:block"><span>Mécanique générale</span></span></h2>
+  <p class="t sub" id="svc1s">On regarde avant de parler de prix.</p>
+  <h2 class="t mid" id="svc2"><span class="clip" style="display:block"><span>Pneus</span></span></h2>
+  <p class="t sub" id="svc2s">Vente et pose, été comme hiver.</p>
+  <h2 class="t mid" id="svc3"><span class="clip" style="display:block"><span>Mécanique récréative</span></span></h2>
+  <p class="t sub" id="svc3s">Aussi pour les véhicules récréatifs.</p>
+  <!-- manifeste -->
+  <p class="t man" id="m1"><span class="clip" style="display:block"><span>On regarde.</span></span></p>
+  <p class="t man" id="m2"><span class="clip" style="display:block"><span>On vous explique.</span></span></p>
+  <p class="t man" id="m3"><span class="clip" style="display:block"><span>Ensuite, <em>on répare.</em></span></span></p>
+  <!-- promesse -->
+  <div id="slip">
+    <div class="slip__head"><span>Évaluation écrite</span><span>Bon de travail</span></div>
+    <div class="slip__row"><b>Ce qu’on a vu</b><i class="slip__bar"></i></div>
+    <div class="slip__row"><b>Ce qu’on propose</b><i class="slip__bar"></i></div>
+    <div class="slip__row"><b>Pièces</b><i class="slip__bar"></i></div>
+    <div class="slip__row"><b>Main-d’œuvre</b><i class="slip__bar"></i></div>
+    <div class="slip__total"><span>Total</span><span>avant les travaux</span></div>
+    <div id="stamp">Prix<br>écrit</div>
+  </div>
+  <h2 class="t mid" id="promise"><span class="clip" style="display:block"><span>Le prix par écrit,</span></span><span class="clip" style="display:block"><span>avant de réparer.</span></span></h2>
+  <p class="t legal" id="legal">Pour une réparation de plus de 100&nbsp;$, c’est votre droit au Québec.</p>
+  <!-- plan + fin -->
+  <div id="radar"><svg class="radar-svg" viewBox="0 0 400 300" role="img" aria-labelledby="radar-t">
+        <title id="radar-t">Plan schématique, pas une carte : Mécanique SKL au centre, entouré de cercles de 1, 3 et 10 km.</title>
+        <defs>
+          <radialGradient id="radar-glow" cx="200" cy="150" r="190" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2a2f34"/><stop offset="1" stop-color="#121416"/></radialGradient>
+          <pattern id="radar-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(241,242,239,.045)" stroke-width="1"/></pattern>
+        </defs>
+        <rect width="400" height="300" fill="url(#radar-glow)"/>
+        <rect width="400" height="300" fill="url(#radar-grid)"/>
+        <path d="M-10 262 L410 70" stroke="#F5B400" stroke-width="3" stroke-dasharray="14 10" opacity=".28"/>
+        <g fill="none" stroke="rgba(241,242,239,.16)">
+          <circle cx="200" cy="150" r="120" stroke-dasharray="3 5"/>
+          <circle cx="200" cy="150" r="66"/>
+          <circle cx="200" cy="150" r="38"/>
+          <path d="M200 20V280M60 150H340" stroke="rgba(241,242,239,.07)"/>
+        </g>
+        <g class="radar__km" fill="#8A929B"><text x="204" y="108">1 km</text><text x="204" y="80">3 km</text><text x="204" y="26">10 km</text></g>
+        <g class="radar__n" transform="translate(372 34)"><path d="M0 -14 6 4 0 0 -6 4Z" fill="#F5B400"/><text y="18" text-anchor="middle" fill="#A3ABB4">N</text></g>
+        <g class="radar__me" data-me hidden>
+          <line x1="200" y1="150" x2="200" y2="150" stroke="#F1F2EF" stroke-width="1.5" stroke-dasharray="4 4" data-me-line/>
+          <g data-me-dot><circle r="12" fill="rgba(90,209,122,.22)"/><circle r="6" fill="#5AD17A" stroke="#121416" stroke-width="2"/><text class="radar__me-label" x="10" y="-10" fill="#F1F2EF" data-me-label>Vous</text></g>
+        </g>
+        <circle cx="200" cy="150" r="26" fill="rgba(245,180,0,.16)"/>
+        <circle cx="200" cy="150" r="15" fill="#F5B400"/>
+        <use href="#closing-mark" x="0" y="0" width="160" height="160" transform="translate(188.6 138.6) scale(.1425)" style="color:#16130A"/>
+        <g transform="translate(224 126)">
+          <rect width="148" height="44" rx="10" fill="#0D0F11" stroke="rgba(241,242,239,.14)"/>
+          <text class="radar__name" x="12" y="19" fill="#F1F2EF">Mécanique SKL</text>
+          <text class="radar__addr" x="12" y="34" fill="#A3ABB4">1100, boul. des Chutes</text>
+        </g>
+      </svg></div>
+  <div id="pulse"></div>
+  <p class="t kick" id="kickF">Nous trouver</p>
+  <h2 class="t end-name" id="endName">Mécanique SKL</h2>
+  <div class="rule" id="rule2"></div>
+  <p class="t end-cta" id="endCta">Appelez le <b>418&nbsp;663-1195</b></p>
+  <p class="t end-addr" id="endAddr">1100, boul. des Chutes · Beauport (Québec)</p>
+  <p class="t end-svc" id="endSvc">Mécanique générale · Récréative · Pneus</p>
+  <p id="disclose">Film de démonstration non officiel · images graphiques</p>
+  <div id="vig"></div>
+  <div id="grain"></div>
+  <div id="black"></div>
+</div>
+<!-- ============ ROUE (dessin unique, réutilisé) ============ -->
+<svg width="0" height="0" class="defs" aria-hidden="true" focusable="false">
+  <defs>
+    <radialGradient id="g-rubber" cx="0" cy="0" r="290" gradientUnits="userSpaceOnUse">
+      <stop offset=".62" stop-color="#16181a"/>
+      <stop offset=".80" stop-color="#202326"/>
+      <stop offset=".93" stop-color="#17191b"/>
+      <stop offset="1" stop-color="#0e0f10"/>
+    </radialGradient>
+    <linearGradient id="g-rim" x1="-180" y1="-180" x2="180" y2="180" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8d959d"/>
+      <stop offset=".45" stop-color="#3b4146"/>
+      <stop offset=".7" stop-color="#5d656c"/>
+      <stop offset="1" stop-color="#25292d"/>
+    </linearGradient>
+    <linearGradient id="g-spoke" x1="0" y1="-60" x2="0" y2="-178" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4a5157"/>
+      <stop offset="1" stop-color="#2a2e32"/>
+    </linearGradient>
+    <radialGradient id="g-sheen" cx="-120" cy="-150" r="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffd27a" stop-opacity=".30"/>
+      <stop offset=".45" stop-color="#ffd27a" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <path id="p-sidewall" d="M0,-216 a216,216 0 1,1 -0.01,0"/>
+    <g id="spoke">
+      <path d="M-15,-58 L-30,-170 Q0,-180 30,-170 L15,-58 Q0,-52 -15,-58 Z" fill="url(#g-spoke)" stroke="#1b1e21" stroke-width="2"/>
+      <path d="M-4,-64 L-9,-166 L9,-166 L4,-64 Z" fill="#121416" opacity=".55"/>
+    </g>
+    <g id="snowpeak">
+      <path d="M-22,12 L-6,-12 L2,-2 L8,-10 L24,12 Z" fill="none" stroke="#3a3f44" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M2,0 v10 M-3,5 h10 M-1.5,1.5 l7,7 M5.5,1.5 l-7,7" stroke="#3a3f44" stroke-width="1.8"/>
+    </g>
+    <g id="closing-mark">
+      <circle cx="80" cy="80" r="56" fill="none" stroke="currentColor" stroke-width="16"/>
+      <circle cx="80" cy="80" r="66.5" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="9.2 5.4"/>
+      <g fill="currentColor"><circle cx="80" cy="57" r="5.2"/><circle cx="101.9" cy="72.9" r="5.2"/><circle cx="93.5" cy="98.6" r="5.2"/><circle cx="66.5" cy="98.6" r="5.2"/><circle cx="58.1" cy="72.9" r="5.2"/></g>
+      <circle cx="80" cy="80" r="9" fill="currentColor"/>
+    </g>
+    <g id="wheel-art">
+      <circle r="290" fill="url(#g-rubber)"/>
+      <!-- bande de roulement : blocs et lamelles -->
+      <circle r="272" fill="none" stroke="#25292c" stroke-width="30" stroke-dasharray="16 9"/>
+      <circle r="272" fill="none" stroke="#111315" stroke-width="2" stroke-dasharray="3 22" transform="rotate(4)"/>
+      <circle r="286" fill="none" stroke="#2c3034" stroke-width="5" stroke-dasharray="7 18" transform="rotate(9)"/>
+      <circle r="253" fill="none" stroke="#0d0e0f" stroke-width="3"/>
+      <!-- flanc : inscriptions comme un vrai pneu -->
+      <text class="sidewall" font-family="'Plex Mono', ui-monospace, monospace" font-weight="500" fill="#4a5056" font-size="15.5" letter-spacing="1.6"><textPath href="#p-sidewall" textLength="1262" lengthAdjust="spacing">MÉCANIQUE SKL · 1100 BOUL. DES CHUTES · BEAUPORT QC G1E 2G1 · 418 663-1195 · GÉNÉRALE · RÉCRÉATIVE · PNEUS ·</textPath></text>
+      <use href="#snowpeak" transform="rotate(347.4) translate(0,-214) scale(.85)"/>
+      <circle r="192" fill="none" stroke="#0c0d0e" stroke-width="6"/>
+      <!-- jante -->
+      <circle r="186" fill="url(#g-rim)"/>
+      <circle r="176" fill="#1d2023"/>
+      <circle r="176" fill="none" stroke="#6b737a" stroke-width="1.5" opacity=".6"/>
+      <use href="#spoke"/>
+      <use href="#spoke" transform="rotate(72)"/>
+      <use href="#spoke" transform="rotate(144)"/>
+      <use href="#spoke" transform="rotate(216)"/>
+      <use href="#spoke" transform="rotate(288)"/>
+      <!-- étrier aperçu entre les rayons -->
+      <path d="M118,-96 A152,152 0 0,1 150,-24" stroke="#F5B400" stroke-width="16" fill="none" stroke-linecap="round" opacity=".9"/>
+      <circle r="60" fill="#2b3035" stroke="#15181a" stroke-width="3"/>
+      <g fill="#8a9299" stroke="#1a1d20" stroke-width="2">
+        <circle cx="0" cy="-38" r="7"/><circle cx="36.1" cy="-11.7" r="7"/><circle cx="22.3" cy="30.7" r="7"/><circle cx="-22.3" cy="30.7" r="7"/><circle cx="-36.1" cy="-11.7" r="7"/>
+      </g>
+      <circle r="17" fill="#121416" stroke="#F5B400" stroke-width="3"/>
+      <circle r="290" fill="url(#g-sheen)"/>
+    </g>
+  </defs>
+</svg>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ramp = (t, a, b) => clamp((t - a) / (b - a));
+const eo = k => 1 - Math.pow(1 - k, 3);          // sortie douce
+const eio = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const eexp = k => k >= 1 ? 1 : 1 - Math.pow(2, -10 * k);
+
+let W = 1920, H = 1080, V = false;
+function setup(w, h) {
+  W = w; H = h; V = h > w;
+  document.documentElement.style.setProperty('--W', w + 'px');
+  document.documentElement.style.setProperty('--H', h + 'px');
+  document.body.classList.toggle('v', V);
+  // crampons de la roue récréative
+  const knobs = $('knobs'); let s = '';
+  for (let i = 0; i < 26; i++) { const a = i * 360 / 26; s += `<rect x="-20" y="-296" width="40" height="${i % 2 ? 50 : 62}" rx="8" fill="#26292c" stroke="#0e0f10" stroke-width="3" transform="rotate(${a})"/>`; }
+  knobs.innerHTML = s;
+  let r = ''; for (let i = 0; i < 6; i++) r += `<path d="M-14,-66 L-26,-150 L26,-150 L14,-66 Z" transform="rotate(${i * 60})"/>`;
+  $('ribs').innerHTML = r;
+}
+
+/* ------- primitives ------- */
+function wheel(id, cx, cy, size, rot, op = 1) {
+  const el = $(id), k = size / 600;
+  el.style.transform = `translate(${cx - size / 2}px,${cy - size / 2}px) scale(${k})`;
+  el.querySelector('svg').style.transform = `rotate(${rot}deg)`;
+  el.style.opacity = op;
+}
+function txt(id, x, y, op, dy = 0, extra = '') {
+  const el = $(id);
+  el.style.left = x + 'px'; el.style.top = y + 'px';
+  el.style.opacity = op; el.style.transform = `translateY(${dy}px) ${extra}`;
+}
+function clipIn(id, k, i = 0) {   // titres qui montent hors d'une fente
+  const spans = $(id).querySelectorAll('.clip>span');
+  spans.forEach((s, j) => { const kk = clamp(k * (spans.length > 1 ? 1.4 : 1) - j * .35); s.style.transform = `translateY(${(1 - eo(kk)) * 110}%)`; });
+}
+function rule(id, x, y, w, k, op = 1) { const el = $(id); el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.width = w + 'px'; el.style.transform = `scaleX(${eo(k)})`; el.style.opacity = op; }
+const hideAll = () => {
+  document.querySelectorAll('.t').forEach(e => { e.style.opacity = 0; });
+  ['rule1', 'rule2'].forEach(i => $(i).style.opacity = 0);
+  ['slip', 'radar', 'pulse', 'disclose', 'snowRing', 'lamp', 'sweep', 'pins'].forEach(i => $(i).style.opacity = 0);
+  $('wheelB').style.opacity = 0;
+  $('veil').style.opacity = 0; $('shade').style.opacity = 0;
+};
+function floor(zoom = 1, lineK = 1, op = 1, ox = 0) {
+  $('floor').style.transform = `translateX(${ox}px) scale(${zoom})`;
+  $('floor').style.opacity = op;
+  const ang = V ? -34 : -24;
+  $('line').style.transform = `translate(${V ? -6 : 10}%, ${(V ? .09 : .08) * Math.min(W, H)}px) rotate(${ang}deg) scaleX(${lineK})`;
+}
+// position de base de la roue principale (comme sur le site)
+const baseWheel = () => V ? { cx: W * .5, cy: H * .33, size: Math.min(W * 1.08, H * .62) } : { cx: W * .66, cy: H * .5, size: H * .86 };
+const TX = () => V ? 72 : 150;       // marge gauche des textes
+
+/* ------- scènes : t local en secondes, d durée ------- */
+const S = {
+  hook(t, d, T) {            // très gros plan de la bande de roulement, balayage de lumière
+    const b = baseWheel(), k = t / d;
+    floor(1.25, 1, 1);
+    const size = b.size * (V ? 3.3 : 3.6);
+    const cx = V ? W * .5 + size * .02 : W * .62, cy = V ? H * .28 + size * .44 : H * .5 + size * .40;
+    wheel('wheelA', cx, cy, size, -8 - T * 6.3);
+    $('sweep').style.opacity = 1;
+    $('sweep').style.transform = `translateX(${lerp(-55, 55, eio(clamp(k * 1.05)))}%)`;
+    $('black').style.opacity = 1 - eo(ramp(t, 0, .7));
+  },
+  identity(t, d, T) {        // recul : la roue entière, le nom
+    const b = baseWheel(), k = eio(ramp(t, 0, d * .78));
+    floor(lerp(1.18, 1, k), eo(ramp(t, .2, 1.6)));
+    const size = lerp(b.size * 1.9, b.size, k);
+    const cx = lerp(b.cx + (V ? 0 : W * .04), b.cx, k), cy = lerp(b.cy + b.size * .3, b.cy, k);
+    wheel('wheelA', cx, cy, size, -8 - T * 6.3);
+    $('veil').style.opacity = eo(ramp(t, .4, 1.6));
+    const y0 = V ? H * .6 : H * .3;
+    txt('kick1', TX(), y0, eo(ramp(t, .9, 1.5)), (1 - eo(ramp(t, .9, 1.5))) * 14);
+    txt('title', TX(), y0 + (V ? 50 : 54), 1); clipIn('title', ramp(t, 1.1, 2.0));
+    rule('rule1', TX() + 4, y0 + (V ? 50 : 54) + (V ? 136 : 152), 110, ramp(t, 1.8, 2.6));
+    txt('sub1', TX(), y0 + (V ? 50 : 54) + (V ? 168 : 186), eo(ramp(t, 2.2, 2.9)), (1 - eo(ramp(t, 2.2, 2.9))) * 16);
+  },
+  general(t, d, T) {         // inspection : lampe + repères
+    const b = baseWheel();
+    floor(1, 1);
+    const size = b.size * (V ? .9 : .9), cx = b.cx + (V ? 0 : W * .07), cy = b.cy;
+    wheel('wheelA', cx, cy, size, -8 - T * 6.3 * .6);
+    $('veil').style.opacity = 1; $('pins').style.opacity = 1;
+    const p = clamp(t / (d * .9));
+    const lamp = $('lamp');
+    lamp.style.opacity = .1 + .9 * clamp(p * 5);
+    lamp.style.background = `conic-gradient(from ${p * 720}deg,rgba(255,214,130,0) 0deg,rgba(255,214,130,0) 290deg,rgba(255,214,130,.08) 320deg,rgba(255,224,160,.46) 356deg,rgba(255,214,130,0) 360deg)`;
+    document.querySelectorAll('#pins g').forEach((g, i) => {
+      const on = p >= .12 + i * .16;
+      g.querySelector('circle').classList.toggle('on', on);
+      g.querySelector('text').style.opacity = eo(ramp(p, .12 + i * .16, .2 + i * .16));
+    });
+    service('svc1', 'svc1s', t, d, true);
+  },
+  tires(t, d, T) {           // gros plan sur le pictogramme hiver du flanc
+    const b = baseWheel(), k = eio(ramp(t, 0, d));
+    floor(1.1, 1);
+    const size = b.size * lerp(2.5, 2.7, k);
+    const rot = 12.6 + lerp(-6, 4, k);          // le flocon dans la montagne passe en haut
+    const cx = V ? W * .5 : W * .7, cy = (V ? H * .33 : H * .5) + size * .36;
+    wheel('wheelA', cx, cy, size, rot);
+    $('veil').style.opacity = 1;
+    const ring = $('snowRing'); ring.style.opacity = eo(ramp(t, .8, 1.6)) * (0.75 + .25 * Math.sin(t * 5));
+    $('snowC').setAttribute('cx', -46.7); $('snowC').setAttribute('cy', -208.8);
+    ring.style.transform = `rotate(${rot}deg)`;
+    service('svc2', 'svc2s', t, d);
+  },
+  rec(t, d, T) {             // roue à crampons qui entre en roulant
+    const b = baseWheel();
+    floor(1, 1, 1, 0);
+    $('wheelA').style.opacity = 0;
+    const size = b.size * .95;
+    const k = eo(ramp(t, 0, 1.6));
+    const x0 = V ? W + size : W + size * .7, x1 = b.cx + (V ? 0 : W * .02);
+    const cx = lerp(x0, x1, k) - (V ? 0 : t * 6);
+    const rot = -((cx - x1) / (size / 2)) * 57.3 - t * 14;   // roulement cohérent
+    wheel('wheelB', cx, b.cy, size, rot);
+    $('veil').style.opacity = 1;
+    service('svc3', 'svc3s', t, d);
+  },
+  manifest(t, d, T) {
+    const b = baseWheel();
+    floor(1.05, 1);
+    wheel('wheelA', b.cx + (V ? 0 : W * .06), b.cy, b.size * 1.18, -8 - T * 6.3 * .5);
+    $('veil').style.opacity = 1; $('shade').style.opacity = .42;
+    const x = TX(), y = V ? H * .52 : H * .22, gap = V ? 128 : 150;
+    ['m1', 'm2', 'm3'].forEach((id, i) => {
+      const a = .3 + i * 1.25;
+      txt(id, x + (V ? i * 26 : i * 70), y + i * gap, 1);
+      clipIn(id, ramp(t, a, a + .8));
+    });
+  },
+  promise(t, d, T) {
+    floor(1.05, 1);
+    const b = baseWheel();
+    wheel('wheelA', b.cx + (V ? 0 : W * .06), b.cy, b.size * 1.18, -8 - T * 6.3 * .5);
+    $('veil').style.opacity = 1; $('shade').style.opacity = .6;
+    const slip = $('slip'), k = eo(ramp(t, 0, .9));
+    const sx = V ? (W - 640) / 2 : W * .58, sy = V ? H * .12 : H * .2;
+    slip.style.left = sx + 'px'; slip.style.top = sy + 'px';
+    slip.style.opacity = k;
+    slip.style.transform = `translateY(${(1 - k) * 90}px) rotate(${lerp(-6, -1.6, k)}deg)${V ? ' scale(1.05)' : ''}`;
+    slip.querySelectorAll('.slip__bar').forEach((bar, i) => { bar.style.transform = `scaleX(${eo(ramp(t, .9 + i * .35, 1.3 + i * .35)) * [0.92, 0.78, 0.6, 0.7][i]})`; });
+    const st = $('stamp'), sk = ramp(t, 2.6, 2.9);
+    st.style.opacity = sk > 0 ? .95 : 0; st.style.transform = `rotate(-14deg) scale(${lerp(2, 1, eexp(sk))})`;
+    const px = TX(), py = V ? H * .56 : H * .3;
+    txt('promise', px, py, 1); clipIn('promise', ramp(t, 1.2, 2.4));
+    txt('legal', px, py + (V ? 210 : 250), eo(ramp(t, 2.6, 3.3)), (1 - eo(ramp(t, 2.6, 3.3))) * 14);
+    if (V) $('legal').style.maxWidth = (W - 2 * px) + 'px'; else $('legal').style.maxWidth = '820px';
+    $('black').style.opacity = eio(ramp(t, d - .5, d));
+  },
+  cta(t, d, T) {
+    floor(1, 1, 1);
+    $('wheelA').style.opacity = 0;
+    $('shade').style.opacity = .7; $('veil').style.opacity = 1;
+    $('black').style.opacity = 1 - eo(ramp(t, 0, .5));
+    const r = $('radar');
+    const rw = V ? W - 144 : 820, rh = rw * .75;
+    const rx = V ? 72 : W - rw - 150, ry = V ? H * .13 : (H - rh) / 2;
+    const k = eo(ramp(t, .2, 1.1));
+    r.style.left = rx + 'px'; r.style.top = ry + 'px'; r.style.width = rw + 'px'; r.style.height = rh + 'px';
+    r.style.opacity = k; r.style.transform = `scale(${lerp(.94, 1, k)})`;
+    // impulsion sur le repère du garage (centre du plan)
+    const pk = ((t - 1) % 1.6) / 1.6, pc = t > 1 ? 1 : 0;
+    const pu = $('pulse'), pr = rw * (.06 + .16 * pk);
+    pu.style.left = (rx + rw / 2 - pr) + 'px'; pu.style.top = (ry + rh / 2 - pr) + 'px';
+    pu.style.width = pu.style.height = pr * 2 + 'px'; pu.style.opacity = pc * (1 - pk) * .9 * k;
+    const x = TX(), y = V ? ry + rh + 90 : H * .2;
+    txt('kickF', x, y, eo(ramp(t, .6, 1.2)));
+    txt('endName', x, y + 50, eo(ramp(t, .9, 1.6)), (1 - eo(ramp(t, .9, 1.6))) * 20);
+    rule('rule2', x + 4, y + 50 + (V ? 124 : 132), 110, ramp(t, 1.4, 2.1));
+    txt('endCta', x, y + (V ? 214 : 222), eo(ramp(t, 1.9, 2.6)), (1 - eo(ramp(t, 1.9, 2.6))) * 18);
+    txt('endAddr', x, y + (V ? 316 : 322), eo(ramp(t, 2.3, 3.0)));
+    txt('endSvc', x, y + (V ? 386 : 392), eo(ramp(t, 2.6, 3.3)));
+    if (V) { $('endCta').style.maxWidth = (W - 2 * x) + 'px'; $('endAddr').style.maxWidth = (W - 2 * x) + 'px'; }
+    const dc = $('disclose'); dc.style.left = x + 'px'; dc.style.top = (V ? y + 470 : H - 64) + 'px'; dc.style.opacity = eo(ramp(t, 2.6, 3.3)) * .95;
+    $('black').style.opacity = Math.max(+$('black').style.opacity, eio(ramp(t, d - .6, d)) * .0);
+  }
+};
+function service(tid, sid, t, d) {
+  const x = TX(), y = V ? H * .62 : H * .36;
+  txt('kickS', x, y, eo(ramp(t, .1, .6)));
+  txt(tid, x, y + 50, 1); clipIn(tid, ramp(t, .25, 1.0));
+  txt(sid, x, y + 50 + (V ? 118 : 134), eo(ramp(t, .8, 1.4)), (1 - eo(ramp(t, .8, 1.4))) * 14);
+  if (V) $(sid).style.maxWidth = (W - 2 * x) + 'px';
+}
+
+/* ------- montages ------- */
+const CUTS = {
+  principal: [['hook', 3.5], ['identity', 5.5], ['general', 4.5], ['tires', 4.5], ['rec', 4.5], ['manifest', 6], ['promise', 6], ['cta', 7.5]],
+  court: [['hook', 2], ['identity', 3.5], ['general', 1.5], ['tires', 1.5], ['rec', 1.5], ['cta', 4.5]]
+};
+let cut = CUTS.principal;
+function duration() { return cut.reduce((a, c) => a + c[1], 0); }
+function render(T) {
+  hideAll();
+  $('black').style.opacity = 0;
+  let acc = 0;
+  for (const [name, d] of cut) {
+    if (T < acc + d || name === cut[cut.length - 1][0] && T >= acc) { S[name](T - acc, d, T); break; }
+    acc += d;
+  }
+}
+window.FILM = { setup, render, duration, use: n => { cut = CUTS[n]; } };
+</script>
+</body>
+</html>

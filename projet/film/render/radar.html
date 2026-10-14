@@ -1,0 +1,30 @@
+<svg class="radar" viewBox="0 0 400 300" role="img" aria-labelledby="radar-t">
+        <title id="radar-t">Plan schématique, pas une carte : Mécanique SKL au centre, entouré de cercles de 1, 3 et 10 km.</title>
+        <defs>
+          <radialGradient id="radar-glow" cx="200" cy="150" r="190" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2a2f34"/><stop offset="1" stop-color="#121416"/></radialGradient>
+          <pattern id="radar-grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(241,242,239,.045)" stroke-width="1"/></pattern>
+        </defs>
+        <rect width="400" height="300" fill="url(#radar-glow)"/>
+        <rect width="400" height="300" fill="url(#radar-grid)"/>
+        <path d="M-10 262 L410 70" stroke="#F5B400" stroke-width="3" stroke-dasharray="14 10" opacity=".28"/>
+        <g fill="none" stroke="rgba(241,242,239,.16)">
+          <circle cx="200" cy="150" r="120" stroke-dasharray="3 5"/>
+          <circle cx="200" cy="150" r="66"/>
+          <circle cx="200" cy="150" r="38"/>
+          <path d="M200 20V280M60 150H340" stroke="rgba(241,242,239,.07)"/>
+        </g>
+        <g class="radar__km" fill="#8A929B"><text x="204" y="108">1 km</text><text x="204" y="80">3 km</text><text x="204" y="26">10 km</text></g>
+        <g class="radar__n" transform="translate(372 34)"><path d="M0 -14 6 4 0 0 -6 4Z" fill="#F5B400"/><text y="18" text-anchor="middle" fill="#A3ABB4">N</text></g>
+        <g class="radar__me" data-me hidden>
+          <line x1="200" y1="150" x2="200" y2="150" stroke="#F1F2EF" stroke-width="1.5" stroke-dasharray="4 4" data-me-line/>
+          <g data-me-dot><circle r="12" fill="rgba(90,209,122,.22)"/><circle r="6" fill="#5AD17A" stroke="#121416" stroke-width="2"/><text class="radar__me-label" x="10" y="-10" fill="#F1F2EF" data-me-label>Vous</text></g>
+        </g>
+        <circle cx="200" cy="150" r="26" fill="rgba(245,180,0,.16)"/>
+        <circle cx="200" cy="150" r="15" fill="#F5B400"/>
+        <use href="#closing-mark" x="0" y="0" width="160" height="160" transform="translate(188.6 138.6) scale(.1425)" style="color:#16130A"/>
+        <g transform="translate(224 126)">
+          <rect width="148" height="44" rx="10" fill="#0D0F11" stroke="rgba(241,242,239,.14)"/>
+          <text class="radar__name" x="12" y="19" fill="#F1F2EF">Mécanique SKL</text>
+          <text class="radar__addr" x="12" y="34" fill="#A3ABB4">1100, boul. des Chutes</text>
+        </g>
+      </svg>

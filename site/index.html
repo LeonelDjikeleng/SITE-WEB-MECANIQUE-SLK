@@ -123,6 +123,31 @@
   </ul>
 </section>
 
+<!-- ============ LE FILM (lecteur chargé au clic : aucun octet vidéo avant le geste, aucun service tiers) ============ -->
+<section class="film" id="film" aria-labelledby="film-title">
+  <div class="wrap film__grid">
+    <div class="film__copy">
+      <p class="label reveal">Le film · 42 s</p>
+      <h2 id="film-title" class="reveal">Mécanique SKL, en 42 secondes.</h2>
+      <p class="lede reveal">Ce qu’on fait, comment on travaille, et où nous trouver.</p>
+    </div>
+    <div class="film__player" data-film>
+      <picture>
+        <source srcset="assets/video/skl-film-poster.webp" type="image/webp">
+        <img src="assets/video/skl-film-poster.jpg" width="1920" height="1080" alt="Image du film : « Mécanique SKL, garage à Beauport » devant la roue" loading="lazy" decoding="async">
+      </picture>
+      <button class="film__play" type="button" data-film-play><span class="film__play-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5Z" fill="currentColor"/></svg></span><span class="film__play-txt">Voir le film <small>42&nbsp;s · avec musique</small></span></button>
+    </div>
+    <div class="film__meta">
+      <details class="film__transcript">
+        <summary>Transcription du film</summary>
+        <p>Gros plan sur une roue dont le flanc porte l’adresse du garage. «&nbsp;Mécanique SKL, garage à Beauport, 1100, boulevard des Chutes.&nbsp;» «&nbsp;Mécanique générale&nbsp;: on regarde avant de parler de prix.&nbsp;» «&nbsp;Pneus&nbsp;: vente et pose, été comme hiver.&nbsp;» «&nbsp;Mécanique récréative.&nbsp;» «&nbsp;On regarde. On vous explique. Ensuite, on répare.&nbsp;» «&nbsp;Le prix par écrit, avant de réparer. Pour une réparation de plus de 100&nbsp;$, c’est votre droit au Québec.&nbsp;» «&nbsp;Appelez le 418&nbsp;663-1195, 1100, boulevard des Chutes, Beauport.&nbsp;» Musique originale, sans voix.</p>
+      </details>
+      <p class="fine"><span class="tag-fictif">Maquette</span> Film de démonstration non officiel, images graphiques.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ SERVICES ============ -->
 <section class="services light" id="services" aria-labelledby="services-title">
   <div class="wrap">
