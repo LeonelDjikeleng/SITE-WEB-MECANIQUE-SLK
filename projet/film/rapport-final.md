@@ -64,6 +64,7 @@ Dossier des exports (session Claude) : `scratchpad/film/exports/`. Lecteur du si
 | `site/skl-film-{1080,720,v720}.mp4` | H.264 + AAC | idem | 42,0 s | 9,25 · 4,05 · 4,25 Mo | réduit du 4K |
 | Affiches `skl-film-poster.jpg / .webp`, `skl-film-v-poster.jpg`, affiche du court | JPEG, WebP | 1920×1080, 1080×1920 | | 147 · 55 · 99 Ko | |
 | Sous-titres `.fr.vtt` (site) et `.fr.srt` (réseaux), 42 s et 15 s | texte | | | | |
+| `presentation/…-4k-presentation.mp4` (42 s, vertical, 15 s) | H.265 + AAC | 3840×2160 · 2160×3840 | 42 / 42 / 15 s | 26,6 · 26,7 · 22,9 Mo | 4K natif, plus compressé : copies envoyées dans la conversation (limite de 30 Mo) |
 
 Toutes les vidéos sont à 30 images/s, en faststart. Les encodages web (`web/`, `web-court/`, `site/`) ont une image clé toutes les 2 s.
 
