@@ -133,7 +133,7 @@ Le MP4 sert de repli quand le WebM ne peut pas être lu. Aucun octet vidéo n'es
 3. **Lecture MP4 non vérifiée sur Safari ou un iPhone.** Le navigateur de test ne lit pas le H.264. Il faut un essai sur un vrai iPhone avant la mise en ligne.
 4. **Son sur un haut-parleur de téléphone (finition).** Le niveau perd 3,9 LU sous 300 Hz (cible : 3,5) et l'impact d'ouverture perd 9 dB. Le film reste compréhensible sans le son.
 5. **« Demandez un rendez-vous sur le site »** n'a pas d'adresse web : il faudra l'ajouter quand le domaine sera choisi.
-6. **La branche `film` n'est pas publiée.** La maquette en ligne ne montre pas encore la section « Le film ».
+6. **Publié le 14 octobre 2026** sur la maquette en ligne (GitHub Pages, déploiement réussi). La page en ligne reste à vérifier sur un vrai téléphone : l’environnement de production du film ne peut pas joindre github.io.
 
 ## I. Trois améliorations prioritaires pour la valeur commerciale
 
