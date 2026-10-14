@@ -62,7 +62,9 @@ def boom():
     f = 34 + 60 * np.exp(-t * 6)
     s = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.exp(-t * 1.6)
     nz = lp_fast(rng.standard_normal(n), 900) * np.exp(-t * 9) * .35
-    return s + nz
+    mid = hp_fast(np.tanh(4 * s), 220) * np.exp(-t * 3.2) * .55                            # couche médium (harmoniques 100 Hz à 1 kHz) : l'impact passe sur un haut-parleur de téléphone
+    body = hp_fast(lp_fast(rng.standard_normal(n), 2200), 350) * np.exp(-t * 10) * .7
+    return s + nz + mid + body
 
 def clap():
     n = int(.25 * SR); t = np.arange(n) / SR
@@ -150,7 +152,7 @@ k = 0; t = groove_from
 while t < full_to - 1e-6:
     root, ch = CHORDS[(k // 2) % 4]
     d = min(bar, full_to - t)
-    add(pad(ch, d + 1.4, g=.16 if t < groove_to else .2, fc=1900 if t < groove_to else 2400, attack=.6, release=1.2), t, 1.0)
+    add(pad(ch, d + 1.4, g=.19 if t < groove_to else .21, fc=1900 if t < groove_to else 2400, attack=.6, release=1.2), t, 1.0)
     add(bass(root, d, g=.22 if t >= groove_from + 2 else .14), t, 1.0)
     for b in range(4):
         tb = t + b * .5
@@ -158,7 +160,7 @@ while t < full_to - 1e-6:
         if b % 2 == 0: add(kick(.9 if t < groove_to else .7), tb)
         if t >= starts['general'][0] and t < groove_to:
             if b % 2 == 1: add(clap(), tb, .55, pan=.1)
-            for e in range(2): add(hat(.8 if e else .5), tb + e * .25, 1.0, pan=.25)
+            for e in range(2): add(hat(.95 if e else .6), tb + e * .25, 1.0, pan=.25)
     k += 1; t += bar
 
 def pluck(f, d=.45):
@@ -176,6 +178,7 @@ for sec in ('identity', 'manifest'):
 # ---- accents synchronisés aux images ----
 i0, idd = starts['identity']; add(ratchet(), i0 + 1.1, .7, pan=-.2)
 g0, gd = starts['general']
+add(kick(.85), g0); add(clap(), g0, .45, pan=-.1)          # accent sur la coupe vers l'inspection
 for i in range(5):
     p = .12 + i * .16
     if p * gd * .9 < gd: add(tick(), g0 + p * gd * .9, .8, pan=-.4 + i * .2)

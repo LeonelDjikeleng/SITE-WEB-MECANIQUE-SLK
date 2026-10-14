@@ -818,6 +818,8 @@ html{scroll-padding-bottom:24px}
 .film__copy h2{margin-top:14px;font-size:clamp(1.875rem,4.8vw,4.3rem);font-weight:740;letter-spacing:-.035em;line-height:1.02}
 .film__player{position:relative;aspect-ratio:16/9;border-radius:var(--r-card);overflow:hidden;background:#000;box-shadow:var(--e-2)}
 .film__player img,.film__player video{display:block;width:100%;height:100%;object-fit:cover}
+.film__player--v{aspect-ratio:9/16;width:min(100%,calc(84svh * 9 / 16));margin-inline:auto}
+.film__player--v video{object-fit:contain}
 .film__play{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:flex-start;gap:14px;padding:clamp(14px,3vw,28px);border:0;background:linear-gradient(180deg,transparent 45%,rgba(8,9,10,.72));color:var(--text);cursor:pointer;touch-action:manipulation;text-align:left}
 .film__play-ico{display:grid;place-items:center;width:64px;height:64px;flex:none;border-radius:50%;background:linear-gradient(180deg,var(--gold-hi),var(--gold) 60%,var(--gold-lo));color:#16130A;box-shadow:var(--glow-gold);transition:transform var(--t-release) var(--ease-out)}
 .film__play-ico svg{width:26px;height:26px;margin-left:3px}

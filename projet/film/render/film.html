@@ -23,7 +23,7 @@ body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoo
 .wrap{position:absolute;left:0;top:0;width:600px;height:600px;transform-origin:0 0}
 .wrap svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;will-change:transform}
 .wrap .shadow{position:absolute;inset:3%;border-radius:50%;box-shadow:0 40px 120px 20px rgba(0,0,0,.7),0 8px 24px rgba(0,0,0,.6)}
-#lamp{position:absolute;inset:-2%;border-radius:50%;mix-blend-mode:screen;opacity:0}
+#lamp{position:absolute;inset:3%;border-radius:50%;mix-blend-mode:screen;opacity:0;-webkit-mask-image:radial-gradient(closest-side,#000 86%,transparent 100%);mask-image:radial-gradient(closest-side,#000 86%,transparent 100%)}
 #pins circle{fill:rgba(18,20,22,.65);stroke:#6b737a;stroke-width:3}
 #pins circle.on{fill:var(--gold);stroke:var(--gold)}
 #pins text{font:600 22px Instrument;fill:#F1F2EF;paint-order:stroke;stroke:#0d0f10;stroke-width:6px;opacity:0}
@@ -42,7 +42,8 @@ body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoo
 .sub{font:400 38px/1.3 Instrument;color:#D7DBDE}
 .rule{position:absolute;height:5px;border-radius:5px;background:linear-gradient(90deg,var(--gold-hi),var(--gold-lo));transform-origin:0 50%;transform:scaleX(0)}
 .man{font:760 112px/1 Archivo;letter-spacing:-.045em}
-.man em{font-style:normal;color:var(--gold)}
+.man em{font-style:normal;color:var(--gold);white-space:nowrap}
+.man .nw{white-space:nowrap}
 .clip{overflow:hidden;padding-bottom:.08em}
 .clip>span{display:inline-block;will-change:transform}
 /* bon de travail */
@@ -55,7 +56,7 @@ body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoo
 .slip__total{margin-top:34px;padding-top:22px;border-top:2px solid #14171A;display:flex;justify-content:space-between;font:740 34px/1 Archivo;letter-spacing:-.02em}
 .slip__total span:last-child{font:500 24px/1.4 "Plex Mono";color:#59616A;letter-spacing:.04em}
 #stamp{position:absolute;right:34px;bottom:96px;width:150px;height:150px;border:5px solid rgba(160,105,0,.75);border-radius:50%;display:grid;place-items:center;text-align:center;font:600 21px/1.15 "Plex Mono";letter-spacing:.06em;text-transform:uppercase;color:rgba(140,92,0,.85);transform:rotate(-14deg) scale(2);opacity:0}
-.legal{font:400 30px/1.35 Instrument;color:#C8CDD2}
+.legal{font:400 30px/1.35 Instrument;color:#C8CDD2;text-wrap:balance}
 /* plan et carte finale */
 #radar{position:absolute;opacity:0;border-radius:28px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55);transform-origin:50% 50%}
 #radar svg{display:block;width:100%;height:100%}
@@ -65,13 +66,15 @@ body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoo
 .end-name{font:760 116px/.92 Archivo;letter-spacing:-.045em}
 .end-cta{font:740 76px/1.02 Archivo;letter-spacing:-.03em}
 .end-cta b{color:var(--gold);font-weight:760;white-space:nowrap}
-.end-addr{font:400 34px/1.35 Instrument;color:#D7DBDE}
+.end-addr{font:400 34px/1.35 Instrument;color:#D7DBDE;text-wrap:balance}
+.end-rdv{font:400 32px/1.3 Instrument;color:#C8CDD2}
 .end-svc{font:500 22px/1 "Plex Mono";letter-spacing:.16em;text-transform:uppercase;color:#A3ABB4}
-#disclose{position:absolute;font:500 24px/1.3 "Plex Mono";letter-spacing:.06em;color:#9AA2AA;opacity:0}
+#disclose{position:absolute;text-wrap:balance;font:500 24px/1.3 "Plex Mono";letter-spacing:.06em;color:#9AA2AA;opacity:0}
 .hook{font:600 46px/1.15 Instrument;color:#F1F2EF;letter-spacing:-.01em}
 #radar .radar__me{display:none}
 /* vertical */
-.v .big{font-size:98px}.v .mid{font-size:82px}.v .sub{font-size:40px}.v .man{font-size:92px}.v .end-name{font-size:98px}.v .end-cta{font-size:70px}.v .end-addr{font-size:36px}.v .hook{font-size:52px}.v #disclose{font-size:26px}.v .legal{font-size:34px}
+.v #disclose .d2{display:none}.v #disclose .d1{display:block}
+.v .big{font-size:98px}.v .mid{font-size:82px}.v .sub{font-size:40px}.v .man{font-size:84px}.v .end-name{font-size:98px}.v .end-cta{font-size:70px}.v .end-addr{font-size:36px}.v .hook{font-size:52px}.v #disclose{font-size:24px;letter-spacing:.02em}.v .end-rdv{font-size:34px}.v .legal{font-size:34px}
 .v #veil{background:linear-gradient(180deg,rgba(10,11,12,0) 30%,rgba(10,11,12,.72) 56%,rgba(10,11,12,.9) 100%)}
 </style>
 </head>
@@ -122,10 +125,10 @@ body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoo
   <h2 class="t mid" id="svc2"><span class="clip" style="display:block"><span>Pneus</span></span></h2>
   <p class="t sub" id="svc2s">Vente et pose, été comme hiver.</p>
   <h2 class="t mid" id="svc3"><span class="clip" style="display:block"><span>Mécanique récréative</span></span></h2>
-  <p class="t sub" id="svc3s">Aussi pour les véhicules récréatifs.</p>
+  <p class="t sub" id="svc3s">Au même garage que votre auto.</p>
   <!-- manifeste -->
   <p class="t man" id="m1"><span class="clip" style="display:block"><span>On regarde.</span></span></p>
-  <p class="t man" id="m2"><span class="clip" style="display:block"><span>On vous explique.</span></span></p>
+  <p class="t man" id="m2"><span class="clip" style="display:block"><span><span class="nw">On vous explique.</span></span></span></p>
   <p class="t man" id="m3"><span class="clip" style="display:block"><span>Ensuite, <em>on répare.</em></span></span></p>
   <!-- promesse -->
   <div id="slip">
@@ -176,8 +179,9 @@ body{font-family:Instrument,Arial,sans-serif;color:var(--text);-webkit-font-smoo
   <div class="rule" id="rule2"></div>
   <p class="t end-cta" id="endCta">Appelez le <b>418&nbsp;663-1195</b></p>
   <p class="t end-addr" id="endAddr">1100, boul. des Chutes · Beauport (Québec)</p>
+  <p class="t end-rdv" id="endRdv">ou demandez un rendez-vous sur le site</p>
   <p class="t end-svc" id="endSvc">Mécanique générale · Récréative · Pneus</p>
-  <p id="disclose">Film de démonstration non officiel · images graphiques · coordonnées à confirmer</p>
+  <p id="disclose"><span class="d1">Film de démonstration non officiel</span><span class="d2"> · </span><span class="d3">images graphiques · coordonnées à confirmer</span></p>
   <div id="vig"></div>
   <div id="grain"></div>
   <div id="black"></div>
@@ -336,7 +340,7 @@ const S = {
     const b = baseWheel(), k = eio(ramp(t, 0, d * .78));
     floor(lerp(1.18, 1, k), eo(ramp(t, .2, 1.6)));
     const size = lerp(b.size * 1.9, b.size, k);
-    const cx = lerp(b.cx + (V ? 0 : W * .04), b.cx, k), cy = lerp(b.cy + b.size * .3, b.cy, k);
+    const cx = lerp(b.cx + (V ? 0 : W * .2), b.cx, k), cy = lerp(b.cy + b.size * .3, b.cy, k);
     wheel('wheelA', cx, cy, size, -8 - T * 6.3);
     $('veil').style.opacity = eo(ramp(t, .4, 1.6));
     const x = TX(); let y = V ? H * .6 : H * .3;
@@ -355,7 +359,7 @@ const S = {
     const p = clamp(t / (d * .9));
     const lamp = $('lamp');
     lamp.style.opacity = .1 + .9 * clamp(p * 5);
-    lamp.style.background = `conic-gradient(from ${p * 720}deg,rgba(255,214,130,0) 0deg,rgba(255,214,130,0) 290deg,rgba(255,214,130,.08) 320deg,rgba(255,224,160,.46) 356deg,rgba(255,214,130,0) 360deg)`;
+    lamp.style.background = `conic-gradient(from ${p * 720}deg,rgba(255,214,130,0) 0deg,rgba(255,214,130,0) 290deg,rgba(255,214,130,.08) 318deg,rgba(255,224,160,.42) 348deg,rgba(255,224,160,.2) 355deg,rgba(255,214,130,0) 360deg)`;
     document.querySelectorAll('#pins g').forEach((g, i) => {
       const on = p >= .12 + i * .16;
       g.querySelector('circle').classList.toggle('on', on);
@@ -436,8 +440,8 @@ const S = {
     $('shade').style.opacity = .7; $('veil').style.opacity = 1;
     $('black').style.opacity = 1 - eo(ramp(t, 0, .35));
     const r = $('radar');
-    const rw = V ? W - 144 : 740, rh = rw * .75;
-    const rx = V ? 72 : W - rw - 90, ry = V ? H * .13 : (H - rh) / 2;
+    const rw = V ? W * .72 : 740, rh = rw * .75;
+    const rx = V ? (W - rw) / 2 : W - rw - 90, ry = V ? H * .1 : (H - rh) / 2;
     const k = eo(ramp(t, .1, .8));
     r.style.left = rx + 'px'; r.style.top = ry + 'px'; r.style.width = rw + 'px'; r.style.height = rh + 'px';
     r.style.opacity = k; r.style.transform = `scale(${lerp(.94, 1, k)})`;
@@ -446,16 +450,17 @@ const S = {
     pu.style.left = (rx + rw / 2 - pr) + 'px'; pu.style.top = (ry + rh / 2 - pr) + 'px';
     pu.style.width = pu.style.height = pr * 2 + 'px'; pu.style.opacity = (t > .6 ? 1 : 0) * (1 - pk) * .9 * k;
     const s = fast ? .55 : 1;                      // version courte : tout arrive plus tôt
-    const x = TX(); let y = V ? ry + rh + 80 : H * .2;
-    ['endName', 'endCta', 'endAddr', 'endSvc'].forEach(id => $(id).style.maxWidth = (V ? TW() : 900) + 'px');
+    const x = TX(); let y = V ? ry + rh + 64 : H * .16;
+    ['endName', 'endCta', 'endAddr', 'endRdv', 'endSvc'].forEach(id => $(id).style.maxWidth = (V ? TW() : 900) + 'px');
     y = txt('kickF', x, y, eo(ramp(t, .2 * s, .7 * s))) + 18;
     y = txt('endName', x, y, eo(ramp(t, .4 * s, 1.0 * s)), (1 - eo(ramp(t, .4 * s, 1.0 * s))) * 20);
     rule('rule2', x + 4, y + 10, 110, ramp(t, .9 * s, 1.6 * s)); y += 44;
     y = txt('endCta', x, y, eo(ramp(t, 1.2 * s, 1.8 * s)), (1 - eo(ramp(t, 1.2 * s, 1.8 * s))) * 18) + 18;
-    y = txt('endAddr', x, y, eo(ramp(t, 1.6 * s, 2.2 * s))) + 16;
-    y = txt('endSvc', x, y, eo(ramp(t, 1.9 * s, 2.5 * s)));
+    y = txt('endAddr', x, y, eo(ramp(t, 1.6 * s, 2.2 * s))) + 10;
+    y = txt('endRdv', x, y, eo(ramp(t, 1.8 * s, 2.4 * s))) + 18;
+    y = txt('endSvc', x, y, eo(ramp(t, 2.0 * s, 2.6 * s)));
     const dc = $('disclose'); dc.style.left = x + 'px'; dc.style.maxWidth = (V ? TW() : 1600) + 'px';
-    dc.style.top = (V ? y + 60 : H - 70) + 'px'; dc.style.opacity = eo(ramp(t, 1.9 * s, 2.5 * s)) * .95;
+    dc.style.top = (V ? y + 40 : H - 70) + 'px'; dc.style.opacity = eo(ramp(t, 2.0 * s, 2.6 * s)) * .95;
   }
 };
 function service(tid, sid, t, d) {

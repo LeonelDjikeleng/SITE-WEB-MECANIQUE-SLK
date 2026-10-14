@@ -3,7 +3,7 @@
     "id": "2026-10-14-mecanique-skl-film",
     "client": "Mécanique SKL",
     "langue": "fr-CA",
-    "version": 2
+    "version": 4
   },
   "brief": {
     "entreprise": "Mécanique SKL, garage de quartier à Beauport (Québec)",
@@ -114,7 +114,7 @@
     },
     "son": "Impact grave à l'ouverture, cliquet de clé et tic de lampe sur les coupes, pulsation sobre qui monte, résolution sur la carte finale",
     "musique": {
-      "description": "Pulsation électronique sobre à 96 bpm, basse ronde, sans voix",
+      "description": "Pulsation électronique sobre à 120 bpm (les coupes tombent sur les temps), basse ronde, sans voix",
       "source": "composition originale générée par code pour ce film",
       "licence": "œuvre originale, droits de LD SOLUTIONS, cédables au client",
       "statut": "originale"
@@ -147,7 +147,7 @@
     "statut": "aucune"
   },
   "cta": {
-    "texte": "Appelez le 418 663-1195",
+    "texte": "Appelez le 418 663-1195 (action secondaire : demander un rendez-vous sur le site)",
     "coordonnees": "418 663-1195 · 1100, boul. des Chutes, Beauport",
     "statut": "a_fournir"
   },
@@ -224,7 +224,7 @@
       "action": "Une roue à crampons de véhicule récréatif entre dans le cadre et tourne",
       "plan": "plan moyen",
       "mouvement": "travelling latéral",
-      "texte_ecran": "Mécanique récréative",
+      "texte_ecran": "Mécanique récréative · Au même garage que votre auto.",
       "son": "cliquet",
       "source": "graphique",
       "transition": "coupe",
@@ -269,7 +269,7 @@
       "action": "Repère du garage sur un plan schématique, puis carte finale : nom, appel à l'action, adresse",
       "plan": "carton graphique",
       "mouvement": "apparition douce",
-      "texte_ecran": "Appelez le 418 663-1195",
+      "texte_ecran": "Appelez le 418 663-1195 · ou demandez un rendez-vous sur le site",
       "son": "accord final, fin en fondu",
       "source": "graphique",
       "transition": "coupe",

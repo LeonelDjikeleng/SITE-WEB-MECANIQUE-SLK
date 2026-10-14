@@ -388,10 +388,13 @@
   const box = document.querySelector('[data-film]'), btn = document.querySelector('[data-film-play]');
   if (!box || !btn) return;
   btn.addEventListener('click', () => {
-    const small = matchMedia('(max-width: 720px)').matches || (navigator.connection && navigator.connection.saveData);
-    const q = small ? '720' : '1080';
+    // téléphone tenu en portrait : montage vertical (textes lisibles) ; petit écran ou économie de données : 720p
+    const portrait = matchMedia('(max-width: 720px) and (orientation: portrait)').matches;
+    const small = portrait || matchMedia('(max-width: 720px)').matches || (navigator.connection && navigator.connection.saveData);
+    const q = portrait ? 'v720' : small ? '720' : '1080';
     const v = document.createElement('video');
-    Object.assign(v, { controls: true, playsInline: true, preload: 'auto', poster: 'assets/video/skl-film-poster.jpg' });
+    Object.assign(v, { controls: true, playsInline: true, preload: 'auto', poster: portrait ? 'assets/video/skl-film-v-poster.jpg' : 'assets/video/skl-film-poster.jpg' });
+    box.classList.toggle('film__player--v', portrait);
     v.setAttribute('aria-label', 'Film de démonstration : Mécanique SKL en 42 secondes');
     v.innerHTML = `<source src="assets/video/skl-film-${q}.webm" type="video/webm"><source src="assets/video/skl-film-${q}.mp4" type="video/mp4"><track kind="captions" srclang="fr" label="Français" src="assets/video/skl-film.fr.vtt">`;
     box.replaceChildren(v);
