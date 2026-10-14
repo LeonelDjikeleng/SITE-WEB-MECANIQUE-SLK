@@ -307,13 +307,123 @@
     "fps": 30,
     "cout_estime_credits": 0,
     "mesure_le": "2026-10-14",
-    "statut": "rendu",
-    "fichiers_produits": []
+    "statut": "controle",
+    "fichiers_produits": [
+      {
+        "fichier": "master/mecanique-skl-film-42s-4k.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "3840×2160",
+        "duree_s": 42.0,
+        "poids_mo": 104.2,
+        "origine_pixels": "4K natif (rendu graphique image par image)",
+        "controle": "CONFORME, −16,1 LUFS, crête −2,1 dBTP"
+      },
+      {
+        "fichier": "master/mecanique-skl-film-42s-vertical-4k.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "2160×3840",
+        "duree_s": 42.0,
+        "poids_mo": 113.7,
+        "origine_pixels": "4K natif",
+        "controle": "CONFORME, −14,3 LUFS, crête −2,0 dBTP"
+      },
+      {
+        "fichier": "master/mecanique-skl-film-15s-4k.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "3840×2160",
+        "duree_s": 15.0,
+        "poids_mo": 54.3,
+        "origine_pixels": "4K natif",
+        "controle": "CONFORME, −16,2 LUFS, crête −2,8 dBTP"
+      },
+      {
+        "fichier": "web/mecanique-skl-film-42s-1080p.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "1920×1080",
+        "duree_s": 42.0,
+        "poids_mo": 9.25,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME, budget 10 Mo, image clé toutes les 2 s"
+      },
+      {
+        "fichier": "web/mecanique-skl-film-42s-720p.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "1280×720",
+        "duree_s": 42.0,
+        "poids_mo": 4.05,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME"
+      },
+      {
+        "fichier": "web/mecanique-skl-film-42s-vertical-720x1280.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "720×1280",
+        "duree_s": 42.0,
+        "poids_mo": 4.25,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME"
+      },
+      {
+        "fichier": "web-court/mecanique-skl-film-15s-1080p.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "1920×1080",
+        "duree_s": 15.0,
+        "poids_mo": 3.33,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME, budget 4 Mo"
+      },
+      {
+        "fichier": "web-court/mecanique-skl-film-15s-720p.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "1280×720",
+        "duree_s": 15.0,
+        "poids_mo": 1.48,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME"
+      },
+      {
+        "fichier": "social/mecanique-skl-film-42s-vertical-social-916.mp4",
+        "format": "H.264 + AAC",
+        "dimensions": "1080×1920",
+        "duree_s": 42.0,
+        "poids_mo": 20.7,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME, −14,3 LUFS, crête −1,9 dBTP"
+      },
+      {
+        "fichier": "site/skl-film-1080.webm",
+        "format": "VP9 + Opus",
+        "dimensions": "1920×1080",
+        "duree_s": 42.0,
+        "poids_mo": 8.46,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME, crête −1,6 dBTP"
+      },
+      {
+        "fichier": "site/skl-film-720.webm",
+        "format": "VP9 + Opus",
+        "dimensions": "1280×720",
+        "duree_s": 42.0,
+        "poids_mo": 3.04,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME"
+      },
+      {
+        "fichier": "site/skl-film-v720.webm",
+        "format": "VP9 + Opus",
+        "dimensions": "720×1280",
+        "duree_s": 42.0,
+        "poids_mo": 3.24,
+        "origine_pixels": "réduit depuis le 4K natif",
+        "controle": "CONFORME"
+      }
+    ],
+    "revue_independante": "v1 74/100 · v3 85/100 · v4 90/100, aucun défaut critique (revue-v4.md)"
   },
   "integration_web": {
     "methode": "lecteur avec commandes, preload none, poster, sous-titres VTT, chargé au clic",
     "poids_cible": "≤ 10 Mo en 1080p, 720p pour téléphone",
-    "mesure": ""
+    "mesure": "Testé le 14 octobre 2026 (Chromium, Playwright) : aucun octet vidéo avant le clic, aucune requête tierce, aucun débordement ; ordinateur → 1080p WebM, téléphone en portrait → vertical 720×1280, téléphone en paysage → 720p ; pause hors écran ; repli MP4 choisi si le WebM est absent (lecture H.264 non vérifiable dans le Chromium de test : à tester sur Safari/iPhone)."
   },
   "reste_a_faire": [
     "Confirmer le numéro de téléphone avec le garage",
