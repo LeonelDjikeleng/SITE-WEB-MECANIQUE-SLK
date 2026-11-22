@@ -17,7 +17,8 @@ Porte d'entrée unique : **appel gratuit de 20 minutes**, puis **prix fixe par �
 |---|---|---|---|
 | Essentiel | Une tâche, réglée. | Une tâche précise fait perdre du temps | Calcul du temps perdu · 1 automatisation · essais sur cas réels · guide d'une page |
 | Signature (recommandée pour commencer) | Un site qui travaille pour vous. | Pas de site, ou un site qui ne rapporte rien | Site premium mobile · textes écrits ensemble · formulaire qui alerte et répond · référencement local Québec · Loi 25 · mise en ligne et formation |
-| Pilote automatique | Le site, les relances, les réponses. | Beaucoup de demandes, peu de bras | Signature + 3 automatisations + agent IA (relais humain) + tableau de suivi |
+| Vidéo publicitaire | Votre entreprise, en 30 secondes. | Se faire voir sur les réseaux et le site | Scénario orienté action · montage avec les vidéos du client et des images de son emplacement · versions verticale et horizontale · sous-titres français · musique libre de droits |
+| Pilote automatique (tout inclus) | Le site, les relances, les réponses, la vidéo. | Beaucoup de demandes, peu de bras | Signature + 3 automatisations + agent IA (relais humain) + 1 vidéo publicitaire + tableau de suivi |
 | Entretien mensuel (option) | | Tout client | Surveillance · mises à jour · corrections · rapport mensuel |
 
 Aucun prix affiché pour l'instant : les bornes (plancher, cible) sont à fixer avec Finance & Pricing 2.0, puis Sales 2.0 choisit dans ces bornes. Ajouter un « à partir de » augmenterait la confiance une fois les prix fixés.
@@ -28,6 +29,8 @@ Aucun prix affiché pour l'instant : les bornes (plancher, cible) sont à fixer 
 3. **« Un humain au bout du fil »** : ligne directe 418 255-7236 (appel ou texto).
 4. **« Je vous écris ou vous appelle dans les prochains jours ouvrables »** (message après envoi du formulaire).
 5. Le badge « Recommandé pour commencer » sur Signature (c'est un conseil, pas une statistique).
+6. Vidéo : montage à partir des vidéos du client et d'images de son emplacement. Fais-tu aussi du tournage sur place ? Si oui, on l'ajoute à l'offre.
+7. La vidéo de démonstration du site est faite avec des photos libres de droits : à remplacer par une vraie réalisation dès que tu en as une (avec l'accord du client).
 
 ## Éléments à fournir (par impact)
 1. Ta vraie photo (portrait, lumière naturelle) : c'est ce qui rend le site humain.
@@ -38,3 +41,9 @@ Aucun prix affiché pour l'instant : les bornes (plancher, cible) sont à fixer 
 
 ## Avant la mise en ligne publique
 Conformité Web 2.0 (lois) → Cybersécurité 2.0 (fonction Supabase, en-têtes) → QA & Delivery 2.0 (décision) → Serveur 2.0 (hébergement, DNS). Rien n'est publié sans le « oui » de Pavel.
+
+## Espacements (22 novembre 2026)
+Échelle resserrée et uniforme : sections de 48 px au téléphone, 72 px à la tablette, 88 px à l'ordinateur ; écarts internes de 8, 12, 16 et 20 px. Héros réduit à 74 % de la hauteur d'écran au téléphone.
+
+## Vidéo de démonstration
+`projet/video-demo/film.html` + `rec.js` : animation HTML capturée image par image (Playwright), encodée avec ffmpeg. 15 s, 9:16, muette. Exports : `site/assets/video/demo-720.mp4` (1,1 Mo), `demo-720.webm` (1,1 Mo), affiche WebP. Contrôlée avec Vidéo 4K 2.0 (`controler`) : CONFORME.

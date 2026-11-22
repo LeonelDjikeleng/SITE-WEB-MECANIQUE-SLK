@@ -11,7 +11,7 @@ create table if not exists public.demandes_diagnostic (
   courriel         text not null check (char_length(courriel) between 3 and 255 and position('@' in courriel) > 1),
   telephone        text check (telephone is null or char_length(btrim(telephone)) between 7 and 40),
   tache_principale text not null check (char_length(btrim(tache_principale)) between 5 and 600),
-  offre            text check (offre is null or offre in ('Essentiel','Signature','Pilote automatique','Entretien mensuel')),
+  offre            text check (offre is null or offre in ('Essentiel','Signature','Vidéo publicitaire','Pilote automatique','Entretien mensuel')),
   consentement     boolean not null check (consentement = true),
   statut           text not null default 'nouvelle' check (statut in ('nouvelle','contactée','appel fixé','soumission envoyée','gagnée','perdue'))
 );

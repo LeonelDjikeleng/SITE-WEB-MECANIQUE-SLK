@@ -5,7 +5,7 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const TYPES = ["Garage", "Plomberie", "Construction", "Commerce", "Services", "Autre"];
-const OFFRES = ["Essentiel", "Signature", "Pilote automatique", "Entretien mensuel"];
+const OFFRES = ["Essentiel", "Signature", "Vidéo publicitaire", "Pilote automatique", "Entretien mensuel"];
 const origines = (Deno.env.get("ORIGINES_AUTORISEES") ?? "").split(",").map((o) => o.trim()).filter(Boolean);
 
 function cors(origin: string | null) {

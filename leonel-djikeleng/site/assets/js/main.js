@@ -85,6 +85,27 @@
     paint();
   });
 
+  /* ---------- Vidéo de démonstration : lecture quand visible, pause sinon ---------- */
+  var vid = document.getElementById("demo-video");
+  var vbtn = document.querySelector("[data-video-toggle]");
+  if (vid && vbtn) {
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var saveData = navigator.connection && navigator.connection.saveData;
+    var userPaused = false;
+    var label = function () { vbtn.textContent = vid.paused ? "Lire" : "Pause"; };
+    vid.addEventListener("play", label); vid.addEventListener("pause", label);
+    vbtn.addEventListener("click", function () {
+      if (vid.paused) { userPaused = false; vid.play().catch(function () {}); }
+      else { userPaused = true; vid.pause(); }
+    });
+    if (!reduce && !saveData && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (e) {
+        if (e[0].isIntersecting && !userPaused) { vid.preload = "auto"; vid.play().catch(function () {}); }
+        else if (!e[0].isIntersecting) { vid.pause(); }
+      }, { threshold: 0.5 }).observe(vid);
+    }
+  }
+
   /* ---------- Offre choisie : transmise au formulaire ---------- */
   var offreField = document.getElementById("f-offre");
   document.querySelectorAll("[data-offre]").forEach(function (a) {
