@@ -29,7 +29,7 @@ Aucun prix affiché pour l'instant : les bornes (plancher, cible) sont à fixer 
 3. **« Un humain au bout du fil »** : ligne directe 418 255-7236 (appel ou texto).
 4. **« Je vous écris ou vous appelle dans les prochains jours ouvrables »** (message après envoi du formulaire).
 5. Le badge « Recommandé pour commencer » sur Signature (c'est un conseil, pas une statistique).
-6. Vidéo : montage à partir des vidéos du client et d'images de son emplacement. Fais-tu aussi du tournage sur place ? Si oui, on l'ajoute à l'offre.
+6. Vidéo (confirmé par Pavel le 22 novembre 2026) : montage des vidéos du client inclus ; tournage sur place offert en supplément payant.
 7. La vidéo de démonstration du site est faite avec des photos libres de droits : à remplacer par une vraie réalisation dès que tu en as une (avec l'accord du client).
 
 ## Éléments à fournir (par impact)

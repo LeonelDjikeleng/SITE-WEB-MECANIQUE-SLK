@@ -452,3 +452,6 @@ ul, ol, dl, dd { margin: 0; padding: 0; }
   .video-media { width: 320px; margin-inline: auto 0; }
   .video-text { order: 2; }
 }
+
+.extra { font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: .02em; color: var(--nuit); white-space: nowrap; margin-left: 4px; }
+.offer-featured .extra, .video .extra { color: #C9D6EA; }
