@@ -21,11 +21,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publier:
+  assembler:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deploiement.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
@@ -40,5 +37,13 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+
+  publier:
+    needs: assembler
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploiement.outputs.page_url }}
+    steps:
       - id: deploiement
         uses: actions/deploy-pages@v4
